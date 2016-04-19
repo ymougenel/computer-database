@@ -1,9 +1,9 @@
 .metadata/
 RemoteSystemsTempFiles/
-dataWebproject/build/
+data/build/
 *.tmp
 *.bak
 *.swp
 *.classpath
-databaseWebproject/.project
-databaseWebproject/.settings/
+database/.project
+database/.settings/
