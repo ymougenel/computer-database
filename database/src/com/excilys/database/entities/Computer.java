@@ -1,21 +1,12 @@
 package com.excilys.database.entities;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class Computer extends Entity{
-	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
 	private Long company_id;
 	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
 	
 	public LocalDate getIntroduced() {
 		return introduced;
@@ -43,8 +34,11 @@ public class Computer extends Entity{
 
 	@Override
 	public String toString() {
-		return 	"id: " + this.id + "\t name: " + name + "\t introduced: " + ((introduced!=null) ? introduced.toString() : "NULL") + "\t discontinued: " + 
-				((discontinued!=null) ? discontinued.toString() : "NULL") + "\t company_id: "+(company_id !=null ? company_id : "null");
+		String split = "\t\t";
+		String splitName = (name.length()>16 ? "\t" : (name.length()<10 ? "\t\t\t" : "\t\t"));
+		return 	"id: " + this.id + split+ "name: " + name + splitName + "introduced: " + ((introduced!=null) ? introduced.toString() : "NULL") + 
+				split+ "discontinued: " + ((discontinued!=null) ? discontinued.toString() : "NULL") + split+ "company_id: "+(company_id !=null ? company_id : "null");
+				
 	}
 	
 }

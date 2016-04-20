@@ -1,5 +1,7 @@
 package com.excilys.database.persistence;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -16,8 +18,8 @@ public class BDRequests {
 	
 	private static String userBD = "admincdb";
 	private static String passwordBD = "qwerty1234";
-	private static String url = "jdbc:mysql://localhost/computer-database-db";
-    //private Connection conn;
+	private static String url = "jdbc:mysql://localhost/computer-database-db?zeroDateTimeBehavior=convertToNull";
+    private Connection conn;
     private Statement statement;
     private static BDRequests bdRequests;
 	
@@ -41,6 +43,10 @@ public class BDRequests {
 		//conn = DriverManager.getConnection(url, userBD, passwordBD);
 	}
 
+	private Connection getConnection()throws SQLException {
+		return DriverManager.getConnection(url, userBD, passwordBD);
+	}
+	
 	public RowSet getRowSet() throws SQLException {
 		//Runnable r1 = () -> System.out.println(this);
 		JdbcRowSet rs = new JdbcRowSetImpl();
@@ -65,6 +71,8 @@ public class BDRequests {
         //disconnect();
         return res;
     }
+    
+
     
     /**
      * @desc Method to insert data to a table

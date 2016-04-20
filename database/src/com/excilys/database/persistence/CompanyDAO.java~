@@ -9,7 +9,7 @@ import javax.sql.RowSet;
 
 import com.excilys.database.entities.Computer;
 
-public class ComputerDAO extends DAO<Computer>{
+public class CompanyDAO extends DAO<Computer>{
 
 	@Override
 	public Computer find(long id) throws SQLException {

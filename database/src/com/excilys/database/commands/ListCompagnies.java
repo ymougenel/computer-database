@@ -2,10 +2,15 @@ package com.excilys.database.commands;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.RowSet;
 
+import com.excilys.database.entities.Company;
+import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.BDRequests;
+import com.excilys.database.persistence.CompanyDAO;
+import com.excilys.database.persistence.ComputerDAO;
 
 public class ListCompagnies extends CommandBD {
 
@@ -23,18 +28,10 @@ public class ListCompagnies extends CommandBD {
 	
 	@Override
 	public void execute(BDRequests bdr) throws SQLException {
-		String query = "SELECT * from company;";
-		
-//		System.out.println("** List computer called **");
-//		ResultSet result = bdr.query("SELECT * from computer;");
-//		BDRequests.printfResult(result);
-		RowSet rs = bdr.getRowSet();
-		rs.setCommand(query);
-		rs.execute();
-        while (rs.next()) {
-            System.out.println("id: " + rs.getInt(1) +"\t"+"pcname: " + rs.getString(2));
-        }            
-        rs.close();
+		CompanyDAO dao = new CompanyDAO();
+		List<Company> companies = dao.listAll();
+		for (Company c : companies)
+			System.out.println(c.toString());
 	}
 
 	@Override

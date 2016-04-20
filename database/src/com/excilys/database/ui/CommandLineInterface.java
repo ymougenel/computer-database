@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.excilys.database.commands.CommandBD;
+import com.excilys.database.commands.InsertCompany;
 import com.excilys.database.commands.ListCompagnies;
 import com.excilys.database.commands.ListComputers;
 import com.excilys.database.commands.ShowComputerDetails;
@@ -82,6 +83,7 @@ public class CommandLineInterface {
 		CommandLineInterface cli = new CommandLineInterface();
 		cli.addCommand(new ListComputers("ll"));
 		cli.addCommand(new ListCompagnies("ls"));
+		cli.addCommand(new InsertCompany("i"));
 		cli.addCommand(new ShowComputerDetails());
 		cli.launch();
 	}
