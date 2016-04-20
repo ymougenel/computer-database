@@ -1,6 +1,5 @@
 package com.excilys.database.commands;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.sql.RowSet;
@@ -24,10 +23,6 @@ public class ListComputers extends CommandBD {
 	@Override
 	public void execute(BDRequests bdr) throws SQLException {
 		String query = "SELECT * from computer;";
-		
-//		System.out.println("** List computer called **");
-//		ResultSet result = bdr.query("SELECT * from computer;");
-//		BDRequests.printfResult(result);
 		RowSet rs = bdr.getRowSet();
 		rs.setCommand(query);
 		rs.execute();

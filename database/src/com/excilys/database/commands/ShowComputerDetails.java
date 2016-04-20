@@ -1,9 +1,12 @@
 package com.excilys.database.commands;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.sql.RowSet;
+
+import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.BDRequests;
+import com.excilys.database.persistence.ComputerDAO;
 
 public class ShowComputerDetails extends CommandBD {
 	private String field;
@@ -20,17 +23,20 @@ public class ShowComputerDetails extends CommandBD {
 		this.name="Show computer details";
 	}
 	@Override
-	public void execute(BDRequests bdr) throws SQLException {
-//		String query = "SELECT id,name from computer WHERE id=?;";
-//		ResultSet results = null;
-//		
-//		try {
-//			PreparedStatement ps = con.prepareStatement(query);
-//			ps.setString(1, name);
-//			results = ps.executeQuery();
-		ResultSet result = bdr.query("SELECT * from computer WHERE " + this.field +"= '" + this.value + "';");
-		BDRequests.printfResult(result);
-		//bdr.disconnect();
+	public void execute(BDRequests bdr) throws SQLException {		
+		ComputerDAO dao = new ComputerDAO();
+		Computer comp;
+		if (field.equals("name"))
+			comp = dao.find(this.value);
+		else if (field.equals("id"))
+			comp = dao.find(Long.parseLong(value));
+		else
+			throw new SQLException();
+		System.out.println("+"+(comp==null));
+		if (comp != null)
+			System.out.println(comp.toString());
+		else 
+			System.out.println("Computer null!");
 	}
 
 	@Override

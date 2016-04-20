@@ -1,15 +1,15 @@
 package com.excilys.database.entities;
 
-public class Entity {
-	private int id;
+public abstract class Entity {
+	protected long id;
 
-	protected int getId() {
+	public long getId() {
 		return id;
 	}
 
-	protected void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
-
+	public abstract String toString();
 }
