@@ -1,43 +1,50 @@
 package com.excilys.database.persistence;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.sql.RowSet;
-
+import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 
 public class ComputerDAO extends DAO<Computer>{
 
 	@Override
 	public Computer find(long id) throws SQLException {
-		Computer cmp = null;
+		Computer cmp;
 		String query = "SELECT * from computer WHERE id = ?;";
-		//System.out.println("### +i query called for : "+query +" << "+id);
-		RowSet rs = BDRequests.getInstance().getRowSet();
-		rs.setCommand(query);
-		rs.setLong(1, id);
-	
-		rs.execute();
-		cmp = wrapDatabaseResult(rs);
-        rs.close();
+		ResultSet results;
+		// System.out.println("### +i query called for : "+query +" << "+name);
+		Connection con = BDRequests.getInstance().getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setLong(1, id);
+		results = stmt.executeQuery();
+		cmp = wrapDatabaseResult(results);
+		
+		stmt.close();
+		con.close();
 		return cmp;
 	}
 
 	@Override
 	public Computer find(String name) throws SQLException {
-		Computer cmp = null;
+		Computer cmp;
 		String query = "SELECT * from computer WHERE name = ?;";
-		//System.out.println("### +i query called for : "+query +" << "+name);
-		RowSet rs = BDRequests.getInstance().getRowSet();
-		rs.setCommand(query);
-		rs.setString(1, name);
-	
-		rs.execute();
-		cmp = wrapDatabaseResult(rs);          
-        rs.close();
+		ResultSet results;
+		// System.out.println("### +i query called for : "+query +" << "+name);
+		Connection con = BDRequests.getInstance().getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setString(1, name);
+		results = stmt.executeQuery();
+		cmp = wrapDatabaseResult(results);
+		
+		stmt.close();
+		con.close();
 		return cmp;
 	}
 
@@ -60,7 +67,7 @@ public class ComputerDAO extends DAO<Computer>{
 	}
 
 	
-private Computer wrapDatabaseResult(RowSet rs) throws SQLException {
+private Computer wrapDatabaseResult(ResultSet rs) throws SQLException {
 		Computer cmp = null;
 		// If result found, Computer created from the Database result
 		if (rs.next()) {
@@ -83,16 +90,19 @@ private Computer wrapDatabaseResult(RowSet rs) throws SQLException {
 @Override
 public List<Computer> listAll() throws SQLException {
 	String query = "SELECT * from computer;";
+	ResultSet results;
 	List<Computer> computers = new ArrayList<Computer>();
-	RowSet rs = BDRequests.getInstance().getRowSet();
-	rs.setCommand(query);
-	rs.execute();
+	Connection con = BDRequests.getInstance().getConnection();
+	Statement stmt = con.createStatement();
+	results = stmt.executeQuery(query);
 	
 	Computer c;
-	while((c = wrapDatabaseResult(rs)) != null){
+	while((c = wrapDatabaseResult(results)) != null){
 		computers.add(c);
 	}
-    rs.close();
+	
+    stmt.close();
+    con.close();
 	return computers;
 }
 }

@@ -43,7 +43,7 @@ public class BDRequests {
 		//conn = DriverManager.getConnection(url, userBD, passwordBD);
 	}
 
-	private Connection getConnection()throws SQLException {
+	public Connection getConnection()throws SQLException {
 		return DriverManager.getConnection(url, userBD, passwordBD);
 	}
 	

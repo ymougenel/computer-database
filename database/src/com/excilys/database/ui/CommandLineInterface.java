@@ -8,10 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.excilys.database.commands.CommandBD;
+import com.excilys.database.commands.DeleteCompany;
 import com.excilys.database.commands.InsertCompany;
 import com.excilys.database.commands.ListCompagnies;
 import com.excilys.database.commands.ListComputers;
 import com.excilys.database.commands.ShowComputerDetails;
+import com.excilys.database.commands.UpdateCompany;
 import com.excilys.database.persistence.BDRequests;
 
 public class CommandLineInterface {
@@ -85,6 +87,8 @@ public class CommandLineInterface {
 		cli.addCommand(new ListCompagnies("ls"));
 		cli.addCommand(new InsertCompany("i"));
 		cli.addCommand(new ShowComputerDetails());
+		cli.addCommand(new UpdateCompany());
+		cli.addCommand(new DeleteCompany());
 		cli.launch();
 	}
 }
