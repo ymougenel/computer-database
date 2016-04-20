@@ -8,10 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.RowSet;
-
 import com.excilys.database.entities.Company;
-import com.excilys.database.entities.Computer;
 
 public class CompanyDAO extends DAO<Company> {
 
@@ -50,31 +47,31 @@ public class CompanyDAO extends DAO<Company> {
 	}
 
 	@Override
-	public Company create(Company comp) throws SQLException {
+	public int create(Company comp) throws SQLException {
 		String query = "INSERT INTO company (name) VALUES (?);";
 		Connection con = BDRequests.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1, comp.getName());
-		stmt.executeUpdate();
+		int resultcreate = stmt.executeUpdate();
 		
 		stmt.close();
 		con.close();
-		return comp;
+		return resultcreate;
 	}
 
 	@Override
-	public Company update(Company comp) throws SQLException {
+	public int update(Company comp) throws SQLException {
 		String query = "UPDATE company SET name= ? WHERE id = ?;";
 		Connection con = BDRequests.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1, comp.getName());
 		stmt.setLong(2, comp.getId());
-		stmt.executeUpdate();
+		int resultUpdate = stmt.executeUpdate();
 		
 		stmt.close();
 		con.close();
 		comp = find(comp.getId()); //Note manual change are faster yet less META
-		return comp;
+		return resultUpdate;
 	}
 
 	@Override

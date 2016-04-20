@@ -2,8 +2,6 @@ package com.excilys.database.commands;
 
 import java.sql.SQLException;
 
-import javax.sql.RowSet;
-
 import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.BDRequests;
 import com.excilys.database.persistence.ComputerDAO;

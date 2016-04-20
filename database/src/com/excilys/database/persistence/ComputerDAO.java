@@ -8,8 +8,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sql.RowSet;
-import com.excilys.database.entities.Company;
+
 import com.excilys.database.entities.Computer;
 
 public class ComputerDAO extends DAO<Computer>{
@@ -49,21 +48,87 @@ public class ComputerDAO extends DAO<Computer>{
 	}
 
 	@Override
-	public Computer create(Computer comp) throws SQLException{
-		// TODO Auto-generated method stub
-		return null;
+	public int create(Computer comp) throws SQLException{
+		String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?);";
+		Connection con = BDRequests.getInstance().getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setString(1, comp.getName());
+		
+		if (comp.getIntroduced() != null ) {
+			stmt.setDate(2, java.sql.Date.valueOf(comp.getIntroduced()));
+		}
+		else {
+			stmt.setNull(2, java.sql.Types.DATE);
+		}
+		
+		if (comp.getDiscontinued() != null ) {
+			stmt.setDate(3, java.sql.Date.valueOf(comp.getDiscontinued()));
+		}
+		else {
+			stmt.setNull(3, java.sql.Types.DATE);
+		}
+		
+		if (comp.getCompany_id() != null) {
+			stmt.setLong(4, comp.getCompany_id());
+		}
+		else {
+			stmt.setNull(4, java.sql.Types.INTEGER);
+		}
+		
+		int resultUpdate = stmt.executeUpdate();
+		
+		stmt.close();
+		con.close();
+		return resultUpdate;
 	}
 
 	@Override
-	public Computer update(Computer comp) throws SQLException{
-		// TODO Auto-generated method stub
-		return null;
+	public int update(Computer comp) throws SQLException{
+		String query = "UPDATE computer SET name= ?, introduced= ?, discontinued = ?, company_id = ? WHERE id = ?;";
+		Connection con = BDRequests.getInstance().getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setString(1, comp.getName());
+		
+		if (comp.getIntroduced() != null ) {
+			stmt.setDate(2, java.sql.Date.valueOf(comp.getIntroduced()));
+		}
+		else {
+			stmt.setNull(2, java.sql.Types.DATE);
+		}
+		
+		if (comp.getDiscontinued() != null ) {
+			stmt.setDate(3, java.sql.Date.valueOf(comp.getDiscontinued()));
+		}
+		else {
+			stmt.setNull(3, java.sql.Types.DATE);
+		}
+		
+		if (comp.getCompany_id() != null) {
+			stmt.setLong(4, comp.getCompany_id());
+		}
+		else {
+			stmt.setNull(4, java.sql.Types.INTEGER);
+		}
+		
+		stmt.setLong(5, comp.getId());
+		int resExecution = stmt.executeUpdate();
+		
+		stmt.close();
+		con.close();
+		comp = find(comp.getId()); //Note manual change are faster yet less META
+		return resExecution;
 	}
 
 	@Override
 	public void delete(Computer comp) throws SQLException{
-		// TODO Auto-generated method stub
+		String query = "DELETE FROM computer WHERE id = ?;";
+		Connection con = BDRequests.getInstance().getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setLong(1, comp.getId());
+		stmt.executeUpdate();
 		
+		stmt.close();
+		con.close();
 	}
 
 	
@@ -80,7 +145,7 @@ private Computer wrapDatabaseResult(ResultSet rs) throws SQLException {
 			Timestamp datediscontinued = rs.getTimestamp(4);
 			if (datediscontinued != null)
 				cmp.setDiscontinued(datediscontinued.toLocalDateTime().toLocalDate());
-			Long company = rs.getLong(4);
+			Long company = rs.getLong(5);
 			if (company != null)
 				cmp.setCompany_id(company);
 		}

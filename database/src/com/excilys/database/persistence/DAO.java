@@ -9,8 +9,8 @@ public abstract class DAO<T extends Entity> { //localDate getTimeStamp -> to loc
 	public abstract T find(long id) throws SQLException;
 	public abstract T find(String name) throws SQLException;
 	public abstract List<T> listAll() throws SQLException; 
-	public abstract T create(T obj) throws SQLException;
-	public abstract T update(T obj) throws SQLException ;
+	public abstract int create(T obj) throws SQLException;
+	public abstract int update(T obj) throws SQLException ;
 	public abstract void delete(T obj) throws SQLException;
 	
 	

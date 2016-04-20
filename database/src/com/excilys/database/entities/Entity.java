@@ -1,10 +1,10 @@
 package com.excilys.database.entities;
 
 public abstract class Entity {
-	protected long id;
+	protected Long id;
 	protected String name;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 

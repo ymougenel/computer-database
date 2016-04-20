@@ -1,16 +1,11 @@
 package com.excilys.database.commands;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.sql.RowSet;
-
 import com.excilys.database.entities.Company;
-import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.BDRequests;
 import com.excilys.database.persistence.CompanyDAO;
-import com.excilys.database.persistence.ComputerDAO;
 
 public class ListCompagnies extends CommandBD {
 
