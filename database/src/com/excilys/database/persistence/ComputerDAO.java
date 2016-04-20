@@ -178,4 +178,24 @@ public List<Computer> listAll() throws SQLException {
     con.close();
 	return computers;
 }
+
+public List<Computer> listAll(long begin, long end) throws SQLException {
+	String query = "select c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name from computer c left join company o on c.company_id = o.id LIMIT ?,?;";
+	ResultSet results;
+	List<Computer> computers = new ArrayList<Computer>();
+	Connection con = BDRequests.getInstance().getConnection();
+	PreparedStatement stmt = con.prepareStatement(query);
+	stmt.setLong(1, begin);
+	stmt.setLong(2, end);
+	results = stmt.executeQuery();
+	
+	Computer c;
+	while((c = wrapDatabaseResult(results)) != null){
+		computers.add(c);
+	}
+	
+    stmt.close();
+    con.close();
+	return computers;
+}
 }

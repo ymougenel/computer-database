@@ -8,7 +8,9 @@ import com.excilys.database.persistence.BDRequests;
 import com.excilys.database.persistence.ComputerDAO;
 
 public class ListComputers extends CommandBD {
-
+	private long begin;
+	private long end;
+	private boolean limit;
 	public ListComputers() {
 		super();
 		this.name = "Computer listing";
@@ -24,14 +26,28 @@ public class ListComputers extends CommandBD {
 	@Override
 	public void execute(BDRequests bdr) throws SQLException {
 		ComputerDAO dao = new ComputerDAO();
-		List<Computer> computers = dao.listAll();
+		List<Computer> computers;
+		if (limit)
+			computers = dao.listAll(begin, end);
+		else
+			computers = dao.listAll();
 		for (Computer c : computers)
 			System.out.println(c.toString());
 	}
 
 	@Override
 	public boolean optionsFit(String[] values) {
-		return values[0].equals(shortcut);
+		if (!values[0].equals(shortcut))
+			return false;
+		if (values.length == 3) {
+			limit = true;
+			begin = Long.parseLong(values[1]);
+			end = Long.parseLong(values[2]);
+		}
+		else {
+			limit = false;
+		}
+		return true;
 	}
 
 
