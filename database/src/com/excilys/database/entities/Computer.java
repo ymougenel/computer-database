@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Computer extends Entity{
 	private LocalDate introduced;
 	private LocalDate discontinued;
-	private Long company_id;
+	private Company company;
 	
 	
 	public LocalDate getIntroduced() {
@@ -24,12 +24,12 @@ public class Computer extends Entity{
 		this.discontinued = discontinued;
 	}
 	
-	public Long getCompany_id() {
-		return company_id;
+	public Company getCompany_id() {
+		return company;
 	}
 	
-	public void setCompany_id(Long company_id) {
-		this.company_id = company_id;
+	public void setCompany_id(Company company) {
+		this.company = company;
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class Computer extends Entity{
 		String split = "\t\t";
 		String splitName = (name.length()>16 ? "\t" : (name.length()<10 ? "\t\t\t" : "\t\t"));
 		return 	"id: " + this.id + split+ "name: " + name + splitName + "introduced: " + ((introduced!=null) ? introduced.toString() : "NULL") + 
-				split+ "discontinued: " + ((discontinued!=null) ? discontinued.toString() : "NULL") + split+ "company_id: "+(company_id !=null ? company_id : "null");
+				split+ "discontinued: " + ((discontinued!=null) ? discontinued.toString() : "NULL") + split+ "company_id: "+(company !=null ? company.getName() : "null");
 				
 	}
 	

@@ -3,6 +3,7 @@ package com.excilys.database.commands;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.BDRequests;
 import com.excilys.database.persistence.ComputerDAO;
@@ -46,7 +47,9 @@ public boolean optionsFit(String[] values) {
 			computer.setDiscontinued(LocalDate.parse(values[i+1]));
 			break;
 		case("-company") :
-			computer.setCompany_id(Long.parseLong(values[i+1]));
+			Company c = new Company();
+			c.setId(Long.parseLong(values[i+1]));
+			computer.setCompany_id(c);
 			break;
 		default :
 			System.err.println("Error No matching found for:" +values[i]);

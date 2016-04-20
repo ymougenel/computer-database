@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 
 public class ComputerDAO extends DAO<Computer>{
@@ -16,7 +17,7 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public Computer find(long id) throws SQLException {
 		Computer cmp;
-		String query = "SELECT * from computer WHERE id = ?;";
+		String query = "select c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name from computer c left join company o on c.company_id = o.id WHERE c.id = ?;";
 		ResultSet results;
 		// System.out.println("### +i query called for : "+query +" << "+name);
 		Connection con = BDRequests.getInstance().getConnection();
@@ -33,7 +34,7 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public Computer find(String name) throws SQLException {
 		Computer cmp;
-		String query = "SELECT * from computer WHERE name = ?;";
+		String query = "select c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name from computer c left join company o on c.company_id = o.id WHERE c.name = ?;";
 		ResultSet results;
 		// System.out.println("### +i query called for : "+query +" << "+name);
 		Connection con = BDRequests.getInstance().getConnection();
@@ -69,7 +70,7 @@ public class ComputerDAO extends DAO<Computer>{
 		}
 		
 		if (comp.getCompany_id() != null) {
-			stmt.setLong(4, comp.getCompany_id());
+			stmt.setLong(4, comp.getCompany_id().getId());
 		}
 		else {
 			stmt.setNull(4, java.sql.Types.INTEGER);
@@ -104,8 +105,9 @@ public class ComputerDAO extends DAO<Computer>{
 		}
 		
 		if (comp.getCompany_id() != null) {
-			stmt.setLong(4, comp.getCompany_id());
+			stmt.setLong(4, comp.getCompany_id().getId());
 		}
+		
 		else {
 			stmt.setNull(4, java.sql.Types.INTEGER);
 		}
@@ -145,16 +147,22 @@ private Computer wrapDatabaseResult(ResultSet rs) throws SQLException {
 			Timestamp datediscontinued = rs.getTimestamp(4);
 			if (datediscontinued != null)
 				cmp.setDiscontinued(datediscontinued.toLocalDateTime().toLocalDate());
-			Long company = rs.getLong(5);
-			if (company != null)
-				cmp.setCompany_id(company);
+			Company company = null;
+			Long company_id = rs.getLong(5);
+			if (company_id != null) {
+				company = new Company();
+				company.setId(company_id);
+				String company_name = rs.getString(6);
+				company.setName(company_name);
+			}
+			cmp.setCompany_id(company);
 		}
 		return cmp;
 	}
 
 @Override
 public List<Computer> listAll() throws SQLException {
-	String query = "SELECT * from computer;";
+	String query = "select c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name from computer c left join company o on c.company_id = o.id;";
 	ResultSet results;
 	List<Computer> computers = new ArrayList<Computer>();
 	Connection con = BDRequests.getInstance().getConnection();
