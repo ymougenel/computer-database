@@ -3,7 +3,7 @@ package com.excilys.database.commands;
 import java.sql.SQLException;
 
 import com.excilys.database.entities.Computer;
-import com.excilys.database.persistence.BDRequests;
+import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.ComputerDAO;
 
 public class DeleteComputer extends CommandBD {
@@ -20,7 +20,7 @@ public class DeleteComputer extends CommandBD {
 	}
 
 	@Override
-	public void execute(BDRequests bdr) throws SQLException {
+	public void execute(DatabaseConnection bdr) throws SQLException {
 		ComputerDAO dao = new ComputerDAO();
 		Computer c = new Computer();
 		c.setId(id);

@@ -3,7 +3,7 @@ package com.excilys.database.commands;
 import java.sql.SQLException;
 
 import com.excilys.database.entities.Company;
-import com.excilys.database.persistence.BDRequests;
+import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.CompanyDAO;
 
 public class DeleteCompany extends CommandBD{
@@ -19,7 +19,7 @@ public class DeleteCompany extends CommandBD{
 	}
 	
 	@Override
-	public void execute(BDRequests bdr) throws SQLException {
+	public void execute(DatabaseConnection bdr) throws SQLException {
 		CompanyDAO dao = new CompanyDAO();
 		Company c = new Company();
 		c.setId(id);

@@ -20,7 +20,7 @@ public class ComputerDAO extends DAO<Computer>{
 		String query = "select c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name from computer c left join company o on c.company_id = o.id WHERE c.id = ?;";
 		ResultSet results;
 		// System.out.println("### +i query called for : "+query +" << "+name);
-		Connection con = BDRequests.getInstance().getConnection();
+		Connection con = DatabaseConnection.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setLong(1, id);
 		results = stmt.executeQuery();
@@ -37,7 +37,7 @@ public class ComputerDAO extends DAO<Computer>{
 		String query = "select c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name from computer c left join company o on c.company_id = o.id WHERE c.name = ?;";
 		ResultSet results;
 		// System.out.println("### +i query called for : "+query +" << "+name);
-		Connection con = BDRequests.getInstance().getConnection();
+		Connection con = DatabaseConnection.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1, name);
 		results = stmt.executeQuery();
@@ -51,7 +51,7 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public int create(Computer comp) throws SQLException{
 		String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?);";
-		Connection con = BDRequests.getInstance().getConnection();
+		Connection con = DatabaseConnection.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1, comp.getName());
 		
@@ -86,7 +86,7 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public int update(Computer comp) throws SQLException{
 		String query = "UPDATE computer SET name= ?, introduced= ?, discontinued = ?, company_id = ? WHERE id = ?;";
-		Connection con = BDRequests.getInstance().getConnection();
+		Connection con = DatabaseConnection.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1, comp.getName());
 		
@@ -124,7 +124,7 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public void delete(Computer comp) throws SQLException{
 		String query = "DELETE FROM computer WHERE id = ?;";
-		Connection con = BDRequests.getInstance().getConnection();
+		Connection con = DatabaseConnection.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setLong(1, comp.getId());
 		stmt.executeUpdate();
@@ -165,7 +165,7 @@ public List<Computer> listAll() throws SQLException {
 	String query = "select c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name from computer c left join company o on c.company_id = o.id;";
 	ResultSet results;
 	List<Computer> computers = new ArrayList<Computer>();
-	Connection con = BDRequests.getInstance().getConnection();
+	Connection con = DatabaseConnection.getInstance().getConnection();
 	Statement stmt = con.createStatement();
 	results = stmt.executeQuery(query);
 	
@@ -183,7 +183,7 @@ public List<Computer> listAll(long begin, long end) throws SQLException {
 	String query = "select c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name from computer c left join company o on c.company_id = o.id LIMIT ?,?;";
 	ResultSet results;
 	List<Computer> computers = new ArrayList<Computer>();
-	Connection con = BDRequests.getInstance().getConnection();
+	Connection con = DatabaseConnection.getInstance().getConnection();
 	PreparedStatement stmt = con.prepareStatement(query);
 	stmt.setLong(1, begin);
 	stmt.setLong(2, end);

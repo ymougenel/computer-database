@@ -1,23 +1,22 @@
 package com.excilys.database.ui;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import com.excilys.database.commands.CommandBD;
-import com.excilys.database.commands.DeleteCompany;
 import com.excilys.database.commands.DeleteComputer;
-import com.excilys.database.commands.InsertCompany;
 import com.excilys.database.commands.InsertComputer;
 import com.excilys.database.commands.ListCompagnies;
 import com.excilys.database.commands.ListComputers;
 import com.excilys.database.commands.ShowComputerDetails;
-import com.excilys.database.commands.UpdateCompany;
 import com.excilys.database.commands.UpdateComputer;
-import com.excilys.database.persistence.BDRequests;
+import com.excilys.database.persistence.DatabaseConnection;
 
 public class CommandLineInterface {
 
@@ -25,15 +24,15 @@ public class CommandLineInterface {
 	
 	protected List<CommandBD> commands;
 	private BufferedReader bufferRead;
-	private BDRequests bdRequests;
+	private DatabaseConnection bdRequests;
 	
 	public CommandLineInterface() {
-		bdRequests = BDRequests.getInstance();
+		bdRequests = DatabaseConnection.getInstance();
 		commands = new ArrayList<CommandBD>();
 	}
 	
 	public CommandLineInterface(List<CommandBD> cmds) {
-		bdRequests = BDRequests.getInstance();
+		bdRequests = DatabaseConnection.getInstance();
 		commands = new ArrayList<CommandBD>(cmds);
 	}
 	
@@ -55,7 +54,11 @@ public class CommandLineInterface {
 	        	System.out.println("prompt> ");
 				String line = bufferRead.readLine();
 				processInput(line);
-			} catch (Exception e) {
+			} catch (DateTimeParseException e) {
+				System.err.println("Date inputs is incorrect");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -83,12 +86,12 @@ public class CommandLineInterface {
 		cli.addCommand(new ListComputers("ll"));
 		cli.addCommand(new ListCompagnies("ls"));
 		cli.addCommand(new InsertComputer());
-		cli.addCommand(new InsertCompany("i"));
+		//cli.addCommand(new InsertCompany("i"));
 		cli.addCommand(new ShowComputerDetails());
 		cli.addCommand(new UpdateComputer());
-		cli.addCommand(new UpdateCompany());
+		//cli.addCommand(new UpdateCompany());
 		cli.addCommand(new DeleteComputer());
-		cli.addCommand(new DeleteCompany());
+		//cli.addCommand(new DeleteCompany());
 		
 		cli.launch();
 	}

@@ -15,10 +15,10 @@ public class CompanyDAO extends DAO<Company> {
 	@Override
 	public Company find(long id) throws SQLException {
 		Company cmp;
-		String query = "SELECT * from company WHERE id = ?;";
+		String query = "SELECT id, name from company WHERE id = ?;";
 		ResultSet results;
 		// System.out.println("### +i query called for : "+query +" << "+name);
-		Connection con = BDRequests.getInstance().getConnection();
+		Connection con = DatabaseConnection.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setLong(1, id);
 		results = stmt.executeQuery();
@@ -32,10 +32,10 @@ public class CompanyDAO extends DAO<Company> {
 	@Override
 	public Company find(String name) throws SQLException {
 		Company cmp;
-		String query = "SELECT * from company WHERE name = ?;";
+		String query = "SELECT id, name from company WHERE name = ?;";
 		ResultSet results;
 		// System.out.println("### +i query called for : "+query +" << "+name);
-		Connection con = BDRequests.getInstance().getConnection();
+		Connection con = DatabaseConnection.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1, name);
 		results = stmt.executeQuery();
@@ -46,10 +46,15 @@ public class CompanyDAO extends DAO<Company> {
 		return cmp;
 	}
 
+	/**
+	 * Insert a new computer into the database
+	 * @param comp
+	 * @return the insertion flag
+	 */
 	@Override
 	public int create(Company comp) throws SQLException {
 		String query = "INSERT INTO company (name) VALUES (?);";
-		Connection con = BDRequests.getInstance().getConnection();
+		Connection con = DatabaseConnection.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1, comp.getName());
 		int resultcreate = stmt.executeUpdate();
@@ -59,10 +64,15 @@ public class CompanyDAO extends DAO<Company> {
 		return resultcreate;
 	}
 
+	/**
+	 * Update a new computer into the database
+	 * @param comp
+	 * @return the update flag
+	 */
 	@Override
 	public int update(Company comp) throws SQLException {
 		String query = "UPDATE company SET name= ? WHERE id = ?;";
-		Connection con = BDRequests.getInstance().getConnection();
+		Connection con = DatabaseConnection.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1, comp.getName());
 		stmt.setLong(2, comp.getId());
@@ -77,7 +87,7 @@ public class CompanyDAO extends DAO<Company> {
 	@Override
 	public void delete(Company comp) throws SQLException {
 		String query = "DELETE FROM company WHERE id = ?;";
-		Connection con = BDRequests.getInstance().getConnection();
+		Connection con = DatabaseConnection.getInstance().getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setLong(1, comp.getId());
 		stmt.executeUpdate();
@@ -86,6 +96,11 @@ public class CompanyDAO extends DAO<Company> {
 		con.close();
 	}
 
+	/**
+	 * Wrapper fonction returning the entity
+	 * @param rs : ResultSet receive by the database request
+	 * @return The created object (null if ResultSet error)
+	 */
 	private Company wrapDatabaseResult(ResultSet rs) throws SQLException {
 		Company cmp = null;
 		// If result found, Company created from the Database result
@@ -99,10 +114,10 @@ public class CompanyDAO extends DAO<Company> {
 
 	@Override
 	public List<Company> listAll() throws SQLException {
-		String query = "SELECT * from company;";
+		String query = "SELECT id,name from company;";
 		ResultSet results;
 		List<Company> companies = new ArrayList<Company>();
-		Connection con = BDRequests.getInstance().getConnection();
+		Connection con = DatabaseConnection.getInstance().getConnection();
 		Statement stmt = con.createStatement();
 		results = stmt.executeQuery(query);
 		

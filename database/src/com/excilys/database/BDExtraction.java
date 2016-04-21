@@ -7,9 +7,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
-
-import com.excilys.database.persistence.BDRequests;
 
 public class BDExtraction {
 	private static String userBD = "admincdb";
@@ -40,8 +37,8 @@ public class BDExtraction {
 	}
 	
 	public static void printfResult(ResultSet results) throws SQLException {
-		ResultSetMetaData rsmd = results.getMetaData();
-		int columnsNumber = rsmd.getColumnCount();
+//		ResultSetMetaData rsmd = results.getMetaData();
+//		int columnsNumber = rsmd.getColumnCount();
 		while (results.next()) {
 			String id = results.getString("id");
 		    String name =results.getString("name");
@@ -54,7 +51,7 @@ public class BDExtraction {
 	
 	public static void printfResult(ResultSet results, int nbcolums) throws SQLException {
 		ResultSetMetaData rsmd = results.getMetaData();
-		int columnsNumber = rsmd.getColumnCount();
+//		int columnsNumber = rsmd.getColumnCount();
 		while (results.next()) {
 		    for (int i = 1; i <= nbcolums; i++) {
 		        if (i > 1) System.out.print(",  ");

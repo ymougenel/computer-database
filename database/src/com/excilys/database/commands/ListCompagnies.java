@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.excilys.database.entities.Company;
-import com.excilys.database.persistence.BDRequests;
+import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.CompanyDAO;
 
 public class ListCompagnies extends CommandBD {
@@ -22,7 +22,7 @@ public class ListCompagnies extends CommandBD {
 	}
 	
 	@Override
-	public void execute(BDRequests bdr) throws SQLException {
+	public void execute(DatabaseConnection bdr) throws SQLException {
 		CompanyDAO dao = new CompanyDAO();
 		List<Company> companies = dao.listAll();
 		for (Company c : companies)

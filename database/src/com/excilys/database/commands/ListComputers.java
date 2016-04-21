@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.excilys.database.entities.Computer;
-import com.excilys.database.persistence.BDRequests;
+import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.ComputerDAO;
 
 public class ListComputers extends CommandBD {
@@ -24,7 +24,7 @@ public class ListComputers extends CommandBD {
 	}
 	
 	@Override
-	public void execute(BDRequests bdr) throws SQLException {
+	public void execute(DatabaseConnection bdr) throws SQLException {
 		ComputerDAO dao = new ComputerDAO();
 		List<Computer> computers;
 		if (limit)

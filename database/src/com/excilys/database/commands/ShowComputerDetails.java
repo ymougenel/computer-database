@@ -3,7 +3,7 @@ package com.excilys.database.commands;
 import java.sql.SQLException;
 
 import com.excilys.database.entities.Computer;
-import com.excilys.database.persistence.BDRequests;
+import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.ComputerDAO;
 
 public class ShowComputerDetails extends CommandBD {
@@ -21,7 +21,7 @@ public class ShowComputerDetails extends CommandBD {
 		this.name="Show computer details";
 	}
 	@Override
-	public void execute(BDRequests bdr) throws SQLException {		
+	public void execute(DatabaseConnection bdr) throws SQLException {		
 		ComputerDAO dao = new ComputerDAO();
 		Computer comp;
 		if (field.equals("name"))

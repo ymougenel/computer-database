@@ -2,8 +2,13 @@ package com.excilys.database.commands;
 
 import java.sql.SQLException;
 
-import com.excilys.database.persistence.BDRequests;
+import com.excilys.database.persistence.DatabaseConnection;
 
+/** 
+ * Abstract command class
+ * @author Yann Mougenel
+ *
+ */
 public abstract class CommandBD {
 
 	protected String name;
@@ -14,7 +19,7 @@ public abstract class CommandBD {
 	public CommandBD( String shortcurt) {
 		this.shortcut = shortcurt;
 	}
-	public abstract void execute(BDRequests bdr)  throws SQLException;
+	public abstract void execute(DatabaseConnection bdr)  throws SQLException;
 	
 	public String getShorcut() { 
 		return shortcut;

@@ -35,7 +35,7 @@ public class Computer extends Entity{
 	@Override
 	public String toString() {
 		String split = "\t\t";
-		String splitName = (name.length()>16 ? "\t" : (name.length()<10 ? "\t\t\t" : "\t\t"));
+		String splitName = (name.length()>17 ? "\t" : (name.length()<10 ? "\t\t\t" : "\t\t"));
 		return 	"id: " + this.id + split+ "name: " + name + splitName + "introduced: " + ((introduced!=null) ? introduced.toString() : "NULL") + 
 				split+ "discontinued: " + ((discontinued!=null) ? discontinued.toString() : "NULL") + split+ "company_id: "+(company !=null ? company.getName() : "null");
 				

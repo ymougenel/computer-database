@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.excilys.database.entities.Entity;
 
-public abstract class DAO<T extends Entity> { //localDate getTimeStamp -> to local date time
+public abstract class DAO<T extends Entity> {
 	public abstract T find(long id) throws SQLException;
 	public abstract T find(String name) throws SQLException;
 	public abstract List<T> listAll() throws SQLException; 
