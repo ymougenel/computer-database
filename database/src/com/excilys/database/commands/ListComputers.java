@@ -49,6 +49,11 @@ public class ListComputers extends CommandBD {
 		}
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "[beginIndex endIndex]";
+	}
 
 
 }

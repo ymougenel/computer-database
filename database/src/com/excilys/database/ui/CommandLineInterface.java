@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.tomcat.util.buf.UDecoder;
-
 import com.excilys.database.commands.CommandBD;
 import com.excilys.database.commands.DeleteCompany;
 import com.excilys.database.commands.DeleteComputer;
@@ -65,12 +63,6 @@ public class CommandLineInterface {
 	
 	private void processInput(String input) throws SQLException {
 		String[] values = input.split(" ");
-		
-//		System.out.println("--------------------");
-//		for (int i=0;i<values.length;i++) {
-//			System.out.println("Values["+i+"] = "+values[i]);
-//		}
-//		System.out.println("--------------------");
 
 		Iterator<CommandBD> it =commands.iterator();
 		boolean foundMatchingCommand = false;
@@ -90,13 +82,14 @@ public class CommandLineInterface {
 		CommandLineInterface cli = new CommandLineInterface();
 		cli.addCommand(new ListComputers("ll"));
 		cli.addCommand(new ListCompagnies("ls"));
+		cli.addCommand(new InsertComputer());
 		cli.addCommand(new InsertCompany("i"));
 		cli.addCommand(new ShowComputerDetails());
-		cli.addCommand(new UpdateCompany());
-		cli.addCommand(new DeleteCompany());
 		cli.addCommand(new UpdateComputer());
-		cli.addCommand(new InsertComputer());
+		cli.addCommand(new UpdateCompany());
 		cli.addCommand(new DeleteComputer());
+		cli.addCommand(new DeleteCompany());
+		
 		cli.launch();
 	}
 }

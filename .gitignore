@@ -7,3 +7,5 @@ data/build/
 *.classpath
 database/.project
 database/.settings/
+.recommenders/
+Servers/
