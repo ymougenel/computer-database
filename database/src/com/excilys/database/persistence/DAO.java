@@ -6,12 +6,11 @@ import java.util.List;
 import com.excilys.database.entities.Entity;
 
 public abstract class DAO<T extends Entity> {
-	public abstract T find(long id) throws SQLException;
-	public abstract T find(String name) throws SQLException;
-	public abstract List<T> listAll() throws SQLException; 
-	public abstract int create(T obj) throws SQLException;
-	public abstract int update(T obj) throws SQLException ;
-	public abstract void delete(T obj) throws SQLException;
-	
+	public abstract T find(long id);
+	public abstract T find(String name);
+	public abstract List<T> listAll(); 
+	public abstract T create(T obj);
+	public abstract T update(T obj);
+	public abstract void delete(T obj);
 	
 }

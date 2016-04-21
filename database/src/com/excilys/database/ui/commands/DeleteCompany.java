@@ -1,4 +1,4 @@
-package com.excilys.database.commands;
+package com.excilys.database.ui.commands;
 
 import java.sql.SQLException;
 
@@ -6,34 +6,31 @@ import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.CompanyDAO;
 
-public class UpdateCompany extends CommandBD{
+public class DeleteCompany extends CommandBD{
 	private Long id;
-	private String companyName;
+	public DeleteCompany() {
+		this.name = "Delete company";
+		this.shortcut = "dc";
+	}
 	
-	public UpdateCompany() {
-		this.name = "Update company";
-		this.shortcut = "uc";
-	}
-	public UpdateCompany(String s) {
+	public DeleteCompany(String s) {
 		super(s);
-		this.name = "Update company";
+		this.name = "Delete company";
 	}
+	
 	@Override
 	public void execute(DatabaseConnection bdr) throws SQLException {
 		CompanyDAO dao = new CompanyDAO();
 		Company c = new Company();
-		c.setName(companyName);
 		c.setId(id);
-		dao.update(c);
-		
+		dao.delete(c);
 	}
 
 	@Override
 	public boolean optionsFit(String[] values) {
 		boolean correctInputs = values[0].equals(shortcut);
-		if ( correctInputs && values.length == 3) {
-			companyName = values[1];
-			id = Long.parseLong(values[2]);
+		if ( correctInputs && values.length == 2) {
+			id = Long.parseLong(values[1]);
 			return true;
 		}
 		else

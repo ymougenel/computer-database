@@ -8,4 +8,5 @@ public class Company extends Entity{
 		return 	"id: " + this.id + split+ "name: " + name;
 	}
 
+	
 }

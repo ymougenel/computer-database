@@ -1,4 +1,4 @@
-package com.excilys.database.commands;
+package com.excilys.database.ui.commands;
 
 import java.sql.SQLException;
 import java.util.List;
