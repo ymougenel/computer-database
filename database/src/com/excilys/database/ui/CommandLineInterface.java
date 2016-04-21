@@ -1,7 +1,6 @@
 package com.excilys.database.ui;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.time.format.DateTimeParseException;
@@ -9,9 +8,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.excilys.database.ui.commands.*;
-
+import com.excilys.database.persistence.DAOException;
 import com.excilys.database.persistence.DatabaseConnection;
+import com.excilys.database.ui.commands.CommandBD;
+import com.excilys.database.ui.commands.DeleteComputer;
+import com.excilys.database.ui.commands.InsertComputer;
+import com.excilys.database.ui.commands.ListCompagnies;
+import com.excilys.database.ui.commands.ListComputers;
+import com.excilys.database.ui.commands.ShowComputerDetails;
+import com.excilys.database.ui.commands.UpdateComputer;
 
 public class CommandLineInterface {
 
@@ -51,14 +56,15 @@ public class CommandLineInterface {
 				processInput(line);
 			} catch (DateTimeParseException e) {
 				System.err.println("Date inputs is incorrect");
-			} catch (SQLException e) {
+			} catch (DAOException e) {
+				System.out.println("DAO EXception");
 				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+	//TODO avoid null name insertion
 	private void processInput(String input) throws SQLException {
 		String[] values = input.split(" ");
 

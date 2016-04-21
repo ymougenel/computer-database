@@ -82,7 +82,7 @@ public class ComputerDAO extends DAO<Computer> {
 		ResultSet generatedKeys = null;
 		try {
 			con = DatabaseConnection.getInstance().getConnection();
-			PreparedStatement stmt = con.prepareStatement(CREATE);
+			PreparedStatement stmt = con.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, comp.getName());
 
 			if (comp.getIntroduced() != null) {
@@ -117,7 +117,8 @@ public class ComputerDAO extends DAO<Computer> {
 			throw new DAOException();
 		} finally {
 			try {
-				generatedKeys.close();
+				if (generatedKeys != null)
+					generatedKeys.close();
 				con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -190,6 +191,13 @@ public class ComputerDAO extends DAO<Computer> {
 		}
 	}
 
+	/**
+	 * Wrapper function returning the entity
+	 * 
+	 * @param rs
+	 *            : ResultSet receive by the database request
+	 * @return The created object (null if ResultSet error)
+	 */
 	private Computer wrapDatabaseResult(ResultSet rs) throws SQLException {
 		Computer cmp = null;
 		// If result found, Computer created from the Database result
