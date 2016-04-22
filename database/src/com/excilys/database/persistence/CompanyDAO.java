@@ -24,6 +24,8 @@ public class CompanyDAO extends DAO<Company> {
 	private static final String UPDATE = "UPDATE company SET name= ? WHERE id = ?;";
 	private static final String DELETE = "DELETE FROM company WHERE id = ?;";
 	private static final String LISTALL = "SELECT id,name from company;";
+	private static final String COUNT = "SELECT COUNT(*) FROM company;";
+
 	private static CompanyDAO companyDAO;
 
 	private CompanyDAO() {
@@ -189,8 +191,8 @@ public class CompanyDAO extends DAO<Company> {
 		// If result found, Company created from the Database result
 		if (rs.next()) {
 			cmp = new Company();
-			cmp.setId(rs.getLong(1));
-			cmp.setName(rs.getString(2));
+			cmp.setId(rs.getLong("id"));
+			cmp.setName(rs.getString("name"));
 		}
 		return cmp;
 	}
@@ -221,5 +223,34 @@ public class CompanyDAO extends DAO<Company> {
 			}
 		}
 		return companies;
+	}
+
+	@Override
+	public long count() {
+		ResultSet results = null;
+		long count = 0;
+		Connection con = null;
+		try {
+			con = DatabaseConnection.getInstance().getConnection();
+			Statement stmt = con.createStatement();
+			results = stmt.executeQuery(COUNT);
+
+			if (results.next()) {
+				count = results.getLong(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException();
+		} finally {
+			try {
+				results.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return count;
 	}
 }

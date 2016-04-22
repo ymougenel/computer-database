@@ -13,9 +13,10 @@ import java.sql.SQLException;
  */
 public class DatabaseConnection {
 
-	private static String userBD = "admincdb";
-	private static String passwordBD = "qwerty1234";
-	private static String url = "jdbc:mysql://localhost/computer-database-db?zeroDateTimeBehavior=convertToNull";
+	private static String USERBD = "admincdb";
+	private static String PASSWORDBD = "qwerty1234";
+	private static String URL = "jdbc:mysql://localhost/computer-database-db?zeroDateTimeBehavior=convertToNull";
+	private static String DRIVER = "com.mysql.jdbc.Driver";
 	private static DatabaseConnection bdRequests;
 
 	/*
@@ -24,7 +25,7 @@ public class DatabaseConnection {
 	 */
 	static {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName(DRIVER);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -41,7 +42,7 @@ public class DatabaseConnection {
 
 	/* TODO prototype to specify close conne */
 	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(url, userBD, passwordBD);
+		return DriverManager.getConnection(URL, USERBD, PASSWORDBD);
 	}
 
 	public static void printfResult(ResultSet results) throws SQLException {

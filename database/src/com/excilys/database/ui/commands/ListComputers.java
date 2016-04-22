@@ -33,22 +33,25 @@ public class ListComputers extends CommandBD {
 		Page<Computer> page;
 		// List<Computer> computers;
 		if (limit)
-			page = new Page<>(dao.listAll(begin, begin + pageSize), pageSize);
+			page = new Page<>(dao.listAll(begin, pageSize), pageSize);
 		else
 			page = new Page<>(dao.listAll(), pageSize);
 		page.printf();
 
 		if (limit) {
 			BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("<1 - 2> q3");
+			System.out.println("<1 - 2>  q = quit");
 			String input;
 			try {
-				while ((input = bufferRead.readLine()).equals("q")) {
+				while (!(input = bufferRead.readLine()).equals("q")) {
 					if (input.equals("1")) {
-						begin += pageSize;
-					} else if (input.equals("2")) {
 						begin -= pageSize;
+					} else if (input.equals("2")) {
+						begin += pageSize;
 					}
+					page = new Page<>(dao.listAll(begin, pageSize), pageSize);
+					page.printf();
+					System.out.println("<1 - 2> q3");
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

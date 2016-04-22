@@ -27,6 +27,8 @@ public class ComputerDAO extends DAO<Computer> {
 	private static final String DELETE = "DELETE FROM computer WHERE id = ?;";
 	private static final String LISTALL = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id;";
 	private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id LIMIT ?,?;";
+	private static final String COUNT = "SELECT COUNT(*) FROM computer;";
+	
 	private static ComputerDAO computerDAO;
 
 	private ComputerDAO() {
@@ -300,5 +302,34 @@ public class ComputerDAO extends DAO<Computer> {
 
 		}
 		return computers;
+	}
+
+	@Override
+	public long count() {
+		ResultSet results = null;
+		long count = 0;
+		Connection con = null;
+		try {
+			con = DatabaseConnection.getInstance().getConnection();
+			Statement stmt = con.createStatement();
+			results = stmt.executeQuery(COUNT);
+			
+			if (results.next()) {
+				count = results.getLong(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException();
+		} finally {
+			try {
+				results.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return count;
 	}
 }

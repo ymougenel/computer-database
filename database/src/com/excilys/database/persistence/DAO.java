@@ -16,4 +16,6 @@ public abstract class DAO<T extends Entity> {
 
 	public abstract void delete(T obj);
 
+	public abstract long count();
+
 }
