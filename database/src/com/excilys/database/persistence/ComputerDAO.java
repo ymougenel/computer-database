@@ -9,6 +9,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 
@@ -28,7 +31,8 @@ public class ComputerDAO extends DAO<Computer> {
 	private static final String LISTALL = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id;";
 	private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id LIMIT ?,?;";
 	private static final String COUNT = "SELECT COUNT(*) FROM computer;";
-	
+
+	private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
 	private static ComputerDAO computerDAO;
 
 	private ComputerDAO() {
@@ -43,6 +47,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public Computer find(long id) {
+		logger.info("FIND_ID" + " << " + id);
 		Computer cmp = null;
 		ResultSet results = null;
 		// System.out.println("### +i query called for : "+query +" << "+name);
@@ -56,6 +61,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.debug(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -71,6 +77,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public Computer find(String name) {
+		logger.info("FIND_NAME" + " << " + (name == null ? "NULL" : name));
 		Computer cmp;
 		ResultSet results = null;
 		// System.out.println("### +i query called for : "+query +" << "+name);
@@ -83,6 +90,7 @@ public class ComputerDAO extends DAO<Computer> {
 			cmp = wrapDatabaseResult(results);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -98,6 +106,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public Computer create(Computer comp) {
+		logger.info("CREATE" + " << " + comp.toString());
 		Connection con = null;
 		ResultSet generatedKeys = null;
 		try {
@@ -134,6 +143,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -149,6 +159,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public Computer update(Computer comp) {
+		logger.info("UPDATE" + " << " + comp.toString());
 		Connection con = null;
 		try {
 			con = DatabaseConnection.getInstance().getConnection();
@@ -179,6 +190,7 @@ public class ComputerDAO extends DAO<Computer> {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -193,6 +205,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public void delete(Computer comp) {
+		logger.info("DELETE" + " << " + comp.toString());
 		Connection con = null;
 		try {
 			con = DatabaseConnection.getInstance().getConnection();
@@ -201,6 +214,7 @@ public class ComputerDAO extends DAO<Computer> {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -246,6 +260,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public List<Computer> listAll() {
+		logger.info("LISTALL");
 		ResultSet results = null;
 		List<Computer> computers = new ArrayList<Computer>();
 		Connection con = null;
@@ -260,6 +275,7 @@ public class ComputerDAO extends DAO<Computer> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -274,6 +290,7 @@ public class ComputerDAO extends DAO<Computer> {
 	}
 
 	public List<Computer> listAll(long begin, long end) {
+		logger.info("LISTALL_INDEX" + " << " + begin + ", " + end);
 		ResultSet results = null;
 		List<Computer> computers = new ArrayList<Computer>();
 		Connection con = null;
@@ -291,6 +308,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -299,13 +317,13 @@ public class ComputerDAO extends DAO<Computer> {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 		}
 		return computers;
 	}
 
 	@Override
 	public long count() {
+		logger.info("COUNT");
 		ResultSet results = null;
 		long count = 0;
 		Connection con = null;
@@ -313,13 +331,14 @@ public class ComputerDAO extends DAO<Computer> {
 			con = DatabaseConnection.getInstance().getConnection();
 			Statement stmt = con.createStatement();
 			results = stmt.executeQuery(COUNT);
-			
+
 			if (results.next()) {
 				count = results.getLong(1);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {

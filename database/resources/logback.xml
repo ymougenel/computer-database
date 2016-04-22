@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+	<configuration>
+	  	<appender name="Database Actions" class="ch.qos.logback.core.FileAppender"> <!-- ConsoleAppender -->
+	  		<file>log/database/actions.log</file>
+	  		    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      				<level>INFO</level>
+      				<onMatch>ACCEPT</onMatch>
+      				<onMismatch>DENY</onMismatch>
+    			</filter>
+    			
+	   			<encoder>
+	      			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %file - %msg%n</pattern>
+	    		</encoder>
+	  	</appender>
+
+	  	<appender name="Database Errors" class="ch.qos.logback.core.FileAppender"> <!-- ConsoleAppender -->
+	  		<file>log/database/errors.log</file>
+	  		    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      				<level>ERROR</level>
+      				<onMismatch>DENY</onMismatch>
+    			</filter>
+	  		
+	   			<encoder>
+	      			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %file - %msg%n</pattern>
+	    		</encoder>
+	  	</appender>
+	  			
+	  <root level="DEBUG">         
+	    <appender-ref ref="Database Actions" />
+	    <appender-ref ref="Database Errors" />
+	  </root> 
+	</configuration>

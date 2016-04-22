@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.database.entities.Company;
 
 /**
@@ -25,6 +28,7 @@ public class CompanyDAO extends DAO<Company> {
 	private static final String DELETE = "DELETE FROM company WHERE id = ?;";
 	private static final String LISTALL = "SELECT id,name from company;";
 	private static final String COUNT = "SELECT COUNT(*) FROM company;";
+	private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
 
 	private static CompanyDAO companyDAO;
 
@@ -42,6 +46,7 @@ public class CompanyDAO extends DAO<Company> {
 
 	@Override
 	public Company find(long id) {
+		logger.info("FIND_ID" + " << " + id);
 		Company cmp;
 		ResultSet results = null;
 		// System.out.println("### +i query called for : "+query +" << "+name);
@@ -54,6 +59,7 @@ public class CompanyDAO extends DAO<Company> {
 			cmp = wrapDatabaseResult(results);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -69,6 +75,7 @@ public class CompanyDAO extends DAO<Company> {
 
 	@Override
 	public Company find(String name) {
+		logger.info("FIND_NAME" + " << " + (name == null ? "NULL" : name));
 		Company cmp;
 		ResultSet results = null;
 		// System.out.println("### +i query called for : "+query +" << "+name);
@@ -81,6 +88,7 @@ public class CompanyDAO extends DAO<Company> {
 			cmp = wrapDatabaseResult(results);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -102,6 +110,7 @@ public class CompanyDAO extends DAO<Company> {
 	 */
 	@Override
 	public Company create(Company comp) {
+		logger.info("CREATE" + " << " + comp.toString());
 		ResultSet generatedKeys = null;
 		Connection con = null;
 		try {
@@ -118,6 +127,7 @@ public class CompanyDAO extends DAO<Company> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -139,6 +149,7 @@ public class CompanyDAO extends DAO<Company> {
 	 */
 	@Override
 	public Company update(Company comp) {
+		logger.info("UPDATE" + " << " + comp.toString());
 		Connection con = null;
 		try {
 			con = DatabaseConnection.getInstance().getConnection();
@@ -148,6 +159,7 @@ public class CompanyDAO extends DAO<Company> {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -161,6 +173,7 @@ public class CompanyDAO extends DAO<Company> {
 
 	@Override
 	public void delete(Company comp) {
+		logger.info("DELETE" + " << " + comp.toString());
 		Connection con = null;
 		try {
 			con = DatabaseConnection.getInstance().getConnection();
@@ -169,6 +182,7 @@ public class CompanyDAO extends DAO<Company> {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -199,6 +213,7 @@ public class CompanyDAO extends DAO<Company> {
 
 	@Override
 	public List<Company> listAll() {
+		logger.info("LISTALL");
 		ResultSet results = null;
 		List<Company> companies = new ArrayList<Company>();
 		Connection con = null;
@@ -213,6 +228,7 @@ public class CompanyDAO extends DAO<Company> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
@@ -227,6 +243,7 @@ public class CompanyDAO extends DAO<Company> {
 
 	@Override
 	public long count() {
+		logger.info("COUNT");
 		ResultSet results = null;
 		long count = 0;
 		Connection con = null;
@@ -241,6 +258,7 @@ public class CompanyDAO extends DAO<Company> {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw new DAOException();
 		} finally {
 			try {
