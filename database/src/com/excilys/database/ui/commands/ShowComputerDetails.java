@@ -22,7 +22,7 @@ public class ShowComputerDetails extends CommandBD {
 	}
 	@Override
 	public void execute(DatabaseConnection bdr) throws SQLException {		
-		ComputerDAO dao = new ComputerDAO();
+		ComputerDAO dao = ComputerDAO.getInstance();
 		Computer comp;
 		if (field.equals("name"))
 			comp = dao.find(this.value);

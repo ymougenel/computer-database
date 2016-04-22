@@ -21,7 +21,7 @@ public class InsertComputer extends CommandBD {
 	}
 	@Override
 	public void execute(DatabaseConnection bdr) throws SQLException {
-		ComputerDAO dao = new ComputerDAO();
+		ComputerDAO dao = ComputerDAO.getInstance();
 		dao.create(computer);
 		
 	}

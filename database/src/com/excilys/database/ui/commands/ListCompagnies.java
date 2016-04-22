@@ -23,7 +23,7 @@ public class ListCompagnies extends CommandBD {
 	
 	@Override
 	public void execute(DatabaseConnection bdr) throws SQLException {
-		CompanyDAO dao = new CompanyDAO();
+		CompanyDAO dao = CompanyDAO.getInstance();
 		List<Company> companies = dao.listAll();
 		for (Company c : companies)
 			System.out.println(c.toString());

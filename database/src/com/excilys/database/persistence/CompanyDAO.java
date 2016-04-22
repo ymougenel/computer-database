@@ -10,6 +10,12 @@ import java.util.List;
 
 import com.excilys.database.entities.Company;
 
+/**
+ * Company DAO (Singleton)
+ * Contains CRUD company database methods : Create, Retrieve, Update, Delete
+ * @author Yann Mougenel
+ *
+ */
 public class CompanyDAO extends DAO<Company> {
 	private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
 	private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
@@ -17,7 +23,18 @@ public class CompanyDAO extends DAO<Company> {
 	private static final String UPDATE = "UPDATE company SET name= ? WHERE id = ?;";
 	private static final String DELETE = "DELETE FROM company WHERE id = ?;";
 	private static final String LISTALL = "SELECT id,name from company;";
-
+	private static CompanyDAO companyDAO;
+	
+	private CompanyDAO() {}
+	
+	// NOTE optimization possible : synchronized -> if (dao== null) { synchronized if (dao == null)
+	public static synchronized CompanyDAO getInstance() {
+		if (companyDAO == null) {
+			companyDAO = new CompanyDAO();
+		}
+		return companyDAO;
+	}
+	
 	@Override
 	public Company find(long id) {
 		Company cmp;

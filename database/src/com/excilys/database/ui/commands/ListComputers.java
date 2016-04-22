@@ -28,7 +28,7 @@ public class ListComputers extends CommandBD {
 	
 	@Override
 	public void execute(DatabaseConnection bdr) throws SQLException {
-		ComputerDAO dao = new ComputerDAO();
+		ComputerDAO dao = ComputerDAO.getInstance();
 		Page<Computer> page;
 		//List<Computer> computers;
 		if (limit)

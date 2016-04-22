@@ -21,7 +21,7 @@ public class DeleteComputer extends CommandBD {
 
 	@Override
 	public void execute(DatabaseConnection bdr) throws SQLException {
-		ComputerDAO dao = new ComputerDAO();
+		ComputerDAO dao = ComputerDAO.getInstance();
 		Computer c = new Computer();
 		c.setId(id);
 		dao.delete(c);

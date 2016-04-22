@@ -20,7 +20,7 @@ public class InsertCompany extends CommandBD {
 	
 	@Override
 	public void execute(DatabaseConnection bdr) throws SQLException {
-		CompanyDAO dao = new CompanyDAO();
+		CompanyDAO dao = CompanyDAO.getInstance();
 		Company c = new Company();
 		c.setName(companyName);
 		dao.create(c);
