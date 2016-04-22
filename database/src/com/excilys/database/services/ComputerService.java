@@ -23,7 +23,10 @@ public class ComputerService {
 		return computerDAO.find(id);
 	}
 
-	public Computer insertComputer(Computer comp) {
+	public Computer insertComputer(Computer comp) throws InvalidInsertionException {
+		if (comp.getName() == null)
+			throw new InvalidInsertionException();
+		
 		return computerDAO.create(comp);
 	}
 

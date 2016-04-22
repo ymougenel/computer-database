@@ -40,7 +40,7 @@ public class DatabaseConnection {
 		return bdRequests;
 	}
 
-	/* TODO prototype to specify close conne */
+	/* TODO prototype to specify close connection */
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(URL, USERBD, PASSWORDBD);
 	}
