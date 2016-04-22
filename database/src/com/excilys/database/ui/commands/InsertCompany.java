@@ -32,8 +32,7 @@ public class InsertCompany extends CommandBD {
 		if ( correctInputs && values.length == 2) {
 			companyName = values[1];
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 

@@ -13,30 +13,32 @@ import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 
 /**
- * Computer DAO (Singleton)
- * Contains CRUD computer database methods : Create, Retrieve, Update, Delete
+ * Computer DAO (Singleton) Contains CRUD computer database methods : Create,
+ * Retrieve, Update, Delete
+ * 
  * @author Yann Mougenel
  *
  */
 public class ComputerDAO extends DAO<Computer> {
-	private static final String FIND_ID = 	"SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.id = ?;";
+	private static final String FIND_ID = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.id = ?;";
 	private static final String FIND_NAME = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name = ?;";
-	private static final String CREATE = 	"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?);";
-	private static final String UPDATE = 	"UPDATE computer SET name= ?, introduced= ?, discontinued = ?, company_id = ? WHERE id = ?;";
-	private static final String DELETE = 	"DELETE FROM computer WHERE id = ?;";
-	private static final String LISTALL = 	"SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id;";
+	private static final String CREATE = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?);";
+	private static final String UPDATE = "UPDATE computer SET name= ?, introduced= ?, discontinued = ?, company_id = ? WHERE id = ?;";
+	private static final String DELETE = "DELETE FROM computer WHERE id = ?;";
+	private static final String LISTALL = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id;";
 	private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id LIMIT ?,?;";
 	private static ComputerDAO computerDAO;
-	
-	private ComputerDAO () {}
-	
+
+	private ComputerDAO() {
+	}
+
 	public static synchronized ComputerDAO getInstance() {
 		if (computerDAO == null) {
 			computerDAO = new ComputerDAO();
 		}
 		return computerDAO;
 	}
-	
+
 	@Override
 	public Computer find(long id) {
 		Computer cmp = null;

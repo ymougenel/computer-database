@@ -20,38 +20,38 @@ import com.excilys.database.ui.commands.UpdateComputer;
 
 public class CommandLineInterface {
 
-	//System.out.println("Prompt launch");
-	
+	// System.out.println("Prompt launch");
+
 	protected List<CommandBD> commands;
 	private BufferedReader bufferRead;
 	private DatabaseConnection bdRequests;
-	
+
 	public CommandLineInterface() {
 		bdRequests = DatabaseConnection.getInstance();
 		commands = new ArrayList<CommandBD>();
 	}
-	
+
 	public CommandLineInterface(List<CommandBD> cmds) {
 		bdRequests = DatabaseConnection.getInstance();
 		commands = new ArrayList<CommandBD>(cmds);
 	}
-	
+
 	public void addCommand(CommandBD cmd) {
 		commands.add(cmd);
 	}
-	
-	public void launch(){
 
-		while(true) {
+	public void launch() {
+
+		while (true) {
 			System.out.println("*********************** Commands available ********************************");
 			System.out.println("\tActions \t\t\t\t Commands");
 			for (CommandBD c : commands)
 				System.out.println(c.toString());
 			System.out.println("**************************************************************************");
-			
-	        bufferRead = new BufferedReader(new InputStreamReader(System.in));
-	        try {
-	        	System.out.println("prompt> ");
+
+			bufferRead = new BufferedReader(new InputStreamReader(System.in));
+			try {
+				System.out.println("prompt> ");
 				String line = bufferRead.readLine();
 				processInput(line);
 			} catch (DateTimeParseException e) {
@@ -64,13 +64,14 @@ public class CommandLineInterface {
 			}
 		}
 	}
-	//TODO avoid null name insertion
+
+	// TODO avoid null name insertion
 	private void processInput(String input) throws SQLException {
 		String[] values = input.split(" ");
 
-		Iterator<CommandBD> it =commands.iterator();
+		Iterator<CommandBD> it = commands.iterator();
 		boolean foundMatchingCommand = false;
-		
+
 		while (!foundMatchingCommand && it.hasNext()) {
 			CommandBD cmd = it.next();
 			if (cmd.optionsFit(values)) {
@@ -80,20 +81,21 @@ public class CommandLineInterface {
 			}
 		}
 		if (!foundMatchingCommand)
-			System.out.println("No matching command found for : "+values[0]);
+			System.out.println("No matching command found for : " + values[0]);
 	}
+
 	public static void main(String[] args) {
 		CommandLineInterface cli = new CommandLineInterface();
 		cli.addCommand(new ListComputers("ll"));
 		cli.addCommand(new ListCompagnies("ls"));
 		cli.addCommand(new InsertComputer());
-		//cli.addCommand(new InsertCompany("i"));
+		// cli.addCommand(new InsertCompany("i"));
 		cli.addCommand(new ShowComputerDetails());
 		cli.addCommand(new UpdateComputer());
-		//cli.addCommand(new UpdateCompany());
+		// cli.addCommand(new UpdateCompany());
 		cli.addCommand(new DeleteComputer());
-		//cli.addCommand(new DeleteCompany());
-		
+		// cli.addCommand(new DeleteCompany());
+
 		cli.launch();
 	}
 }

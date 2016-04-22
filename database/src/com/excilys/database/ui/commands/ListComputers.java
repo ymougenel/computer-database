@@ -14,39 +14,39 @@ public class ListComputers extends CommandBD {
 	private long begin;
 	private boolean limit;
 	private static int pageSize = 20;
+
 	public ListComputers() {
 		super();
 		this.name = "Computer listing";
-		this.shortcut ="lcr";
-				
+		this.shortcut = "lcr";
+
 	}
-	
+
 	public ListComputers(String st) {
 		super(st);
 		this.name = "Computer listing";
 	}
-	
+
 	@Override
 	public void execute(DatabaseConnection bdr) throws SQLException {
 		ComputerDAO dao = ComputerDAO.getInstance();
 		Page<Computer> page;
-		//List<Computer> computers;
+		// List<Computer> computers;
 		if (limit)
-			page = new Page<>( dao.listAll(begin, begin+pageSize), pageSize );
+			page = new Page<>(dao.listAll(begin, begin + pageSize), pageSize);
 		else
-			page = new Page<>( dao.listAll(), pageSize );
+			page = new Page<>(dao.listAll(), pageSize);
 		page.printf();
-		
+
 		if (limit) {
 			BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 			System.out.println("<1 - 2> q3");
 			String input;
 			try {
-				while ( (input = bufferRead.readLine()).equals("q")) {
+				while ((input = bufferRead.readLine()).equals("q")) {
 					if (input.equals("1")) {
 						begin += pageSize;
-					}
-					else if (input.equals("2")){
+					} else if (input.equals("2")) {
 						begin -= pageSize;
 					}
 				}
@@ -54,7 +54,7 @@ public class ListComputers extends CommandBD {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
 
@@ -65,17 +65,15 @@ public class ListComputers extends CommandBD {
 		if (values.length == 2) {
 			limit = true;
 			begin = Long.parseLong(values[1]);
-		}
-		else {
+		} else {
 			limit = false;
 		}
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString() + " [beginIndex]";
 	}
-
 
 }

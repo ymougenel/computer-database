@@ -11,8 +11,9 @@ import java.util.List;
 import com.excilys.database.entities.Company;
 
 /**
- * Company DAO (Singleton)
- * Contains CRUD company database methods : Create, Retrieve, Update, Delete
+ * Company DAO (Singleton) Contains CRUD company database methods : Create,
+ * Retrieve, Update, Delete
+ * 
  * @author Yann Mougenel
  *
  */
@@ -24,17 +25,19 @@ public class CompanyDAO extends DAO<Company> {
 	private static final String DELETE = "DELETE FROM company WHERE id = ?;";
 	private static final String LISTALL = "SELECT id,name from company;";
 	private static CompanyDAO companyDAO;
-	
-	private CompanyDAO() {}
-	
-	// NOTE optimization possible : synchronized -> if (dao== null) { synchronized if (dao == null)
+
+	private CompanyDAO() {
+	}
+
+	// NOTE optimization possible : synchronized -> if (dao== null) {
+	// synchronized if (dao == null)
 	public static synchronized CompanyDAO getInstance() {
 		if (companyDAO == null) {
 			companyDAO = new CompanyDAO();
 		}
 		return companyDAO;
 	}
-	
+
 	@Override
 	public Company find(long id) {
 		Company cmp;
@@ -63,7 +66,7 @@ public class CompanyDAO extends DAO<Company> {
 	}
 
 	@Override
-	public Company find(String name){
+	public Company find(String name) {
 		Company cmp;
 		ResultSet results = null;
 		// System.out.println("### +i query called for : "+query +" << "+name);
@@ -77,8 +80,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DAOException();
-		}
-		finally {
+		} finally {
 			try {
 				con.close();
 				results.close();
@@ -105,7 +107,7 @@ public class CompanyDAO extends DAO<Company> {
 			PreparedStatement stmt = con.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, comp.getName());
 			stmt.executeUpdate();
-			
+
 			generatedKeys = stmt.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				comp.setId(generatedKeys.getLong(1));
@@ -115,8 +117,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DAOException();
-		}
-		finally {
+		} finally {
 			try {
 				if (generatedKeys != null)
 					generatedKeys.close();
@@ -146,8 +147,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DAOException();
-		}
-		finally {
+		} finally {
 			try {
 				con.close();
 			} catch (SQLException e) {
@@ -168,8 +168,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DAOException();
-		}
-		finally {
+		} finally {
 			try {
 				con.close();
 			} catch (SQLException e) {
@@ -213,8 +212,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DAOException();
-		}
-		finally {
+		} finally {
 			try {
 				con.close();
 				results.close();

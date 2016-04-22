@@ -12,15 +12,15 @@ public class ListCompagnies extends CommandBD {
 	public ListCompagnies() {
 		super();
 		this.name = "Compagnies listing";
-		this.shortcut ="lcs";
-				
+		this.shortcut = "lcs";
+
 	}
-	
+
 	public ListCompagnies(String st) {
 		super(st);
 		this.name = "Compagnies listing";
 	}
-	
+
 	@Override
 	public void execute(DatabaseConnection bdr) throws SQLException {
 		CompanyDAO dao = CompanyDAO.getInstance();
