@@ -19,7 +19,7 @@ public class CompanyService {
 		return companyService;
 	}
 
-	public Company findComputer(Long id) {
+	public Company findCompany(Long id) {
 		return companyDAO.find(id);
 	}
 

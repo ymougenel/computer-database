@@ -44,6 +44,13 @@ public class CompanyDAO extends DAO<Company> {
 		return companyDAO;
 	}
 
+	/**
+	 * Find a new computer based on the id
+	 * 
+	 * @param id
+	 * @return the found Company (NULL if not found)
+	 * @throws DAOException
+	 */
 	@Override
 	public Company find(long id) {
 		logger.info("FIND_ID" + " << " + id);
@@ -60,7 +67,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				results.close();
@@ -73,6 +80,13 @@ public class CompanyDAO extends DAO<Company> {
 		return cmp;
 	}
 
+	/**
+	 * Find a new computer based on the name
+	 * 
+	 * @param name
+	 * @return the found Company (NULL if not found)
+	 * @throws DAOException
+	 */
 	@Override
 	public Company find(String name) {
 		logger.info("FIND_NAME" + " << " + (name == null ? "NULL" : name));
@@ -89,7 +103,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				con.close();
@@ -107,6 +121,7 @@ public class CompanyDAO extends DAO<Company> {
 	 * 
 	 * @param comp
 	 * @return the insertion flag
+	 * @throws DAOException
 	 */
 	@Override
 	public Company create(Company comp) {
@@ -128,7 +143,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				if (generatedKeys != null)
@@ -145,7 +160,8 @@ public class CompanyDAO extends DAO<Company> {
 	 * Update a new computer into the database
 	 * 
 	 * @param comp
-	 * @return the update flag
+	 * @return the insert company
+	 * @throws DAOException
 	 */
 	@Override
 	public Company update(Company comp) {
@@ -160,7 +176,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				con.close();
@@ -183,7 +199,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				con.close();
@@ -211,6 +227,12 @@ public class CompanyDAO extends DAO<Company> {
 		return cmp;
 	}
 
+	/**
+	 * List of the computers
+	 * 
+	 * @return the list of all the computers
+	 * @throws DAOException
+	 */
 	@Override
 	public List<Company> listAll() {
 		logger.info("LISTALL");
@@ -229,7 +251,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				con.close();
@@ -241,6 +263,12 @@ public class CompanyDAO extends DAO<Company> {
 		return companies;
 	}
 
+	/**
+	 * Count the companies
+	 * 
+	 * @return number of companies
+	 * @throws DAOException
+	 */
 	@Override
 	public long count() {
 		logger.info("COUNT");
@@ -259,7 +287,7 @@ public class CompanyDAO extends DAO<Company> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				results.close();

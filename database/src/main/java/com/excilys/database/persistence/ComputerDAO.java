@@ -62,7 +62,7 @@ public class ComputerDAO extends DAO<Computer> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.debug(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				results.close();
@@ -91,7 +91,7 @@ public class ComputerDAO extends DAO<Computer> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				con.close();
@@ -144,7 +144,7 @@ public class ComputerDAO extends DAO<Computer> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				if (generatedKeys != null)
@@ -191,7 +191,7 @@ public class ComputerDAO extends DAO<Computer> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				con.close();
@@ -215,7 +215,7 @@ public class ComputerDAO extends DAO<Computer> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				con.close();
@@ -276,7 +276,7 @@ public class ComputerDAO extends DAO<Computer> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				results.close();
@@ -309,7 +309,7 @@ public class ComputerDAO extends DAO<Computer> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				results.close();
@@ -339,7 +339,7 @@ public class ComputerDAO extends DAO<Computer> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
-			throw new DAOException();
+			throw new DAOException(e);
 		} finally {
 			try {
 				results.close();

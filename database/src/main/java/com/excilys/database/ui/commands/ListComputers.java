@@ -33,9 +33,9 @@ public class ListComputers extends CommandBD {
 		Page<Computer> page;
 		// List<Computer> computers;
 		if (limit)
-			page = new Page<>(dao.listAll(begin, pageSize), pageSize);
+			page = new Page<Computer>(dao.listAll(begin, pageSize), pageSize);
 		else
-			page = new Page<>(dao.listAll(), pageSize);
+			page = new Page<Computer>(dao.listAll(), pageSize);
 		page.printf();
 
 		if (limit) {
@@ -49,7 +49,7 @@ public class ListComputers extends CommandBD {
 					} else if (input.equals("2")) {
 						begin += pageSize;
 					}
-					page = new Page<>(dao.listAll(begin, pageSize), pageSize);
+					page = new Page<Computer>(dao.listAll(begin, pageSize), pageSize);
 					page.printf();
 					System.out.println("<1 - 2> q3");
 				}

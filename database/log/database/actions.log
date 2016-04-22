@@ -1,3 +1,4 @@
-12:27:52.298 [main] INFO  ComputerDAO.java - LISTALL
-12:29:44.311 [main] INFO  ComputerDAO.java - LISTALL
-12:31:30.325 [main] INFO  ComputerDAO.java - DELETE << id: 585		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:42:51.267 [main] INFO  ComputerDAO.java - LISTALL
+16:43:55.691 [main] INFO  ComputerDAO.java - LISTALL
+16:43:59.704 [main] INFO  CompanyDAO.java - LISTALL
+16:48:13.230 [main] INFO  ComputerDAO.java - LISTALL
