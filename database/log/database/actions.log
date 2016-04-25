@@ -85,3 +85,6 @@
 12:06:18.798 [main] INFO  ComputerDAO.java - DELETE << id: 598		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
 12:06:18.806 [main] INFO  ComputerDAO.java - COUNT
 12:06:18.811 [main] INFO  ComputerDAO.java - FIND_ID << 55
+12:32:48.097 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yann			introduced: NULL		discontinued: NULL		company_id: null
+16:20:46.969 [main] INFO  ComputerDAO.java - LISTALL
+16:21:27.132 [main] INFO  ComputerDAO.java - LISTALL

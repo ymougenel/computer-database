@@ -14,289 +14,304 @@ import org.slf4j.LoggerFactory;
 import com.excilys.database.entities.Company;
 
 /**
- * Company DAO (Singleton) Contains CRUD company database methods : Create,
- * Retrieve, Update, Delete
- * 
+ * Company DAO (Singleton) Provides CRUD company database methods : Create, Retrieve, Update, Delete
+ *
  * @author Yann Mougenel
  *
  */
 public class CompanyDAO extends DAO<Company> {
-	private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
-	private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
-	private static final String CREATE = "INSERT INTO company (name) VALUES (?);";
-	private static final String UPDATE = "UPDATE company SET name= ? WHERE id = ?;";
-	private static final String DELETE = "DELETE FROM company WHERE id = ?;";
-	private static final String LISTALL = "SELECT id,name from company;";
-	private static final String COUNT = "SELECT COUNT(*) FROM company;";
-	private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
+    private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
+    private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
+    private static final String CREATE = "INSERT INTO company (name) VALUES (?);";
+    private static final String UPDATE = "UPDATE company SET name= ? WHERE id = ?;";
+    private static final String DELETE = "DELETE FROM company WHERE id = ?;";
+    private static final String LISTALL = "SELECT id,name from company;";
+    private static final String COUNT = "SELECT COUNT(*) FROM company;";
+    private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
 
-	private static CompanyDAO companyDAO;
+    private static CompanyDAO companyDAO;
 
-	private CompanyDAO() {
-	}
+    private CompanyDAO() {
+    }
 
-	// NOTE optimization possible : synchronized -> if (dao== null) {
-	// synchronized if (dao == null)
-	public static synchronized CompanyDAO getInstance() {
-		if (companyDAO == null) {
-			companyDAO = new CompanyDAO();
-		}
-		return companyDAO;
-	}
+    // NOTE optimization possible : synchronized -> if (dao== null) {
+    // synchronized if (dao == null)
+    public static synchronized CompanyDAO getInstance() {
+        if (companyDAO == null) {
+            companyDAO = new CompanyDAO();
+        }
+        return companyDAO;
+    }
 
-	/**
-	 * Find a new computer based on the id
-	 * 
-	 * @param id
-	 * @return the found Company (NULL if not found)
-	 * @throws DAOException
-	 */
-	@Override
-	public Company find(long id) {
-		logger.info("FIND_ID" + " << " + id);
-		Company cmp;
-		ResultSet results = null;
-		// System.out.println("### +i query called for : "+query +" << "+name);
-		Connection con = null;
-		try {
-			con = DatabaseConnection.getInstance().getConnection();
-			PreparedStatement stmt = con.prepareStatement(FIND_ID);
-			stmt.setLong(1, id);
-			results = stmt.executeQuery();
-			cmp = wrapDatabaseResult(results);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			logger.error(e.getMessage());
-			throw new DAOException(e);
-		} finally {
-			try {
-				results.close();
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+    /**
+     * Find a company based on the id.
+     *
+     * @param id
+     *            id to be found
+     * @return the found company (NULL if not found)
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
+     */
 
-		return cmp;
-	}
+    @Override
+    public Company find(long id) {
+        logger.info("FIND_ID" + " << " + id);
+        Company cmp;
+        ResultSet results = null;
+        // System.out.println("### +i query called for : "+query +" << "+name);
+        Connection con = null;
+        try {
+            con = DatabaseConnection.getInstance().getConnection();
+            PreparedStatement stmt = con.prepareStatement(FIND_ID);
+            stmt.setLong(1, id);
+            results = stmt.executeQuery();
+            cmp = wrapDatabaseResult(results);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        } finally {
+            try {
+                results.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
-	/**
-	 * Find a new computer based on the name
-	 * 
-	 * @param name
-	 * @return the found Company (NULL if not found)
-	 * @throws DAOException
-	 */
-	@Override
-	public Company find(String name) {
-		logger.info("FIND_NAME" + " << " + (name == null ? "NULL" : name));
-		Company cmp;
-		ResultSet results = null;
-		// System.out.println("### +i query called for : "+query +" << "+name);
-		Connection con = null;
-		try {
-			con = DatabaseConnection.getInstance().getConnection();
-			PreparedStatement stmt = con.prepareStatement(FIND_NAME);
-			stmt.setString(1, name);
-			results = stmt.executeQuery();
-			cmp = wrapDatabaseResult(results);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			logger.error(e.getMessage());
-			throw new DAOException(e);
-		} finally {
-			try {
-				con.close();
-				results.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+        return cmp;
+    }
 
-		return cmp;
-	}
+    /**
+     * Find a company based on the name.
+     *
+     * @param name
+     * @return the found Company (NULL if not found)
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
+     */
+    @Override
+    public Company find(String name) {
+        logger.info("FIND_NAME" + " << " + (name == null ? "NULL" : name));
+        Company cmp;
+        ResultSet results = null;
+        // System.out.println("### +i query called for : "+query +" << "+name);
+        Connection con = null;
+        try {
+            con = DatabaseConnection.getInstance().getConnection();
+            PreparedStatement stmt = con.prepareStatement(FIND_NAME);
+            stmt.setString(1, name);
+            results = stmt.executeQuery();
+            cmp = wrapDatabaseResult(results);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        } finally {
+            try {
+                con.close();
+                results.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
-	/**
-	 * Insert a new computer into the database
-	 * 
-	 * @param comp
-	 * @return the insertion flag
-	 * @throws DAOException
-	 */
-	@Override
-	public Company create(Company comp) {
-		logger.info("CREATE" + " << " + comp.toString());
-		ResultSet generatedKeys = null;
-		Connection con = null;
-		try {
-			con = DatabaseConnection.getInstance().getConnection();
-			PreparedStatement stmt = con.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, comp.getName());
-			stmt.executeUpdate();
+        return cmp;
+    }
 
-			generatedKeys = stmt.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				comp.setId(generatedKeys.getLong(1));
-			} else {
-				throw new SQLException("Creating user failed, no ID obtained.");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			logger.error(e.getMessage());
-			throw new DAOException(e);
-		} finally {
-			try {
-				if (generatedKeys != null)
-					generatedKeys.close();
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return comp;
-	}
+    /**
+     * Insert a new company into the database.
+     *
+     * @param comp
+     * @return the created company
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
+     */
+    @Override
+    public Company create(Company comp) {
+        logger.info("CREATE" + " << " + comp.toString());
+        ResultSet generatedKeys = null;
+        Connection con = null;
+        try {
+            con = DatabaseConnection.getInstance().getConnection();
+            PreparedStatement stmt = con.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, comp.getName());
+            stmt.executeUpdate();
 
-	/**
-	 * Update a new computer into the database
-	 * 
-	 * @param comp
-	 * @return the insert company
-	 * @throws DAOException
-	 */
-	@Override
-	public Company update(Company comp) {
-		logger.info("UPDATE" + " << " + comp.toString());
-		Connection con = null;
-		try {
-			con = DatabaseConnection.getInstance().getConnection();
-			PreparedStatement stmt = con.prepareStatement(UPDATE);
-			stmt.setString(1, comp.getName());
-			stmt.setLong(2, comp.getId());
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			logger.error(e.getMessage());
-			throw new DAOException(e);
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return comp;
-	}
+            generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                comp.setId(generatedKeys.getLong(1));
+            } else {
+                throw new SQLException("Creating user failed, no ID obtained.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        } finally {
+            try {
+                if (generatedKeys != null) {
+                    generatedKeys.close();
+                }
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return comp;
+    }
 
-	@Override
-	public void delete(Company comp) {
-		logger.info("DELETE" + " << " + comp.toString());
-		Connection con = null;
-		try {
-			con = DatabaseConnection.getInstance().getConnection();
-			PreparedStatement stmt = con.prepareStatement(DELETE);
-			stmt.setLong(1, comp.getId());
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			logger.error(e.getMessage());
-			throw new DAOException(e);
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    /**
+     * Update a company into the database.
+     *
+     * @param comp the company to update
+     * @return the updated company
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
+     */
+    @Override
+    public Company update(Company comp) {
+        logger.info("UPDATE" + " << " + comp.toString());
+        Connection con = null;
+        try {
+            con = DatabaseConnection.getInstance().getConnection();
+            PreparedStatement stmt = con.prepareStatement(UPDATE);
+            stmt.setString(1, comp.getName());
+            stmt.setLong(2, comp.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return comp;
+    }
 
-	/**
-	 * Wrapper function returning the entity
-	 * 
-	 * @param rs
-	 *            : ResultSet receive by the database request
-	 * @return The created object (null if ResultSet error)
-	 */
-	private Company wrapDatabaseResult(ResultSet rs) throws SQLException {
-		Company cmp = null;
-		// If result found, Company created from the Database result
-		if (rs.next()) {
-			cmp = new Company();
-			cmp.setId(rs.getLong("id"));
-			cmp.setName(rs.getString("name"));
-		}
-		return cmp;
-	}
+    /**
+     * Delete a company from the database.
+     *
+     * @param comp
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
+     */
+    @Override
+    public void delete(Company comp) {
+        logger.info("DELETE" + " << " + comp.toString());
+        Connection con = null;
+        try {
+            con = DatabaseConnection.getInstance().getConnection();
+            PreparedStatement stmt = con.prepareStatement(DELETE);
+            stmt.setLong(1, comp.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	/**
-	 * List of the computers
-	 * 
-	 * @return the list of all the computers
-	 * @throws DAOException
-	 */
-	@Override
-	public List<Company> listAll() {
-		logger.info("LISTALL");
-		ResultSet results = null;
-		List<Company> companies = new ArrayList<Company>();
-		Connection con = null;
-		try {
-			con = DatabaseConnection.getInstance().getConnection();
-			Statement stmt = con.createStatement();
-			results = stmt.executeQuery(LISTALL);
+    /**
+     * Wrapper function returning the entity.
+     *
+     * @param rs
+     *            : ResultSet receive by the database request
+     * @return The created object (null if ResultSet error)
+     */
+    private Company wrapDatabaseResult(ResultSet rs) throws SQLException {
+        Company cmp = null;
+        // If result found, Company created from the Database result
+        if (rs.next()) {
+            cmp = new Company();
+            cmp.setId(rs.getLong("id"));
+            cmp.setName(rs.getString("name"));
+        }
+        return cmp;
+    }
 
-			Company c;
-			while ((c = wrapDatabaseResult(results)) != null) {
-				companies.add(c);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			logger.error(e.getMessage());
-			throw new DAOException(e);
-		} finally {
-			try {
-				con.close();
-				results.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return companies;
-	}
+    /**
+     * List of the companies.
+     *
+     * @return the list of all the companies
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
+     */
+    @Override
+    public List<Company> listAll() {
+        logger.info("LISTALL");
+        ResultSet results = null;
+        List<Company> companies = new ArrayList<Company>();
+        Connection con = null;
+        try {
+            con = DatabaseConnection.getInstance().getConnection();
+            Statement stmt = con.createStatement();
+            results = stmt.executeQuery(LISTALL);
 
-	/**
-	 * Count the companies
-	 * 
-	 * @return number of companies
-	 * @throws DAOException
-	 */
-	@Override
-	public long count() {
-		logger.info("COUNT");
-		ResultSet results = null;
-		long count = 0;
-		Connection con = null;
-		try {
-			con = DatabaseConnection.getInstance().getConnection();
-			Statement stmt = con.createStatement();
-			results = stmt.executeQuery(COUNT);
+            Company c;
+            while ((c = wrapDatabaseResult(results)) != null) {
+                companies.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        } finally {
+            try {
+                con.close();
+                results.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return companies;
+    }
 
-			if (results.next()) {
-				count = results.getLong(1);
-			}
+    /**
+     * Count the companies.
+     *
+     * @return number of companies
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
+     */
+    @Override
+    public long count() {
+        logger.info("COUNT");
+        ResultSet results = null;
+        long count = 0;
+        Connection con = null;
+        try {
+            con = DatabaseConnection.getInstance().getConnection();
+            Statement stmt = con.createStatement();
+            results = stmt.executeQuery(COUNT);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			logger.error(e.getMessage());
-			throw new DAOException(e);
-		} finally {
-			try {
-				results.close();
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+            if (results.next()) {
+                count = results.getLong(1);
+            }
 
-		}
-		return count;
-	}
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        } finally {
+            try {
+                results.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return count;
+    }
 }

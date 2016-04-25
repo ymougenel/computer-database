@@ -20,82 +20,86 @@ import com.excilys.database.ui.commands.UpdateComputer;
 
 public class CommandLineInterface {
 
-	// System.out.println("Prompt launch");
+    // System.out.println("Prompt launch");
 
-	protected List<CommandBD> commands;
-	private BufferedReader bufferRead;
-	private DatabaseConnection bdRequests;
+    protected List<CommandBD> commands;
+    private BufferedReader bufferRead;
+    private DatabaseConnection bdRequests;
 
-	public CommandLineInterface() {
-		bdRequests = DatabaseConnection.getInstance();
-		commands = new ArrayList<CommandBD>();
-	}
+    public CommandLineInterface() {
+        bdRequests = DatabaseConnection.getInstance();
+        commands = new ArrayList<CommandBD>();
+    }
 
-	public CommandLineInterface(List<CommandBD> cmds) {
-		bdRequests = DatabaseConnection.getInstance();
-		commands = new ArrayList<CommandBD>(cmds);
-	}
+    public CommandLineInterface(List<CommandBD> cmds) {
+        bdRequests = DatabaseConnection.getInstance();
+        commands = new ArrayList<CommandBD>(cmds);
+    }
 
-	public void addCommand(CommandBD cmd) {
-		commands.add(cmd);
-	}
+    public void addCommand(CommandBD cmd) {
+        commands.add(cmd);
+    }
 
-	public void launch() {
+    public void launch() {
 
-		while (true) {
-			System.out.println("*********************** Commands available ********************************");
-			System.out.println("\tActions \t\t\t\t Commands");
-			for (CommandBD c : commands)
-				System.out.println(c.toString());
-			System.out.println("**************************************************************************");
+        while (true) {
+            System.out.println(
+                    "*********************** Commands available ********************************");
+            System.out.println("\tActions \t\t\t\t Commands");
+            for (CommandBD c : commands) {
+                System.out.println(c.toString());
+            }
+            System.out.println(
+                    "**************************************************************************");
 
-			bufferRead = new BufferedReader(new InputStreamReader(System.in));
-			try {
-				System.out.println("prompt> ");
-				String line = bufferRead.readLine();
-				processInput(line);
-			} catch (DateTimeParseException e) {
-				System.err.println("Date inputs is incorrect");
-			} catch (DAOException e) {
-				System.out.println("DAO EXception");
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+            bufferRead = new BufferedReader(new InputStreamReader(System.in));
+            try {
+                System.out.println("prompt> ");
+                String line = bufferRead.readLine();
+                processInput(line);
+            } catch (DateTimeParseException e) {
+                System.err.println("Date inputs is incorrect");
+            } catch (DAOException e) {
+                System.out.println("DAO EXception");
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	// TODO avoid null name insertion
-	private void processInput(String input) throws SQLException {
-		String[] values = input.split(" ");
+    // TODO avoid null name insertion
+    private void processInput(String input) throws SQLException {
+        String[] values = input.split(" ");
 
-		Iterator<CommandBD> it = commands.iterator();
-		boolean foundMatchingCommand = false;
+        Iterator<CommandBD> it = commands.iterator();
+        boolean foundMatchingCommand = false;
 
-		while (!foundMatchingCommand && it.hasNext()) {
-			CommandBD cmd = it.next();
-			if (cmd.optionsFit(values)) {
-				foundMatchingCommand = true;
-				System.out.println("-> Result...");
-				cmd.execute(this.bdRequests);
-			}
-		}
-		if (!foundMatchingCommand)
-			System.out.println("No matching command found for : " + values[0]);
-	}
+        while (!foundMatchingCommand && it.hasNext()) {
+            CommandBD cmd = it.next();
+            if (cmd.optionsFit(values)) {
+                foundMatchingCommand = true;
+                System.out.println("-> Result...");
+                cmd.execute(this.bdRequests);
+            }
+        }
+        if (!foundMatchingCommand) {
+            System.out.println("No matching command found for : " + values[0]);
+        }
+    }
 
-	public static void main(String[] args) {
-		CommandLineInterface cli = new CommandLineInterface();
-		cli.addCommand(new ListComputers("ll"));
-		cli.addCommand(new ListCompagnies("ls"));
-		cli.addCommand(new InsertComputer());
-		// cli.addCommand(new InsertCompany("i"));
-		cli.addCommand(new ShowComputerDetails());
-		cli.addCommand(new UpdateComputer());
-		// cli.addCommand(new UpdateCompany());
-		cli.addCommand(new DeleteComputer());
-		// cli.addCommand(new DeleteCompany());
+    public static void main(String[] args) {
+        CommandLineInterface cli = new CommandLineInterface();
+        cli.addCommand(new ListComputers("ll"));
+        cli.addCommand(new ListCompagnies("ls"));
+        cli.addCommand(new InsertComputer());
+        // cli.addCommand(new InsertCompany("i"));
+        cli.addCommand(new ShowComputerDetails());
+        cli.addCommand(new UpdateComputer());
+        // cli.addCommand(new UpdateCompany());
+        cli.addCommand(new DeleteComputer());
+        // cli.addCommand(new DeleteCompany());
 
-		cli.launch();
-	}
+        cli.launch();
+    }
 }
