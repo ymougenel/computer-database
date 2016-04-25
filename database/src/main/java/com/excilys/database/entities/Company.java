@@ -10,6 +10,17 @@ public class Company implements Entity {
     private Long id;
     private String name;
 
+    public Company() {
+    }
+
+    public Company(Long id) {
+        this.id = id;
+    }
+
+    public Company(String name) {
+        this.name = name;
+    }
+
     @Override
     public Long getId() {
         return id;

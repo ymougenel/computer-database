@@ -88,3 +88,578 @@
 12:32:48.097 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yann			introduced: NULL		discontinued: NULL		company_id: null
 16:20:46.969 [main] INFO  ComputerDAO.java - LISTALL
 16:21:27.132 [main] INFO  ComputerDAO.java - LISTALL
+16:22:56.491 [main] INFO  ComputerDAO.java - FIND_ID << 55
+16:22:56.765 [main] INFO  ComputerDAO.java - FIND_ID << 600
+16:22:56.777 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+16:22:56.792 [main] INFO  ComputerDAO.java - COUNT
+16:22:56.811 [main] INFO  ComputerDAO.java - COUNT
+16:22:56.818 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+16:22:56.828 [main] INFO  ComputerDAO.java - COUNT
+16:22:56.834 [main] INFO  ComputerDAO.java - COUNT
+16:22:56.841 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:22:56.849 [main] INFO  ComputerDAO.java - COUNT
+16:22:56.854 [main] INFO  ComputerDAO.java - DELETE << id: 601		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:22:56.864 [main] INFO  ComputerDAO.java - COUNT
+16:26:20.347 [main] INFO  ComputerDAO.java - FIND_ID << 55
+16:26:20.627 [main] INFO  ComputerDAO.java - FIND_ID << 600
+16:26:20.639 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+16:26:20.651 [main] INFO  ComputerDAO.java - COUNT
+16:26:20.662 [main] INFO  ComputerDAO.java - COUNT
+16:26:20.668 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+16:26:20.677 [main] INFO  ComputerDAO.java - COUNT
+16:26:20.687 [main] INFO  ComputerDAO.java - COUNT
+16:26:20.693 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:26:20.701 [main] INFO  ComputerDAO.java - COUNT
+16:26:20.707 [main] INFO  ComputerDAO.java - DELETE << id: 604		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:26:20.716 [main] INFO  ComputerDAO.java - COUNT
+16:26:34.510 [main] INFO  ComputerDAO.java - FIND_ID << 600
+16:26:34.864 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+16:26:34.881 [main] INFO  ComputerDAO.java - COUNT
+16:26:34.889 [main] INFO  ComputerDAO.java - COUNT
+16:26:34.898 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+16:26:34.907 [main] INFO  ComputerDAO.java - COUNT
+16:26:34.914 [main] INFO  ComputerDAO.java - COUNT
+16:26:34.924 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:26:34.933 [main] INFO  ComputerDAO.java - COUNT
+16:26:34.938 [main] INFO  ComputerDAO.java - DELETE << id: 607		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:26:34.947 [main] INFO  ComputerDAO.java - COUNT
+16:26:34.953 [main] INFO  ComputerDAO.java - FIND_ID << 55
+16:35:23.609 [main] INFO  ComputerDAO.java - FIND_ID << 55
+16:35:23.879 [main] INFO  ComputerDAO.java - COUNT
+16:35:23.889 [main] INFO  ComputerDAO.java - FIND_ID << 610
+16:35:23.897 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+16:35:23.912 [main] INFO  ComputerDAO.java - COUNT
+16:35:23.920 [main] INFO  ComputerDAO.java - COUNT
+16:35:23.927 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+16:35:23.941 [main] INFO  ComputerDAO.java - COUNT
+16:35:23.949 [main] INFO  ComputerDAO.java - COUNT
+16:35:23.954 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:35:23.962 [main] INFO  ComputerDAO.java - COUNT
+16:35:23.968 [main] INFO  ComputerDAO.java - DELETE << id: 610		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:35:23.978 [main] INFO  ComputerDAO.java - COUNT
+16:35:23.983 [main] INFO  ComputerDAO.java - COUNT
+16:35:23.988 [main] INFO  ComputerDAO.java - DELETE << id: 575		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.001 [main] INFO  ComputerDAO.java - DELETE << id: 576		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.013 [main] INFO  ComputerDAO.java - DELETE << id: 577		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.027 [main] INFO  ComputerDAO.java - DELETE << id: 578		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.036 [main] INFO  ComputerDAO.java - DELETE << id: 579		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.046 [main] INFO  ComputerDAO.java - DELETE << id: 580		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.061 [main] INFO  ComputerDAO.java - DELETE << id: 581		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.071 [main] INFO  ComputerDAO.java - DELETE << id: 582		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.080 [main] INFO  ComputerDAO.java - DELETE << id: 583		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.088 [main] INFO  ComputerDAO.java - DELETE << id: 584		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.097 [main] INFO  ComputerDAO.java - DELETE << id: 585		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.109 [main] INFO  ComputerDAO.java - DELETE << id: 586		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.117 [main] INFO  ComputerDAO.java - DELETE << id: 587		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.121 [main] INFO  ComputerDAO.java - DELETE << id: 588		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.130 [main] INFO  ComputerDAO.java - DELETE << id: 589		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.138 [main] INFO  ComputerDAO.java - DELETE << id: 590		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.146 [main] INFO  ComputerDAO.java - DELETE << id: 591		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.154 [main] INFO  ComputerDAO.java - DELETE << id: 592		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.158 [main] INFO  ComputerDAO.java - DELETE << id: 593		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.165 [main] INFO  ComputerDAO.java - DELETE << id: 594		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.170 [main] INFO  ComputerDAO.java - DELETE << id: 595		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.177 [main] INFO  ComputerDAO.java - DELETE << id: 596		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.185 [main] INFO  ComputerDAO.java - DELETE << id: 597		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.193 [main] INFO  ComputerDAO.java - DELETE << id: 598		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.197 [main] INFO  ComputerDAO.java - DELETE << id: 599		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.204 [main] INFO  ComputerDAO.java - DELETE << id: 600		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.212 [main] INFO  ComputerDAO.java - DELETE << id: 601		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:35:24.217 [main] INFO  ComputerDAO.java - DELETE << id: 602		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:18.099 [main] INFO  ComputerDAO.java - COUNT
+16:36:18.373 [main] INFO  ComputerDAO.java - FIND_ID << 589
+16:36:18.391 [main] INFO  ComputerDAO.java - COUNT
+16:36:18.399 [main] INFO  ComputerDAO.java - COUNT
+16:36:18.412 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+16:36:18.425 [main] INFO  ComputerDAO.java - COUNT
+16:36:18.432 [main] INFO  ComputerDAO.java - COUNT
+16:36:18.441 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:36:18.451 [main] INFO  ComputerDAO.java - COUNT
+16:36:18.458 [main] INFO  ComputerDAO.java - DELETE << id: 612		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:36:18.466 [main] INFO  ComputerDAO.java - COUNT
+16:36:18.472 [main] INFO  ComputerDAO.java - FIND_ID << 55
+16:36:18.487 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+16:36:18.497 [main] INFO  ComputerDAO.java - COUNT
+16:36:18.502 [main] INFO  ComputerDAO.java - DELETE << id: 575		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:18.507 [main] INFO  ComputerDAO.java - DELETE << id: 576		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:18.513 [main] INFO  ComputerDAO.java - DELETE << id: 577		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:18.518 [main] INFO  ComputerDAO.java - DELETE << id: 578		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:18.522 [main] INFO  ComputerDAO.java - DELETE << id: 579		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:18.527 [main] INFO  ComputerDAO.java - DELETE << id: 580		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:18.533 [main] INFO  ComputerDAO.java - DELETE << id: 581		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:34.573 [main] INFO  ComputerDAO.java - FIND_ID << 55
+16:36:34.895 [main] INFO  ComputerDAO.java - COUNT
+16:36:34.904 [main] INFO  ComputerDAO.java - FIND_ID << 591
+16:36:34.914 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+16:36:34.941 [main] INFO  ComputerDAO.java - COUNT
+16:36:34.947 [main] INFO  ComputerDAO.java - COUNT
+16:36:34.953 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+16:36:34.967 [main] INFO  ComputerDAO.java - COUNT
+16:36:34.973 [main] INFO  ComputerDAO.java - COUNT
+16:36:34.979 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:36:34.987 [main] INFO  ComputerDAO.java - COUNT
+16:36:34.994 [main] INFO  ComputerDAO.java - DELETE << id: 616		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:36:35.003 [main] INFO  ComputerDAO.java - COUNT
+16:36:35.008 [main] INFO  ComputerDAO.java - COUNT
+16:36:35.013 [main] INFO  ComputerDAO.java - DELETE << id: 575		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:35.018 [main] INFO  ComputerDAO.java - DELETE << id: 576		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:35.023 [main] INFO  ComputerDAO.java - DELETE << id: 577		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:35.028 [main] INFO  ComputerDAO.java - DELETE << id: 578		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:35.032 [main] INFO  ComputerDAO.java - DELETE << id: 579		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:35.036 [main] INFO  ComputerDAO.java - DELETE << id: 580		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:35.041 [main] INFO  ComputerDAO.java - DELETE << id: 581		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:35.045 [main] INFO  ComputerDAO.java - DELETE << id: 582		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:35.050 [main] INFO  ComputerDAO.java - DELETE << id: 583		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:49.658 [main] INFO  ComputerDAO.java - FIND_ID << 55
+16:36:49.940 [main] INFO  ComputerDAO.java - COUNT
+16:36:49.953 [main] INFO  ComputerDAO.java - FIND_ID << 593
+16:36:49.964 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+16:36:49.983 [main] INFO  ComputerDAO.java - CREATE << id: null		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:49.994 [main] INFO  ComputerDAO.java - COUNT
+16:36:50.000 [main] INFO  ComputerDAO.java - COUNT
+16:36:50.010 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.018 [main] INFO  ComputerDAO.java - COUNT
+16:36:50.023 [main] INFO  ComputerDAO.java - COUNT
+16:36:50.028 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.038 [main] INFO  ComputerDAO.java - COUNT
+16:36:50.044 [main] INFO  ComputerDAO.java - DELETE << id: 620		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.053 [main] INFO  ComputerDAO.java - COUNT
+16:36:50.060 [main] INFO  ComputerDAO.java - COUNT
+16:36:50.066 [main] INFO  ComputerDAO.java - DELETE << id: 575		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.074 [main] INFO  ComputerDAO.java - DELETE << id: 576		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.080 [main] INFO  ComputerDAO.java - DELETE << id: 577		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.086 [main] INFO  ComputerDAO.java - DELETE << id: 578		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.092 [main] INFO  ComputerDAO.java - DELETE << id: 579		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.098 [main] INFO  ComputerDAO.java - DELETE << id: 580		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.103 [main] INFO  ComputerDAO.java - DELETE << id: 581		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.109 [main] INFO  ComputerDAO.java - DELETE << id: 582		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.115 [main] INFO  ComputerDAO.java - DELETE << id: 583		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.121 [main] INFO  ComputerDAO.java - DELETE << id: 584		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.130 [main] INFO  ComputerDAO.java - DELETE << id: 585		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:50.136 [main] INFO  ComputerDAO.java - DELETE << id: 586		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:51.853 [main] INFO  ComputerDAO.java - FIND_ID << 55
+16:36:52.181 [main] INFO  ComputerDAO.java - COUNT
+16:36:52.191 [main] INFO  ComputerDAO.java - FIND_ID << 596
+16:36:52.201 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.217 [main] INFO  ComputerDAO.java - CREATE << id: null		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.227 [main] INFO  ComputerDAO.java - COUNT
+16:36:52.235 [main] INFO  ComputerDAO.java - COUNT
+16:36:52.245 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.255 [main] INFO  ComputerDAO.java - COUNT
+16:36:52.260 [main] INFO  ComputerDAO.java - COUNT
+16:36:52.265 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.275 [main] INFO  ComputerDAO.java - COUNT
+16:36:52.284 [main] INFO  ComputerDAO.java - DELETE << id: 624		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.292 [main] INFO  ComputerDAO.java - COUNT
+16:36:52.298 [main] INFO  ComputerDAO.java - COUNT
+16:36:52.303 [main] INFO  ComputerDAO.java - DELETE << id: 575		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.310 [main] INFO  ComputerDAO.java - DELETE << id: 576		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.315 [main] INFO  ComputerDAO.java - DELETE << id: 577		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.320 [main] INFO  ComputerDAO.java - DELETE << id: 578		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.325 [main] INFO  ComputerDAO.java - DELETE << id: 579		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.331 [main] INFO  ComputerDAO.java - DELETE << id: 580		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.337 [main] INFO  ComputerDAO.java - DELETE << id: 581		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.343 [main] INFO  ComputerDAO.java - DELETE << id: 582		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.350 [main] INFO  ComputerDAO.java - DELETE << id: 583		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.356 [main] INFO  ComputerDAO.java - DELETE << id: 584		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.362 [main] INFO  ComputerDAO.java - DELETE << id: 585		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.367 [main] INFO  ComputerDAO.java - DELETE << id: 586		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.372 [main] INFO  ComputerDAO.java - DELETE << id: 587		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.378 [main] INFO  ComputerDAO.java - DELETE << id: 588		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:36:52.384 [main] INFO  ComputerDAO.java - DELETE << id: 589		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.175 [main] INFO  ComputerDAO.java - CREATE << id: null		name: First			introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.479 [main] INFO  ComputerDAO.java - UPDATE << id: 625		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.491 [main] INFO  ComputerDAO.java - FIND_ID << 625
+16:43:26.500 [main] INFO  ComputerDAO.java - COUNT
+16:43:26.510 [main] INFO  ComputerDAO.java - COUNT
+16:43:26.522 [main] INFO  ComputerDAO.java - FIND_ID << 600
+16:43:26.528 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.542 [main] INFO  ComputerDAO.java - COUNT
+16:43:26.550 [main] INFO  ComputerDAO.java - COUNT
+16:43:26.556 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.565 [main] INFO  ComputerDAO.java - COUNT
+16:43:26.571 [main] INFO  ComputerDAO.java - COUNT
+16:43:26.576 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.584 [main] INFO  ComputerDAO.java - COUNT
+16:43:26.591 [main] INFO  ComputerDAO.java - DELETE << id: 628		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.600 [main] INFO  ComputerDAO.java - COUNT
+16:43:26.607 [main] INFO  ComputerDAO.java - FIND_ID << 55
+16:43:26.627 [main] INFO  ComputerDAO.java - COUNT
+16:43:26.633 [main] INFO  ComputerDAO.java - DELETE << id: 575		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.639 [main] INFO  ComputerDAO.java - DELETE << id: 576		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.645 [main] INFO  ComputerDAO.java - DELETE << id: 577		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.650 [main] INFO  ComputerDAO.java - DELETE << id: 578		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.656 [main] INFO  ComputerDAO.java - DELETE << id: 579		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.661 [main] INFO  ComputerDAO.java - DELETE << id: 580		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.666 [main] INFO  ComputerDAO.java - DELETE << id: 581		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.672 [main] INFO  ComputerDAO.java - DELETE << id: 582		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.677 [main] INFO  ComputerDAO.java - DELETE << id: 583		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.682 [main] INFO  ComputerDAO.java - DELETE << id: 584		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.687 [main] INFO  ComputerDAO.java - DELETE << id: 585		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.691 [main] INFO  ComputerDAO.java - DELETE << id: 586		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.696 [main] INFO  ComputerDAO.java - DELETE << id: 587		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.701 [main] INFO  ComputerDAO.java - DELETE << id: 588		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.707 [main] INFO  ComputerDAO.java - DELETE << id: 589		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.711 [main] INFO  ComputerDAO.java - DELETE << id: 590		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.717 [main] INFO  ComputerDAO.java - DELETE << id: 591		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:43:26.721 [main] INFO  ComputerDAO.java - DELETE << id: 592		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:52.895 [main] INFO  ComputerDAO.java - COUNT
+16:48:53.139 [main] INFO  ComputerDAO.java - FIND_ID << 602
+16:48:53.158 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.171 [main] INFO  ComputerDAO.java - COUNT
+16:48:53.180 [main] INFO  ComputerDAO.java - COUNT
+16:48:53.186 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.197 [main] INFO  ComputerDAO.java - COUNT
+16:48:53.207 [main] INFO  ComputerDAO.java - COUNT
+16:48:53.214 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.221 [main] INFO  ComputerDAO.java - COUNT
+16:48:53.226 [main] INFO  ComputerDAO.java - DELETE << id: 631		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.235 [main] INFO  ComputerDAO.java - COUNT
+16:48:53.241 [main] INFO  ComputerDAO.java - CREATE << id: null		name: First			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.250 [main] INFO  ComputerDAO.java - UPDATE << id: 632		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.260 [main] INFO  ComputerDAO.java - FIND_ID << 632
+16:48:53.268 [main] INFO  ComputerDAO.java - COUNT
+16:48:53.275 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 595			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.285 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 596			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.296 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 597			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.306 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 598			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.320 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 599			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.330 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 600			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.343 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 601			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.351 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 602			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.363 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 603			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.375 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 604			introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.383 [main] INFO  ComputerDAO.java - LISTALL_INDEX << 595, 10
+16:48:53.391 [main] INFO  ComputerDAO.java - FIND_ID << 55
+16:48:53.407 [main] INFO  ComputerDAO.java - COUNT
+16:48:53.414 [main] INFO  ComputerDAO.java - DELETE << id: 575		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.421 [main] INFO  ComputerDAO.java - DELETE << id: 576		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.425 [main] INFO  ComputerDAO.java - DELETE << id: 577		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.431 [main] INFO  ComputerDAO.java - DELETE << id: 578		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.435 [main] INFO  ComputerDAO.java - DELETE << id: 579		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.440 [main] INFO  ComputerDAO.java - DELETE << id: 580		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.445 [main] INFO  ComputerDAO.java - DELETE << id: 581		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.450 [main] INFO  ComputerDAO.java - DELETE << id: 582		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.455 [main] INFO  ComputerDAO.java - DELETE << id: 583		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.460 [main] INFO  ComputerDAO.java - DELETE << id: 584		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.465 [main] INFO  ComputerDAO.java - DELETE << id: 585		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.470 [main] INFO  ComputerDAO.java - DELETE << id: 586		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.475 [main] INFO  ComputerDAO.java - DELETE << id: 587		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.480 [main] INFO  ComputerDAO.java - DELETE << id: 588		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.485 [main] INFO  ComputerDAO.java - DELETE << id: 589		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.489 [main] INFO  ComputerDAO.java - DELETE << id: 590		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.493 [main] INFO  ComputerDAO.java - DELETE << id: 591		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.497 [main] INFO  ComputerDAO.java - DELETE << id: 592		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.502 [main] INFO  ComputerDAO.java - DELETE << id: 593		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.506 [main] INFO  ComputerDAO.java - DELETE << id: 594		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.510 [main] INFO  ComputerDAO.java - DELETE << id: 595		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.514 [main] INFO  ComputerDAO.java - DELETE << id: 596		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.518 [main] INFO  ComputerDAO.java - DELETE << id: 597		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.523 [main] INFO  ComputerDAO.java - DELETE << id: 598		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.527 [main] INFO  ComputerDAO.java - DELETE << id: 599		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.535 [main] INFO  ComputerDAO.java - DELETE << id: 600		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.539 [main] INFO  ComputerDAO.java - DELETE << id: 601		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.543 [main] INFO  ComputerDAO.java - DELETE << id: 602		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.547 [main] INFO  ComputerDAO.java - DELETE << id: 603		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.555 [main] INFO  ComputerDAO.java - DELETE << id: 604		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:48:53.559 [main] INFO  ComputerDAO.java - DELETE << id: 605		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+16:58:48.800 [main] INFO  ComputerDAO.java - COUNT
+16:58:49.067 [main] INFO  ComputerDAO.java - FIND_ID << 613
+16:58:49.088 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.104 [main] INFO  ComputerDAO.java - COUNT
+16:58:49.113 [main] INFO  ComputerDAO.java - COUNT
+16:58:49.118 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.136 [main] INFO  ComputerDAO.java - COUNT
+16:58:49.147 [main] INFO  ComputerDAO.java - COUNT
+16:58:49.153 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.161 [main] INFO  ComputerDAO.java - COUNT
+16:58:49.166 [main] INFO  ComputerDAO.java - DELETE << id: 645		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.174 [main] INFO  ComputerDAO.java - COUNT
+16:58:49.179 [main] INFO  ComputerDAO.java - CREATE << id: null		name: First			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.188 [main] INFO  ComputerDAO.java - UPDATE << id: 646		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.199 [main] INFO  ComputerDAO.java - FIND_ID << 646
+16:58:49.207 [main] INFO  ComputerDAO.java - COUNT
+16:58:49.215 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 606			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.226 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 607			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.235 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 608			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.245 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 609			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.258 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 610			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.267 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 611			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.276 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 612			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.285 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 613			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.294 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 614			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.302 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 615			introduced: NULL		discontinued: NULL		company_id: null
+16:58:49.314 [main] INFO  ComputerDAO.java - LISTALL_INDEX << 606, 10
+16:58:49.320 [main] INFO  ComputerDAO.java - FIND_ID << 55
+16:58:49.333 [main] INFO  ComputerDAO.java - COUNT
+17:02:31.098 [main] INFO  ComputerDAO.java - FIND_ID << 55
+17:02:31.370 [main] INFO  ComputerDAO.java - COUNT
+17:02:31.379 [main] INFO  ComputerDAO.java - FIND_ID << 626
+17:02:31.389 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.403 [main] INFO  ComputerDAO.java - COUNT
+17:02:31.409 [main] INFO  ComputerDAO.java - COUNT
+17:02:31.415 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.429 [main] INFO  ComputerDAO.java - COUNT
+17:02:31.435 [main] INFO  ComputerDAO.java - COUNT
+17:02:31.440 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.451 [main] INFO  ComputerDAO.java - COUNT
+17:02:31.456 [main] INFO  ComputerDAO.java - DELETE << id: 659		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.464 [main] INFO  ComputerDAO.java - COUNT
+17:02:31.471 [main] INFO  ComputerDAO.java - CREATE << id: null		name: First			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.479 [main] INFO  ComputerDAO.java - UPDATE << id: 660		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.487 [main] INFO  ComputerDAO.java - FIND_ID << 660
+17:02:31.495 [main] INFO  ComputerDAO.java - COUNT
+17:02:31.501 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 619			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.511 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 620			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.520 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 621			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.530 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 622			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.539 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 623			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.550 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 624			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.559 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 625			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.568 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 626			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.576 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 627			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.584 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 628			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.593 [main] INFO  ComputerDAO.java - LISTALL_INDEX << 619, 10
+17:02:31.599 [main] INFO  ComputerDAO.java - LISTALL
+17:02:31.619 [main] INFO  ComputerDAO.java - DELETE << id: 606		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.628 [main] INFO  ComputerDAO.java - DELETE << id: 608		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.636 [main] INFO  ComputerDAO.java - DELETE << id: 609		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.644 [main] INFO  ComputerDAO.java - DELETE << id: 611		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.655 [main] INFO  ComputerDAO.java - DELETE << id: 613		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.663 [main] INFO  ComputerDAO.java - DELETE << id: 614		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.672 [main] INFO  ComputerDAO.java - DELETE << id: 615		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.679 [main] INFO  ComputerDAO.java - DELETE << id: 617		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.687 [main] INFO  ComputerDAO.java - DELETE << id: 618		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.694 [main] INFO  ComputerDAO.java - DELETE << id: 619		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.703 [main] INFO  ComputerDAO.java - DELETE << id: 621		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.711 [main] INFO  ComputerDAO.java - DELETE << id: 622		name: NULL		introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.719 [main] INFO  ComputerDAO.java - DELETE << id: 623		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.726 [main] INFO  ComputerDAO.java - DELETE << id: 625		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.734 [main] INFO  ComputerDAO.java - DELETE << id: 626		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.742 [main] INFO  ComputerDAO.java - DELETE << id: 627		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.750 [main] INFO  ComputerDAO.java - DELETE << id: 629		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.758 [main] INFO  ComputerDAO.java - DELETE << id: 630		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.769 [main] INFO  ComputerDAO.java - DELETE << id: 632		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.777 [main] INFO  ComputerDAO.java - DELETE << id: 633		name: 595			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.784 [main] INFO  ComputerDAO.java - DELETE << id: 634		name: 596			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.792 [main] INFO  ComputerDAO.java - DELETE << id: 635		name: 597			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.800 [main] INFO  ComputerDAO.java - DELETE << id: 636		name: 598			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.810 [main] INFO  ComputerDAO.java - DELETE << id: 637		name: 599			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.818 [main] INFO  ComputerDAO.java - DELETE << id: 638		name: 600			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.826 [main] INFO  ComputerDAO.java - DELETE << id: 639		name: 601			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.833 [main] INFO  ComputerDAO.java - DELETE << id: 640		name: 602			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.845 [main] INFO  ComputerDAO.java - DELETE << id: 641		name: 603			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.853 [main] INFO  ComputerDAO.java - DELETE << id: 642		name: 604			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.861 [main] INFO  ComputerDAO.java - DELETE << id: 643		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.868 [main] INFO  ComputerDAO.java - DELETE << id: 644		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.875 [main] INFO  ComputerDAO.java - DELETE << id: 646		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.882 [main] INFO  ComputerDAO.java - DELETE << id: 647		name: 606			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.889 [main] INFO  ComputerDAO.java - DELETE << id: 648		name: 607			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.898 [main] INFO  ComputerDAO.java - DELETE << id: 649		name: 608			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.906 [main] INFO  ComputerDAO.java - DELETE << id: 650		name: 609			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.913 [main] INFO  ComputerDAO.java - DELETE << id: 651		name: 610			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.928 [main] INFO  ComputerDAO.java - DELETE << id: 652		name: 611			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.939 [main] INFO  ComputerDAO.java - DELETE << id: 653		name: 612			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.947 [main] INFO  ComputerDAO.java - DELETE << id: 654		name: 613			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.955 [main] INFO  ComputerDAO.java - DELETE << id: 655		name: 614			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.966 [main] INFO  ComputerDAO.java - DELETE << id: 656		name: 615			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.974 [main] INFO  ComputerDAO.java - DELETE << id: 657		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.983 [main] INFO  ComputerDAO.java - DELETE << id: 658		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.990 [main] INFO  ComputerDAO.java - DELETE << id: 660		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:02:31.998 [main] INFO  ComputerDAO.java - DELETE << id: 661		name: 619			introduced: NULL		discontinued: NULL		company_id: null
+17:02:32.009 [main] INFO  ComputerDAO.java - DELETE << id: 662		name: 620			introduced: NULL		discontinued: NULL		company_id: null
+17:02:32.017 [main] INFO  ComputerDAO.java - DELETE << id: 663		name: 621			introduced: NULL		discontinued: NULL		company_id: null
+17:02:32.025 [main] INFO  ComputerDAO.java - DELETE << id: 664		name: 622			introduced: NULL		discontinued: NULL		company_id: null
+17:02:32.033 [main] INFO  ComputerDAO.java - DELETE << id: 665		name: 623			introduced: NULL		discontinued: NULL		company_id: null
+17:02:32.041 [main] INFO  ComputerDAO.java - DELETE << id: 666		name: 624			introduced: NULL		discontinued: NULL		company_id: null
+17:02:32.049 [main] INFO  ComputerDAO.java - DELETE << id: 667		name: 625			introduced: NULL		discontinued: NULL		company_id: null
+17:02:32.056 [main] INFO  ComputerDAO.java - DELETE << id: 668		name: 626			introduced: NULL		discontinued: NULL		company_id: null
+17:02:32.063 [main] INFO  ComputerDAO.java - DELETE << id: 669		name: 627			introduced: NULL		discontinued: NULL		company_id: null
+17:02:32.071 [main] INFO  ComputerDAO.java - DELETE << id: 670		name: 628			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.522 [main] INFO  ComputerDAO.java - COUNT
+17:03:57.794 [main] INFO  ComputerDAO.java - FIND_ID << 584
+17:03:57.812 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.825 [main] INFO  ComputerDAO.java - COUNT
+17:03:57.834 [main] INFO  ComputerDAO.java - COUNT
+17:03:57.840 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.849 [main] INFO  ComputerDAO.java - COUNT
+17:03:57.860 [main] INFO  ComputerDAO.java - COUNT
+17:03:57.867 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.876 [main] INFO  ComputerDAO.java - COUNT
+17:03:57.881 [main] INFO  ComputerDAO.java - DELETE << id: 673		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.889 [main] INFO  ComputerDAO.java - COUNT
+17:03:57.895 [main] INFO  ComputerDAO.java - CREATE << id: null		name: First			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.904 [main] INFO  ComputerDAO.java - UPDATE << id: 674		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.913 [main] INFO  ComputerDAO.java - FIND_ID << 674
+17:03:57.918 [main] INFO  ComputerDAO.java - COUNT
+17:03:57.926 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 577			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.934 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 578			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.944 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 579			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.952 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 580			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.960 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 581			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.968 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 582			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.976 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 583			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.984 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 584			introduced: NULL		discontinued: NULL		company_id: null
+17:03:57.992 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 585			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.000 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 586			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.008 [main] INFO  ComputerDAO.java - LISTALL_INDEX << 577, 10
+17:03:58.016 [main] INFO  ComputerDAO.java - FIND_ID << 55
+17:03:58.028 [main] INFO  ComputerDAO.java - LISTALL
+17:03:58.052 [main] INFO  ComputerDAO.java - DELETE << id: 671		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.060 [main] INFO  ComputerDAO.java - DELETE << id: 672		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.068 [main] INFO  ComputerDAO.java - DELETE << id: 674		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.076 [main] INFO  ComputerDAO.java - DELETE << id: 675		name: 577			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.084 [main] INFO  ComputerDAO.java - DELETE << id: 676		name: 578			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.099 [main] INFO  ComputerDAO.java - DELETE << id: 677		name: 579			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.108 [main] INFO  ComputerDAO.java - DELETE << id: 678		name: 580			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.115 [main] INFO  ComputerDAO.java - DELETE << id: 679		name: 581			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.124 [main] INFO  ComputerDAO.java - DELETE << id: 680		name: 582			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.131 [main] INFO  ComputerDAO.java - DELETE << id: 681		name: 583			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.139 [main] INFO  ComputerDAO.java - DELETE << id: 682		name: 584			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.146 [main] INFO  ComputerDAO.java - DELETE << id: 683		name: 585			introduced: NULL		discontinued: NULL		company_id: null
+17:03:58.153 [main] INFO  ComputerDAO.java - DELETE << id: 684		name: 586			introduced: NULL		discontinued: NULL		company_id: null
+17:06:59.733 [main] INFO  ComputerDAO.java - COUNT
+17:07:00.005 [main] INFO  ComputerDAO.java - FIND_ID << 584
+17:07:00.024 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.036 [main] INFO  ComputerDAO.java - COUNT
+17:07:00.047 [main] INFO  ComputerDAO.java - COUNT
+17:07:00.054 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.067 [main] INFO  ComputerDAO.java - COUNT
+17:07:00.079 [main] INFO  ComputerDAO.java - COUNT
+17:07:00.084 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.096 [main] INFO  ComputerDAO.java - COUNT
+17:07:00.101 [main] INFO  ComputerDAO.java - DELETE << id: 687		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.111 [main] INFO  ComputerDAO.java - COUNT
+17:07:00.118 [main] INFO  ComputerDAO.java - CREATE << id: null		name: First			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.127 [main] INFO  ComputerDAO.java - UPDATE << id: 688		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.134 [main] INFO  ComputerDAO.java - FIND_ID << 688
+17:07:00.140 [main] INFO  ComputerDAO.java - COUNT
+17:07:00.145 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 577			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.153 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 578			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.163 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 579			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.172 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 580			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.180 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 581			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.193 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 582			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.201 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 583			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.210 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 584			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.219 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 585			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.227 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 586			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.235 [main] INFO  ComputerDAO.java - LISTALL_INDEX << 577, 10
+17:07:00.241 [main] INFO  ComputerDAO.java - FIND_ID << 55
+17:07:00.257 [main] INFO  ComputerDAO.java - LISTALL
+17:07:00.281 [main] INFO  ComputerDAO.java - DELETE << id: 685		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.290 [main] INFO  ComputerDAO.java - DELETE << id: 686		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.298 [main] INFO  ComputerDAO.java - DELETE << id: 688		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.307 [main] INFO  ComputerDAO.java - DELETE << id: 689		name: 577			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.314 [main] INFO  ComputerDAO.java - DELETE << id: 690		name: 578			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.321 [main] INFO  ComputerDAO.java - DELETE << id: 691		name: 579			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.329 [main] INFO  ComputerDAO.java - DELETE << id: 692		name: 580			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.338 [main] INFO  ComputerDAO.java - DELETE << id: 693		name: 581			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.346 [main] INFO  ComputerDAO.java - DELETE << id: 694		name: 582			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.355 [main] INFO  ComputerDAO.java - DELETE << id: 695		name: 583			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.363 [main] INFO  ComputerDAO.java - DELETE << id: 696		name: 584			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.371 [main] INFO  ComputerDAO.java - DELETE << id: 697		name: 585			introduced: NULL		discontinued: NULL		company_id: null
+17:07:00.379 [main] INFO  ComputerDAO.java - DELETE << id: 698		name: 586			introduced: NULL		discontinued: NULL		company_id: null
+17:17:48.782 [main] INFO  ComputerDAO.java - FIND_ID << 55
+17:17:49.085 [main] INFO  ComputerDAO.java - COUNT
+17:17:49.096 [main] INFO  ComputerDAO.java - COUNT
+17:17:49.104 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.128 [main] INFO  ComputerDAO.java - COUNT
+17:17:49.136 [main] INFO  ComputerDAO.java - COUNT
+17:17:49.144 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.174 [main] INFO  ComputerDAO.java - COUNT
+17:17:49.180 [main] INFO  ComputerDAO.java - DELETE << id: 700		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.189 [main] INFO  ComputerDAO.java - COUNT
+17:17:49.194 [main] INFO  ComputerDAO.java - CREATE << id: null		name: First			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.203 [main] INFO  ComputerDAO.java - UPDATE << id: 701		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.211 [main] INFO  ComputerDAO.java - FIND_ID << 701
+17:17:49.219 [main] INFO  ComputerDAO.java - COUNT
+17:17:49.225 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 576			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.235 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 577			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.246 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 578			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.257 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 579			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.266 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 580			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.274 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 581			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.282 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 582			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.295 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 583			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.304 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 584			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.313 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 585			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.322 [main] INFO  ComputerDAO.java - LISTALL_INDEX << 576, 10
+17:17:49.328 [main] INFO  ComputerDAO.java - COUNT
+17:17:49.334 [main] INFO  ComputerDAO.java - FIND_ID << 596
+17:17:49.339 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.347 [main] INFO  ComputerDAO.java - LISTALL
+17:17:49.377 [main] INFO  ComputerDAO.java - DELETE << id: 699		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.387 [main] INFO  ComputerDAO.java - DELETE << id: 701		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.395 [main] INFO  ComputerDAO.java - DELETE << id: 702		name: 576			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.403 [main] INFO  ComputerDAO.java - DELETE << id: 703		name: 577			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.411 [main] INFO  ComputerDAO.java - DELETE << id: 704		name: 578			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.419 [main] INFO  ComputerDAO.java - DELETE << id: 705		name: 579			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.431 [main] INFO  ComputerDAO.java - DELETE << id: 706		name: 580			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.440 [main] INFO  ComputerDAO.java - DELETE << id: 707		name: 581			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.449 [main] INFO  ComputerDAO.java - DELETE << id: 708		name: 582			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.457 [main] INFO  ComputerDAO.java - DELETE << id: 709		name: 583			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.465 [main] INFO  ComputerDAO.java - DELETE << id: 710		name: 584			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.473 [main] INFO  ComputerDAO.java - DELETE << id: 711		name: 585			introduced: NULL		discontinued: NULL		company_id: null
+17:17:49.485 [main] INFO  ComputerDAO.java - DELETE << id: 712		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.173 [main] INFO  ComputerDAO.java - FIND_ID << -55
+17:28:26.452 [main] INFO  ComputerDAO.java - COUNT
+17:28:26.463 [main] INFO  ComputerDAO.java - FIND_ID << 584
+17:28:26.471 [main] INFO  ComputerDAO.java - CREATE << id: null		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.487 [main] INFO  ComputerDAO.java - COUNT
+17:28:26.494 [main] INFO  ComputerDAO.java - COUNT
+17:28:26.501 [main] INFO  ComputerDAO.java - CREATE << id: null		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.518 [main] INFO  ComputerDAO.java - COUNT
+17:28:26.525 [main] INFO  ComputerDAO.java - COUNT
+17:28:26.529 [main] INFO  ComputerDAO.java - CREATE << id: null		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.541 [main] INFO  ComputerDAO.java - COUNT
+17:28:26.547 [main] INFO  ComputerDAO.java - DELETE << id: 715		name: deletionTest		introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.555 [main] INFO  ComputerDAO.java - COUNT
+17:28:26.560 [main] INFO  ComputerDAO.java - CREATE << id: null		name: First			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.570 [main] INFO  ComputerDAO.java - UPDATE << id: 716		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.583 [main] INFO  ComputerDAO.java - FIND_ID << 716
+17:28:26.593 [main] INFO  ComputerDAO.java - COUNT
+17:28:26.599 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 577			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.608 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 578			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.617 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 579			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.626 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 580			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.634 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 581			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.646 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 582			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.654 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 583			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.663 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 584			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.671 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 585			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.678 [main] INFO  ComputerDAO.java - CREATE << id: null		name: 586			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.685 [main] INFO  ComputerDAO.java - LISTALL_INDEX << 577, 10
+17:28:26.690 [main] INFO  ComputerDAO.java - LISTALL
+17:28:26.723 [main] INFO  ComputerDAO.java - DELETE << id: 713		name: Yoloooo			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.731 [main] INFO  ComputerDAO.java - DELETE << id: 714		name: CountTest			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.739 [main] INFO  ComputerDAO.java - DELETE << id: 716		name: Second			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.747 [main] INFO  ComputerDAO.java - DELETE << id: 717		name: 577			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.759 [main] INFO  ComputerDAO.java - DELETE << id: 718		name: 578			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.771 [main] INFO  ComputerDAO.java - DELETE << id: 719		name: 579			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.779 [main] INFO  ComputerDAO.java - DELETE << id: 720		name: 580			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.787 [main] INFO  ComputerDAO.java - DELETE << id: 721		name: 581			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.799 [main] INFO  ComputerDAO.java - DELETE << id: 722		name: 582			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.807 [main] INFO  ComputerDAO.java - DELETE << id: 723		name: 583			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.815 [main] INFO  ComputerDAO.java - DELETE << id: 724		name: 584			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.823 [main] INFO  ComputerDAO.java - DELETE << id: 725		name: 585			introduced: NULL		discontinued: NULL		company_id: null
+17:28:26.831 [main] INFO  ComputerDAO.java - DELETE << id: 726		name: 586			introduced: NULL		discontinued: NULL		company_id: null
+17:30:18.438 [main] INFO  CompanyDAO.java - FIND_ID << 3
+17:30:18.722 [main] INFO  CompanyDAO.java - COUNT
+17:30:18.733 [main] INFO  CompanyDAO.java - FIND_ID << 142
+17:30:18.744 [main] INFO  CompanyDAO.java - CREATE << id: null		name: Yoloooo
+17:30:18.761 [main] INFO  CompanyDAO.java - COUNT
+17:30:18.767 [main] INFO  CompanyDAO.java - COUNT
+17:30:18.774 [main] INFO  CompanyDAO.java - CREATE << id: null		name: CountTest
+17:30:18.787 [main] INFO  CompanyDAO.java - COUNT
+17:30:18.793 [main] INFO  CompanyDAO.java - COUNT
+17:30:18.798 [main] INFO  CompanyDAO.java - CREATE << id: null		name: deletionTest
+17:30:18.808 [main] INFO  CompanyDAO.java - COUNT
+17:30:18.814 [main] INFO  CompanyDAO.java - DELETE << id: 46		name: deletionTest
+17:30:18.824 [main] INFO  CompanyDAO.java - COUNT
+17:30:18.829 [main] INFO  CompanyDAO.java - CREATE << id: null		name: First
+17:30:18.837 [main] INFO  CompanyDAO.java - UPDATE << id: 47		name: Second
+17:30:18.847 [main] INFO  CompanyDAO.java - FIND_ID << 47
+17:30:18.855 [main] INFO  CompanyDAO.java - COUNT
+17:30:18.860 [main] INFO  CompanyDAO.java - LISTALL
+17:30:18.867 [main] INFO  CompanyDAO.java - LISTALL

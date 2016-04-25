@@ -16,7 +16,14 @@ public class Computer implements Entity {
     private Company company;
 
     public Computer() {
-        super();
+    }
+
+    public Computer(Long id) {
+        this.id = id;
+    }
+
+    public Computer(String name) {
+        this.name = name;
     }
 
     @Override
@@ -68,18 +75,13 @@ public class Computer implements Entity {
         String split = "\t\t";
         String splitName = "\t\t";
         if (name != null) {
-            splitName = (name.length() > 17
-                    ? "\t"
-                            : (name.length() < 10 ? "\t\t\t" : "\t\t"));
+            splitName = (name.length() > 17 ? "\t" : (name.length() < 10 ? "\t\t\t" : "\t\t"));
         }
 
-        return "id: " + this.id + split + "name: "
-        + (name == null ? "NULL" : name) + splitName + "introduced: "
-        + ((introduced != null) ? introduced.toString() : "NULL")
-        + split + "discontinued: "
-        + ((discontinued != null) ? discontinued.toString() : "NULL")
-        + split + "company_id: "
-        + (company != null ? company.getName() : "null");
+        return "id: " + this.id + split + "name: " + (name == null ? "NULL" : name) + splitName
+                + "introduced: " + ((introduced != null) ? introduced.toString() : "NULL") + split
+                + "discontinued: " + ((discontinued != null) ? discontinued.toString() : "NULL")
+                + split + "company_id: " + (company != null ? company.getName() : "null");
 
     }
 
@@ -88,11 +90,9 @@ public class Computer implements Entity {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((company == null) ? 0 : company.hashCode());
-        result = prime * result
-                + ((discontinued == null) ? 0 : discontinued.hashCode());
+        result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result
-                + ((introduced == null) ? 0 : introduced.hashCode());
+        result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
