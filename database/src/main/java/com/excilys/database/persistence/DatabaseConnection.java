@@ -1,9 +1,13 @@
 package com.excilys.database.persistence;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * Database connection handler (singleton)
@@ -13,11 +17,11 @@ import java.sql.SQLException;
  */
 public class DatabaseConnection {
 
-	private static String USERBD = "admincdb";
-	private static String PASSWORDBD = "qwerty1234";
-	private static String URL = "jdbc:mysql://localhost/computer-database-db?zeroDateTimeBehavior=convertToNull";
-	private static String DRIVER = "com.mysql.jdbc.Driver";
+	private static String USERBD = null;
+	private static String PASSWORDBD = null;
+	private static String URL = null;
 	private static DatabaseConnection bdRequests;
+	private static final String PROPERTIES_FILE = "database.properties";
 
 	/*
 	 * Static code initializing the database driver Note: Not required for new
@@ -25,8 +29,19 @@ public class DatabaseConnection {
 	 */
 	static {
 		try {
-			Class.forName(DRIVER);
-		} catch (ClassNotFoundException e) {
+
+			Properties databaseProperties = new Properties();
+			InputStream inputStream = DatabaseConnection.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE);
+			if (inputStream != null) {
+				databaseProperties.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + PROPERTIES_FILE + "' not found in the classpath");
+			}
+			Class.forName(databaseProperties.getProperty("DRIVER"));
+			USERBD = databaseProperties.getProperty("USERBD");
+			PASSWORDBD = databaseProperties.getProperty("PASSWORDBD");
+			URL = databaseProperties.getProperty("URL");
+		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 	}
