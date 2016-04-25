@@ -112,7 +112,7 @@ public class DAOComputerTest {
 
         List<Computer> results = computerDAO.listAll(count, size);
         for (int i = 0; i < size; i++) {
-            assert (computers.get(i).equals(results.get(i)));
+            assert(results.contains(computers.get(i)));
         }
     }
 
