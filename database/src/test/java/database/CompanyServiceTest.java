@@ -97,13 +97,13 @@ public class CompanyServiceTest {
     @Test
     public void ListAllTest() {
         long count = companyService.countCompanies();
-        List<Company> companies = new ArrayList<Company>(companyService.ListCompanies());
+        List<Company> companies = new ArrayList<Company>(companyService.listCompanies());
         assertEquals(count, companies.size());
     }
 
     @AfterClass
     public static void cleanBdd() {
-        for (Company comp : companyService.ListCompanies()) {
+        for (Company comp : companyService.listCompanies()) {
             if (comp.getId() > 43) {
                 companyService.deleteCompany(comp);
             }

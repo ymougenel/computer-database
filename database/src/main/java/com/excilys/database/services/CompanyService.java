@@ -35,7 +35,7 @@ public class CompanyService {
         companyDAO.delete(comp);
     }
 
-    public List<Company> ListCompanies() {
+    public List<Company> listCompanies() {
         return companyDAO.listAll();
     }
 

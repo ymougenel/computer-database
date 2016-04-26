@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
 <title>Computer Database</title>
@@ -38,7 +37,7 @@
 			</div>
 			<div class="pull-right">
 				<a class="btn btn-success" id="addComputer"
-					href="views/addComputer.html">Add Computer</a> <a
+					href="/database/addComputer">Add Computer</a> <a
 					class="btn btn-default" id="editComputer" href="#"
 					onclick="$.fn.toggleEditMode();">Edit</a>
 			</div>
