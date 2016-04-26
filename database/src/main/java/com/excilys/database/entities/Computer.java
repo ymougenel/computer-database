@@ -62,11 +62,11 @@ public class Computer implements Entity {
         this.discontinued = discontinued;
     }
 
-    public Company getCompany_id() {
+    public Company getCompany() {
         return company;
     }
 
-    public void setCompany_id(Company company) {
+    public void setCompany(Company company) {
         this.company = company;
     }
 

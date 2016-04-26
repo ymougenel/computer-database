@@ -13,7 +13,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.excilys.database.entities.Company;
-import com.excilys.database.entities.Page;
 import com.excilys.database.services.CompanyService;
 
 public class CompanyServiceTest {
@@ -98,15 +97,13 @@ public class CompanyServiceTest {
     @Test
     public void ListAllTest() {
         long count = companyService.countCompanies();
-        Page<Company> page = companyService.ListCompanies();
-        List<Company> companies = new ArrayList<Company>(page.getEntities());
+        List<Company> companies = new ArrayList<Company>(companyService.ListCompanies());
         assertEquals(count, companies.size());
     }
 
     @AfterClass
     public static void cleanBdd() {
-        Page<Company> page = companyService.ListCompanies();
-        for (Company comp : page.getEntities()) {
+        for (Company comp : companyService.ListCompanies()) {
             if (comp.getId() > 43) {
                 companyService.deleteCompany(comp);
             }

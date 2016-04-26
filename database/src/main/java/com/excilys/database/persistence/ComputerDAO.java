@@ -147,8 +147,8 @@ public class ComputerDAO extends DAO<Computer> {
                 stmt.setNull(3, java.sql.Types.DATE);
             }
 
-            if (comp.getCompany_id() != null) {
-                stmt.setLong(4, comp.getCompany_id().getId());
+            if (comp.getCompany() != null) {
+                stmt.setLong(4, comp.getCompany().getId());
             } else {
                 stmt.setNull(4, java.sql.Types.INTEGER);
             }
@@ -207,8 +207,8 @@ public class ComputerDAO extends DAO<Computer> {
                 stmt.setNull(3, java.sql.Types.DATE);
             }
 
-            if (comp.getCompany_id() != null) {
-                stmt.setLong(4, comp.getCompany_id().getId());
+            if (comp.getCompany() != null) {
+                stmt.setLong(4, comp.getCompany().getId());
             }
 
             else {
@@ -290,7 +290,7 @@ public class ComputerDAO extends DAO<Computer> {
                 String companyName = rs.getString(6);
                 company.setName(companyName);
             }
-            cmp.setCompany_id(company);
+            cmp.setCompany(company);
         }
         return cmp;
     }

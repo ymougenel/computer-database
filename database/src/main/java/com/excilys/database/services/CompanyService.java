@@ -1,7 +1,8 @@
 package com.excilys.database.services;
 
+import java.util.List;
+
 import com.excilys.database.entities.Company;
-import com.excilys.database.entities.Page;
 import com.excilys.database.persistence.CompanyDAO;
 
 public class CompanyService {
@@ -34,9 +35,8 @@ public class CompanyService {
         companyDAO.delete(comp);
     }
 
-    public Page<Company> ListCompanies() {
-        Page<Company> page = new Page<Company>(companyDAO.listAll());
-        return page;
+    public List<Company> ListCompanies() {
+        return companyDAO.listAll();
     }
 
     public Long countCompanies() {

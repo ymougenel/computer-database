@@ -51,7 +51,7 @@ public class UpdateComputer extends CommandBD {
 			case ("-company"):
 				Company c = new Company();
 				c.setId(Long.parseLong(values[i + 1]));
-				computer.setCompany_id(c);
+				computer.setCompany(c);
 				break;
 			default:
 				System.err.println("Error No matching found for:" + values[i]);

@@ -39,17 +39,17 @@ public class ComputerService {
         return computerDAO.update(comp);
     }
 
-    public Page<Computer> ListCompanies() {
+    public Page<Computer> listComputers() {
         Page<Computer> page = new Page<Computer>(computerDAO.listAll());
         return page;
     }
 
-    public Page<Computer> ListCompanies(long begin, long end) {
+    public Page<Computer> listComputers(long begin, long end) {
         Page<Computer> page = new Page<Computer>(computerDAO.listAll(begin, end));
         return page;
     }
 
-    public Long countCompanies() {
+    public Long countComputers() {
         return computerDAO.count();
     }
 }

@@ -33,7 +33,7 @@ public class ComputerServiceTest {
 
     @Test
     public void findTestNull() {
-        Long count = computerService.countCompanies();
+        Long count = computerService.countComputers();
         Computer comp = computerService.findComputer(count + 100);
         assertNull(comp);
     }
@@ -62,14 +62,14 @@ public class ComputerServiceTest {
 
     @Test
     public void countTest() {
-        Long count = computerService.countCompanies();
+        Long count = computerService.countComputers();
         assertNotNull(count);
         assertNotSame(count, 0);
     }
 
     @Test
     public void countTestInsertion() {
-        long count = computerService.countCompanies();
+        long count = computerService.countComputers();
         Computer comp = new Computer();
         comp.setName("CountTest");
         try {
@@ -77,13 +77,13 @@ public class ComputerServiceTest {
         } catch (InvalidInsertionException e) {
             e.printStackTrace();
         }
-        long count2 = computerService.countCompanies();
+        long count2 = computerService.countComputers();
         assertEquals(count + 1, count2);
     }
 
     @Test
     public void countTestDeletion() {
-        long count = computerService.countCompanies();
+        long count = computerService.countComputers();
         Computer comp = new Computer();
         comp.setName("deletionTest");
         try {
@@ -92,9 +92,9 @@ public class ComputerServiceTest {
             e.printStackTrace();
         }
 
-        long count1 = computerService.countCompanies();
+        long count1 = computerService.countComputers();
         computerService.deleteComputer(comp);
-        long count2 = computerService.countCompanies();
+        long count2 = computerService.countComputers();
         assertEquals(count, count2);
         assertEquals(count + 1, count1);
         assertEquals(count1, count2 + 1);
@@ -124,15 +124,15 @@ public class ComputerServiceTest {
 
     @Test
     public void ListAllTest() {
-        long count = computerService.countCompanies();
-        Page<Computer> page = computerService.ListCompanies();
+        long count = computerService.countComputers();
+        Page<Computer> page = computerService.listComputers();
         List<Computer> companies = new ArrayList<Computer>(page.getEntities());
         assertEquals(count, companies.size());
     }
 
     @AfterClass
     public static void cleanBdd() {
-        Page<Computer> page = computerService.ListCompanies();
+        Page<Computer> page = computerService.listComputers();
         for (Computer comp : page.getEntities()) {
             if (comp.getId() > 574) {
                 computerService.deleteComputer(comp);
