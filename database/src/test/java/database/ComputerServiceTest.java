@@ -134,7 +134,7 @@ public class ComputerServiceTest {
     public static void cleanBdd() {
         Page<Computer> page = computerService.ListCompanies();
         for (Computer comp : page.getEntities()) {
-            if (comp.getId() > 43) {
+            if (comp.getId() > 574) {
                 computerService.deleteComputer(comp);
             }
         }
