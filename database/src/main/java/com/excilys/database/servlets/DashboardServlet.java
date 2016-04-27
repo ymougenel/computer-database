@@ -102,7 +102,6 @@ public class DashboardServlet extends HttpServlet {
         endIndex = pageIndex + range;
 
         int limit = (int) Math.ceil(nbElements / pageSize);
-        System.out.println("Limit page:" + limit);
         if (endIndex > limit) {
             beginIndex = beginIndex - (endIndex - limit);
             endIndex = limit;
