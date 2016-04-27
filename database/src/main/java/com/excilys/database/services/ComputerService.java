@@ -24,10 +24,9 @@ public class ComputerService {
     }
 
     public Computer insertComputer(Computer comp) throws InvalidInsertionException {
-        if (comp.getName() == null && comp.getName() != "") {
+        if (comp.getName() == null || comp.getName().equals("")) {
             throw new InvalidInsertionException();
         }
-
         return computerDAO.create(comp);
     }
 
