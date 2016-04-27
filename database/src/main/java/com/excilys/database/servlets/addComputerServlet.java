@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.database.entities.Company;
+import com.excilys.database.entities.Computer;
 import com.excilys.database.services.CompanyService;
+import com.excilys.database.services.ComputerService;
+import com.excilys.database.services.InvalidInsertionException;
 
 /**
  * Servlet implementation class addComputerServlet
@@ -50,7 +53,13 @@ public class addComputerServlet extends HttpServlet {
         String discontinued = request.getParameter("discontinued");
         String company = request.getParameter("company");
         System.out.println("Name: "+name+"\t introduced" + introduced+ "\t discontinued"+discontinued + "\t company : " +company);
-        CompanyService.getInstance().insertCompany(new Company(name));
+        try {
+            ComputerService.getInstance().insertComputer(new Computer(name));
+            request.getRequestDispatcher("/dashboard").forward(request, response);
+        } catch (InvalidInsertionException e) {
+            request.getRequestDispatcher("/addComputer").forward(request, response);
+            e.printStackTrace();
+        }
         request.getRequestDispatcher("/dashboard").forward(request, response);
     }
 
