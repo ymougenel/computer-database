@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.database.entities.Computer;
+import com.excilys.database.entities.ComputerDTO;
 import com.excilys.database.entities.Page;
 import com.excilys.database.services.ComputerService;
 
@@ -17,7 +18,7 @@ import com.excilys.database.services.ComputerService;
 // @WebServlet("/MyServlet")
 public class DashboardServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private int pageSize;
+    private long pageSize;
     private int pageIndex;
     private int beginIndex;
     private int endIndex;
@@ -28,8 +29,8 @@ public class DashboardServlet extends HttpServlet {
         super();
         pageIndex = 1;
         pageSize = 10;
-        beginIndex =1;
-        endIndex =7;
+        beginIndex = 1;
+        endIndex = 7;
     }
 
     /**
@@ -47,15 +48,22 @@ public class DashboardServlet extends HttpServlet {
 
         Page<Computer> page = ComputerService.getInstance()
                 .listComputers(1 + (this.pageIndex - 1) * this.pageSize, this.pageSize);
-        //TODO calculate the begin-end pagination
-        page.setMaxSize(this.pageSize);
-        page.setIndex(this.pageIndex);
+
+        Page<ComputerDTO> pageDTO = new Page<ComputerDTO>();
+        for (Computer comp : page.getEntities()) {
+            pageDTO.addEntity(new ComputerDTO(comp));
+        }
+
+        pageDTO.setMaxSize(this.pageSize);
+        pageDTO.setIndex(this.pageIndex);
+
+        setIndexBorders(pageDTO.getMaxSize(), count);
         request.setAttribute("count", count);
-        request.setAttribute("page", page);
-        request.setAttribute("beginIndex",this.beginIndex);
-        request.setAttribute("endIndex",this.endIndex);
+        request.setAttribute("page", pageDTO);
+        request.setAttribute("beginIndex", this.beginIndex);
+        request.setAttribute("endIndex", this.endIndex);
         request.setAttribute("notBeginIndex", this.pageIndex != 1);
-        request.setAttribute("notEndIndex", (this.pageIndex-1) * page.getMaxSize() < count);
+        request.setAttribute("notEndIndex", (this.pageIndex - 1) * pageDTO.getMaxSize() < count);
         request.getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
     }
 
@@ -90,4 +98,20 @@ public class DashboardServlet extends HttpServlet {
         }
     }
 
+    private void setIndexBorders(Long pageSize, Long nbElements) {
+        int range = 3;
+        beginIndex = pageIndex - range;
+        endIndex = pageIndex + range;
+
+        int limit = Math.round(nbElements / pageSize);
+        System.out.println("Limit page:" + limit);
+        if (endIndex > limit) {
+            beginIndex = beginIndex - (endIndex - limit);
+            endIndex = limit;
+        }
+
+        if (beginIndex < 1) {
+            beginIndex = 1;
+        }
+    }
 }

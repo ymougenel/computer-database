@@ -9,7 +9,7 @@
 <div class="container text-center">
 	<ul class="pagination">
 		<c:if test="${notBeginIndex}">
-			<li><a href="database/dashboard?pageIndex=Previous"
+			<li><a href="/database/dashboard?pageIndex=Previous"
 				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 			</a></li>
 		</c:if>
