@@ -24,7 +24,7 @@ public class ComputerService {
     }
 
     public Computer insertComputer(Computer comp) throws InvalidInsertionException {
-        if (comp.getName() == null) {
+        if (comp.getName() == null && comp.getName() != "") {
             throw new InvalidInsertionException();
         }
 

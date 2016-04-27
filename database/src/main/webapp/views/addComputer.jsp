@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +15,11 @@
 <link href="${pageContext.request.contextPath}/css/main.css"
 	rel="stylesheet" media="screen">
 </head>
+
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="dashboard.html"> Application -
+		<a class="navbar-brand" href="/database/dashboard"> Application -
 			Computer Database </a>
 	</div>
 	</header>
@@ -27,7 +29,7 @@
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
 				<h1>Add Computer</h1>
-				<form action="addComputer" method="POST">
+				<form id="computerForm" action="addComputer" method="POST">
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label> <input
@@ -64,5 +66,34 @@
 		</div>
 	</div>
 	</section>
+
+	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('#computerForm').on('submit', function(event) {
+				var name = document.forms["computerForm"]["computerName"].value;
+				if (name == "") {
+					event.preventDefault();
+					alert("Name must be filled out");
+					return false;
+				}
+				var introduced = document.forms["computerForm"]["introduced"].value;
+				if (introduced != "" && isNaN(Date.parse(introduced))) {
+					console.log("wrong date");
+					event.preventDefault();
+					alert("Introduced date is incorrect");
+					return false;
+				}
+				var discontinued = document.forms["computerForm"]["discontinued"].value;
+				if (discontinued != "" && isNaN(Date.parse(discontinued))) {
+					console.log("wrong date");
+					event.preventDefault();
+					alert("Discontinued date is incorrect");
+					return false;
+				}
+			});
+		});
+	</script>
 </body>
+
 </html>

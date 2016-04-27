@@ -29,8 +29,6 @@ public class DashboardServlet extends HttpServlet {
         super();
         pageIndex = 1;
         pageSize = 10;
-        beginIndex = 1;
-        endIndex = 7;
     }
 
     /**
@@ -43,8 +41,8 @@ public class DashboardServlet extends HttpServlet {
         Long count = ComputerService.getInstance().countComputers();
         processParameters(request);
 
-        System.out.println("index: " + this.pageIndex + "\t begin : "
-                + (1 + (this.pageIndex - 1) * this.pageSize) + "\n size:" + pageSize);
+        //        System.out.println("index: " + this.pageIndex + "\t begin : "
+        //        + (1 + (this.pageIndex - 1) * this.pageSize) + "\n size:" + pageSize);
 
         Page<Computer> page = ComputerService.getInstance()
                 .listComputers(1 + (this.pageIndex - 1) * this.pageSize, this.pageSize);
@@ -103,7 +101,7 @@ public class DashboardServlet extends HttpServlet {
         beginIndex = pageIndex - range;
         endIndex = pageIndex + range;
 
-        int limit = Math.round(nbElements / pageSize);
+        int limit = (int) Math.ceil(nbElements / pageSize);
         System.out.println("Limit page:" + limit);
         if (endIndex > limit) {
             beginIndex = beginIndex - (endIndex - limit);
@@ -112,6 +110,9 @@ public class DashboardServlet extends HttpServlet {
 
         if (beginIndex < 1) {
             beginIndex = 1;
+        }
+        else if (beginIndex == 1 && limit>7) {
+            endIndex = 7;
         }
     }
 }
