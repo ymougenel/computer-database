@@ -52,13 +52,11 @@ public class CompanyDAO extends DAO<Company> {
      * @throws DAOException
      *             exception raised by connection or wrapper errors
      */
-
     @Override
     public Company find(long id) {
         logger.info("FIND_ID" + " << " + id);
         Company cmp;
         ResultSet results = null;
-        // System.out.println("### +i query called for : "+query +" << "+name);
         Connection con = null;
         try {
             con = DatabaseConnection.getInstance().getConnection();
@@ -164,7 +162,8 @@ public class CompanyDAO extends DAO<Company> {
     /**
      * Update a company into the database.
      *
-     * @param comp the company to update
+     * @param comp
+     *            the company to update
      * @return the updated company
      * @throws DAOException
      *             exception raised by connection or wrapper errors

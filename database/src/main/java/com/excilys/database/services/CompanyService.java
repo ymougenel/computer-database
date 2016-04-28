@@ -31,6 +31,7 @@ public class CompanyService {
     public Company updateCompany(Company comp) {
         return companyDAO.update(comp);
     }
+
     public void deleteCompany(Company comp) {
         companyDAO.delete(comp);
     }

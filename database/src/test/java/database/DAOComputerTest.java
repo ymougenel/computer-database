@@ -26,7 +26,7 @@ public class DAOComputerTest {
     @Test
     public void findTest() {
         Computer comp = computerDAO.find(2);
-        //        assertEquals(comp.getName(), "CM-2A");
+        assertEquals(comp.getName(), "CM-2a");
     }
 
     @Test
@@ -94,6 +94,7 @@ public class DAOComputerTest {
         assertEquals("Second", result.getName());
     }
 
+    // NOTE run under eclipse junit test, yet doesnt work for maven...
     //    @Test
     //    public void ListAllTest() {
     //        long size = 10;

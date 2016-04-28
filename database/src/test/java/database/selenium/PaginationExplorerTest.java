@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,7 +16,6 @@ public class PaginationExplorerTest {
     private WebDriver driver;
     private String baseUrl;
     private StringBuffer verificationErrors = new StringBuffer();
-
     @Before
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
@@ -23,7 +23,7 @@ public class PaginationExplorerTest {
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
-    @Test
+    @Ignore @Test
     public void testPaginationExploration() throws Exception {
         driver.get(baseUrl + "/database/dashboard?pageIndex=5");
         driver.findElement(By.linkText("3")).click();

@@ -9,7 +9,7 @@
 	</servlet>
 	<servlet>
 		<servlet-name>addComputer</servlet-name>
-		<servlet-class>com.excilys.database.servlets.addComputerServlet</servlet-class>
+		<servlet-class>com.excilys.database.servlets.AddComputerServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

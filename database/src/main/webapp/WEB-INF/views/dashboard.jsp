@@ -23,8 +23,18 @@
 			Computer Database </a>
 	</div>
 	</header>
-	
-	
+
+	<c:if test="${postMessage}">
+		<div class="alert alert-${messageLevel} alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<strong>${messageHeader}</strong> ${messageBody}
+		</div>
+	</c:if>
+
 	<section id="main">
 	<div class="container">
 		<h1 id="homeTitle">${count}Computers found</h1>

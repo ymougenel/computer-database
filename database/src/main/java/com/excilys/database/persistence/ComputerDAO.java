@@ -16,8 +16,8 @@ import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 
 /**
- * Computer DAO (Singleton) Provides CRUD computer database methods : Create,
- * Retrieve, Update, Delete
+ * Computer DAO (Singleton) Provides CRUD computer database methods : Create, Retrieve, Update,
+ * Delete
  *
  * @author Yann Mougenel
  *
@@ -49,8 +49,9 @@ public class ComputerDAO extends DAO<Computer> {
      * Find a computer based on the id.
      *
      * @param id
-     * @return the found Company (NULL if not found)
+     * @return the found Computer (NULL if not found)
      * @throws DAOException
+     *             exception raised by connection or wrapper errors
      */
     @Override
     public Computer find(long id) {
@@ -86,8 +87,8 @@ public class ComputerDAO extends DAO<Computer> {
      * Find a computer based on the name.
      *
      * @param name
-     * @return the found Company (NULL if not found)
-     * @throws DAOException
+     * @return the found Computer (NULL if not found)
+     * @throws DAOException exception raised by connection or wrapper errors
      */
     @Override
     public Computer find(String name) {
@@ -122,8 +123,8 @@ public class ComputerDAO extends DAO<Computer> {
      * Insert a new computer into the database.
      *
      * @param comp
-     * @return the created company
-     * @throws DAOException
+     * @return the created Computer
+     * @throws DAOException exception raised by connection or wrapper errors
      */
     @Override
     public Computer create(Computer comp) {
@@ -182,9 +183,11 @@ public class ComputerDAO extends DAO<Computer> {
     /**
      * Update a computer into the database.
      *
-     * @param comp the computer to update
+     * @param comp
+     *            the computer to update
      * @return the updated company
-     * @throws DAOException exception raised by connection or wrapper errors
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
      */
     @Override
     public Computer update(Computer comp) {
@@ -235,8 +238,10 @@ public class ComputerDAO extends DAO<Computer> {
     /**
      * Delete a computer from the database
      *
-     * @param comp the computer to delete
-     * @throws DAOException exception raised by connection or wrapper errors
+     * @param comp
+     *            the computer to delete
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
      */
     @Override
     public void delete(Computer comp) {
@@ -264,7 +269,7 @@ public class ComputerDAO extends DAO<Computer> {
      * Wrapper function returning the entity
      *
      * @param rs
-     *          : ResultSet receive by the database request
+     *            : ResultSet receive by the database request
      * @return The created object (null if ResultSet error)
      */
     private Computer wrapDatabaseResult(ResultSet rs) throws SQLException {
@@ -299,7 +304,8 @@ public class ComputerDAO extends DAO<Computer> {
      * List of the computers
      *
      * @return the list of all the computers
-     * @throws DAOException exception raised by connection or wrapper errors
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
      */
     @Override
     public List<Computer> listAll() {
@@ -335,10 +341,13 @@ public class ComputerDAO extends DAO<Computer> {
     /**
      * List of the computers from an indexed research
      *
-     * @param begin the search index start
-     * @param end the search index end
+     * @param begin
+     *            the search index start
+     * @param end
+     *            the search index end
      * @return the list of all the computers
-     * @throws DAOException exception raised by connection or wrapper errors
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
      */
     public List<Computer> listAll(long begin, long end) {
         logger.info("LISTALL_INDEX" + " << " + begin + ", " + end);
@@ -372,6 +381,13 @@ public class ComputerDAO extends DAO<Computer> {
         return computers;
     }
 
+    /**
+     * Count the computers.
+     *
+     * @return number of computers
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
+     */
     @Override
     public long count() {
         logger.info("COUNT");

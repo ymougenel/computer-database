@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,7 +25,7 @@ public class ComputerInsertionTest {
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
-    @Test
+    @Ignore @Test
     public void testComputerInsertion() throws Exception {
         driver.get(baseUrl + "/database/dashboard");
         driver.findElement(By.linkText("1")).click();

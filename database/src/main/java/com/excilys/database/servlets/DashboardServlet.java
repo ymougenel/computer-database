@@ -43,11 +43,8 @@ public class DashboardServlet extends HttpServlet {
         Long count = ComputerService.getInstance().countComputers();
         processParameters(request, response);
 
-        // System.out.println("index: " + this.pageIndex + "\t begin : "
-        // + (1 + (this.pageIndex - 1) * this.pageSize) + "\n size:" + pageSize);
-
         Page<Computer> page = ComputerService.getInstance()
-                .listComputers(1 + (this.pageIndex - 1) * this.pageSize, this.pageSize);
+                .listComputers((this.pageIndex - 1) * this.pageSize, this.pageSize);
 
         Page<ComputerDTO> pageDTO = new Page<ComputerDTO>();
         for (Computer comp : page.getEntities()) {
@@ -61,10 +58,11 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("count", count);
         request.setAttribute("page", pageDTO);
         request.setAttribute("beginIndex", this.beginIndex);
+        request.setAttribute("currentPage", this.pageIndex);
         request.setAttribute("endIndex", this.endIndex);
         request.setAttribute("notBeginIndex", this.pageIndex != 1);
         request.setAttribute("notEndIndex", (this.pageIndex - 1) * pageDTO.getMaxSize() < count);
-        request.getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
     }
 
     /**
@@ -96,7 +94,7 @@ public class DashboardServlet extends HttpServlet {
                     throw new NumberFormatException("Wrong index");
                 }
             } catch (NumberFormatException e) {
-                request.getRequestDispatcher("/views/500.html").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/500.html").forward(request, response);
             }
         }
     }
@@ -107,8 +105,8 @@ public class DashboardServlet extends HttpServlet {
         beginIndex = pageIndex - range;
         endIndex = pageIndex + range;
 
-        int limit = (int) Math.ceil(nbElements / pageSize);
-        if (endIndex > limit) {
+        int limit = (int) Math.ceil((double) nbElements / (double) pageSize);
+        if (endIndex >= limit) {
             beginIndex = beginIndex - (endIndex - limit);
             endIndex = limit;
         }
@@ -116,18 +114,19 @@ public class DashboardServlet extends HttpServlet {
         if (beginIndex < 1) {
             beginIndex = 1;
         } else if (beginIndex == 1 && limit > 7) {
-            endIndex = 7;
+            endIndex = 6;
         }
     }
 
+    // Forward the attributes for a navbar information
     private void forwardRequestMessage(HttpServletRequest request) {
         if (request.getAttribute("postMessage") != null) {
+            System.out.println("message received");
             request.setAttribute("postMessage", "true");
             request.setAttribute("messageLevel", request.getAttribute("messageLevel"));
             request.setAttribute("messageHeader", request.getAttribute("messageHeader"));
             request.setAttribute("messageBody", request.getAttribute("messageBody"));
-        }
-        else {
+        } else {
             request.setAttribute("postMessage", "false");
         }
     }

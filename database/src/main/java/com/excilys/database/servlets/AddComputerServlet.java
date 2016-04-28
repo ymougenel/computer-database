@@ -20,13 +20,13 @@ import com.excilys.database.services.InvalidInsertionException;
  * Servlet implementation class addComputerServlet
  */
 @WebServlet("/addComputerServlet")
-public class addComputerServlet extends HttpServlet {
+public class AddComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public addComputerServlet() {
+    public AddComputerServlet() {
         super();
     }
 
@@ -38,7 +38,7 @@ public class addComputerServlet extends HttpServlet {
             throws ServletException, IOException {
         List<Company> companies = CompanyService.getInstance().listCompanies();
         request.setAttribute("companies", companies);
-        request.getRequestDispatcher("/views/addComputer.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/views/addComputer.jsp").forward(request, response);
     }
 
     /**
@@ -53,9 +53,7 @@ public class addComputerServlet extends HttpServlet {
         String companyID = request.getParameter("companyId");
         try {
             Computer comp = new Computer(name);
-            System.out.println("companyID>>"+companyID+"<<");
             if (companyID != null && !companyID.equals("0")) {
-                System.out.println("company found");
                 Company company = new Company("TempName");
                 company.setId(Long.parseLong(companyID));
                 comp.setCompany(company);
@@ -73,10 +71,10 @@ public class addComputerServlet extends HttpServlet {
             request.setAttribute("messageLevel", "success");
             request.setAttribute("messageHeader", "Computer added");
             request.setAttribute("messageBody",
-                    "The computer " + name + " has been sucesfully added.");
+                    "The computer \"" + name + "\" has been successfully added.");
             request.getRequestDispatcher("/dashboard").forward(request, response);
         } catch (InvalidInsertionException e) {
-            request.getRequestDispatcher("/views/500.html").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/500.html").forward(request, response);
             e.printStackTrace();
         }
 
