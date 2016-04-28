@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="myTags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="myTags" tagdir="/WEB-INF/tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
@@ -23,10 +23,11 @@
 			Computer Database </a>
 	</div>
 	</header>
-
+	
+	
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle">${count} Computers found</h1>
+		<h1 id="homeTitle">${count}Computers found</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -90,10 +91,10 @@
 	</div>
 	</section>
 
-	<footer class="navbar-fixed-bottom">
-	<myTags:pagination currentIndex="${page.index}" notBeginIndex="${notBeginIndex}" notEndIndex="${notEndIndex}"
-						beginIndex="${beginIndex}" endIndex="${endIndex}"></myTags:pagination>
-	</footer>
+	<footer class="navbar-fixed-bottom"> <myTags:pagination
+		currentIndex="${page.index}" notBeginIndex="${notBeginIndex}"
+		notEndIndex="${notEndIndex}" beginIndex="${beginIndex}"
+		endIndex="${endIndex}"></myTags:pagination> </footer>
 	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/dashboard.js"></script>

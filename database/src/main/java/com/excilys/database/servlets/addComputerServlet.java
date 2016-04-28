@@ -36,7 +36,6 @@ public class addComputerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String demande = request.getServletPath();
         List<Company> companies = CompanyService.getInstance().listCompanies();
         request.setAttribute("companies", companies);
         request.getRequestDispatcher("/views/addComputer.jsp").forward(request, response);
@@ -54,11 +53,14 @@ public class addComputerServlet extends HttpServlet {
         String companyID = request.getParameter("companyId");
         try {
             Computer comp = new Computer(name);
-            Company company = new Company("TempName");
-            if (companyID != null) {
+            System.out.println("companyID>>"+companyID+"<<");
+            if (companyID != null && !companyID.equals("0")) {
+                System.out.println("company found");
+                Company company = new Company("TempName");
                 company.setId(Long.parseLong(companyID));
+                comp.setCompany(company);
             }
-            comp.setCompany(company);
+
             if (!introduced.equals("")) {
                 comp.setIntroduced(LocalDate.parse(introduced));
             }
@@ -67,12 +69,18 @@ public class addComputerServlet extends HttpServlet {
             }
             ComputerService.getInstance().insertComputer(comp);
 
+            request.setAttribute("postMessage", "true");
+            request.setAttribute("messageLevel", "success");
+            request.setAttribute("messageHeader", "Computer added");
+            request.setAttribute("messageBody",
+                    "The computer " + name + " has been sucesfully added.");
             request.getRequestDispatcher("/dashboard").forward(request, response);
         } catch (InvalidInsertionException e) {
-            request.getRequestDispatcher("/addComputer").forward(request, response);
+            request.getRequestDispatcher("/views/500.html").forward(request, response);
             e.printStackTrace();
         }
-        request.getRequestDispatcher("/dashboard").forward(request, response);
+
+
     }
 
 }

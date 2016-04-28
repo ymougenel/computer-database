@@ -78,7 +78,7 @@ public class Computer implements Entity {
             splitName = (name.length() > 17 ? "\t" : (name.length() < 10 ? "\t\t\t" : "\t\t"));
         }
 
-        return "id: " + this.id + split + "name: " + (name == null ? "NULL" : name) + splitName
+        return "id: " + this.id + "\t" + "name: " + (name == null ? "NULL" : name) + splitName
                 + "introduced: " + ((introduced != null) ? introduced.toString() : "NULL") + split
                 + "discontinued: " + ((discontinued != null) ? discontinued.toString() : "NULL")
                 + split + "company_id: " + (company != null ? company.getName() : "null");

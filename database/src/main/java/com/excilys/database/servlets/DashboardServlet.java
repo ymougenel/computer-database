@@ -22,6 +22,7 @@ public class DashboardServlet extends HttpServlet {
     private int pageIndex;
     private int beginIndex;
     private int endIndex;
+
     /**
      * Default constructor.
      */
@@ -32,6 +33,7 @@ public class DashboardServlet extends HttpServlet {
     }
 
     /**
+     * @throws IOException
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     @Override
@@ -39,10 +41,10 @@ public class DashboardServlet extends HttpServlet {
             throws ServletException, IOException {
 
         Long count = ComputerService.getInstance().countComputers();
-        processParameters(request);
+        processParameters(request, response);
 
-        //        System.out.println("index: " + this.pageIndex + "\t begin : "
-        //        + (1 + (this.pageIndex - 1) * this.pageSize) + "\n size:" + pageSize);
+        // System.out.println("index: " + this.pageIndex + "\t begin : "
+        // + (1 + (this.pageIndex - 1) * this.pageSize) + "\n size:" + pageSize);
 
         Page<Computer> page = ComputerService.getInstance()
                 .listComputers(1 + (this.pageIndex - 1) * this.pageSize, this.pageSize);
@@ -71,11 +73,13 @@ public class DashboardServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // TODO Auto-generated method stub
         doGet(request, response);
     }
 
-    private void processParameters(HttpServletRequest request) {
+    // Process the web inputs : page size and page index
+    private void processParameters(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        forwardRequestMessage(request);
         String requestSize = request.getParameter("pageSize");
         if (requestSize != null) {
             if (requestSize.equals("10") || requestSize.equals("50") || requestSize.equals("100")) {
@@ -86,16 +90,18 @@ public class DashboardServlet extends HttpServlet {
 
         String pageIndex = request.getParameter("pageIndex");
         if (pageIndex != null) {
-            if (pageIndex.equals("Next")) {
-                this.pageIndex++;
-            } else if (pageIndex.equals("Previous")) {
-                this.pageIndex--;
-            } else {
+            try {
                 this.pageIndex = Integer.parseInt(pageIndex);
+                if (this.pageIndex < 1) {
+                    throw new NumberFormatException("Wrong index");
+                }
+            } catch (NumberFormatException e) {
+                request.getRequestDispatcher("/views/500.html").forward(request, response);
             }
         }
     }
 
+    // Set the pagination index borders (min and max displayed)
     private void setIndexBorders(Long pageSize, Long nbElements) {
         int range = 3;
         beginIndex = pageIndex - range;
@@ -109,9 +115,20 @@ public class DashboardServlet extends HttpServlet {
 
         if (beginIndex < 1) {
             beginIndex = 1;
-        }
-        else if (beginIndex == 1 && limit>7) {
+        } else if (beginIndex == 1 && limit > 7) {
             endIndex = 7;
+        }
+    }
+
+    private void forwardRequestMessage(HttpServletRequest request) {
+        if (request.getAttribute("postMessage") != null) {
+            request.setAttribute("postMessage", "true");
+            request.setAttribute("messageLevel", request.getAttribute("messageLevel"));
+            request.setAttribute("messageHeader", request.getAttribute("messageHeader"));
+            request.setAttribute("messageBody", request.getAttribute("messageBody"));
+        }
+        else {
+            request.setAttribute("postMessage", "false");
         }
     }
 }
