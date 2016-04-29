@@ -69,9 +69,8 @@ public class EditComputerServlet extends HttpServlet {
         String discontinued = request.getParameter("discontinued");
         String companyID = request.getParameter("companyId");
         try {
-            Computer comp = new Computer(name);
             Long computerId = Long.parseLong(id);
-            comp.setId(computerId);
+            Computer comp = new Computer.Builder(name).id(computerId).build();
             if (companyID != null && !companyID.equals("0")) {
                 Company company = new Company("TempName");
                 company.setId(Long.parseLong(companyID));

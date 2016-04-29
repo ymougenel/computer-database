@@ -19,7 +19,10 @@ import com.excilys.database.entities.Company;
  * @author Yann Mougenel
  *
  */
-public class CompanyDAO extends DAO<Company> {
+public enum CompanyDAO implements DAO<Company> {
+
+    INSTANCE;
+
     private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
     private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
     private static final String CREATE = "INSERT INTO company (name) VALUES (?);";
@@ -29,18 +32,13 @@ public class CompanyDAO extends DAO<Company> {
     private static final String COUNT = "SELECT COUNT(*) FROM company;";
     private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
 
-    private static CompanyDAO companyDAO;
-
     private CompanyDAO() {
     }
 
     // NOTE optimization possible : synchronized -> if (dao== null) {
     // synchronized if (dao == null)
     public static synchronized CompanyDAO getInstance() {
-        if (companyDAO == null) {
-            companyDAO = new CompanyDAO();
-        }
-        return companyDAO;
+        return INSTANCE;
     }
 
     /**

@@ -101,7 +101,7 @@ public class ComputerServiceTest {
     }
 
     public void delete() {
-        Computer comp = new Computer("computer404");
+        Computer comp = new Computer.Builder("computer404").build();
         try {
             computerService.insertComputer(comp);
         } catch (InvalidInsertionException e) {

@@ -77,7 +77,7 @@ public class DAOComputerTest {
     }
 
     public void delete() {
-        Computer comp = new Computer("computer404");
+        Computer comp = new Computer.Builder("computer404").build();
         computerDAO.create(comp);
         computerDAO.delete(comp);
         assertNull(computerDAO.find(comp.getId()));

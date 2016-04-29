@@ -1,22 +1,23 @@
 package com.excilys.database.persistence;
 
-import com.excilys.database.entities.Entity;
-
 import java.util.List;
 
-public abstract class DAO<T extends Entity> {
-  public abstract T find(long id);
+import com.excilys.database.entities.Entity;
 
-  public abstract T find(String name);
+public interface DAO<T extends Entity> {
 
-  public abstract List<T> listAll();
+    public T find(long id);
 
-  public abstract T create(T obj);
+    public T find(String name);
 
-  public abstract T update(T obj);
+    public List<T> listAll();
 
-  public abstract void delete(T obj);
+    public T create(T obj);
 
-  public abstract long count();
+    public T update(T obj);
+
+    public void delete(T obj);
+
+    public long count();
 
 }

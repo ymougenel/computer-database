@@ -15,15 +15,21 @@ public class Computer implements Entity {
     private LocalDate discontinued;
     private Company company;
 
+    /**
+     * private constructor called by builder.
+     *
+     * @param builder
+     *            builder which contains computer attributes
+     */
+    private Computer(Builder builder) {
+        this.name = builder.name;
+        this.id = builder.id;
+        this.introduced = builder.introduced;
+        this.discontinued = builder.discontinued;
+        this.company = builder.company;
+    }
+
     public Computer() {
-    }
-
-    public Computer(Long id) {
-        this.id = id;
-    }
-
-    public Computer(String name) {
-        this.name = name;
     }
 
     @Override
@@ -84,6 +90,55 @@ public class Computer implements Entity {
                 + split + "company_id: " + (company != null ? company.getName() : "null");
 
     }
+
+    /**
+     * Builds a computer with the suited parameters
+     * (Based on the Builder pattern)
+     */
+    public static class Builder {
+        // required parameters
+        private String name;
+
+        // optional parameters
+        private Long id = null;
+        private LocalDate introduced = null;
+        private LocalDate discontinued = null;
+        private Company company = null;
+
+        public Builder(String name) {
+            this.name = name;
+        }
+
+        public Builder introduced(LocalDate localDate) {
+            this.introduced = localDate;
+            return this;
+        }
+
+        public Builder discontinued(LocalDate localDate) {
+            this.discontinued = localDate;
+            return this;
+        }
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder company(Company company) {
+            this.company = company;
+            return this;
+        }
+
+        /**
+         * Build a new computer with prepared parameters.
+         *
+         * @return initialized computer
+         */
+        public Computer build() {
+            return new Computer(this);
+        }
+    }
+
 
     @Override
     public int hashCode() {

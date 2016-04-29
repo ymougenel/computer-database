@@ -22,7 +22,10 @@ import com.excilys.database.entities.Computer;
  * @author Yann Mougenel
  *
  */
-public class ComputerDAO extends DAO<Computer> {
+public enum ComputerDAO implements DAO<Computer> {
+
+    INSTANCE;
+
     private static final String FIND_ID = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.id = ?;";
     private static final String FIND_NAME = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name = ?;";
     private static final String CREATE = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?);";
@@ -33,16 +36,12 @@ public class ComputerDAO extends DAO<Computer> {
     private static final String COUNT = "SELECT COUNT(*) FROM computer;";
 
     private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
-    private static ComputerDAO computerDAO;
 
     private ComputerDAO() {
     }
 
-    public static synchronized ComputerDAO getInstance() {
-        if (computerDAO == null) {
-            computerDAO = new ComputerDAO();
-        }
-        return computerDAO;
+    public static ComputerDAO getInstance() {
+        return INSTANCE;
     }
 
     /**

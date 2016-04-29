@@ -52,7 +52,7 @@ public class AddComputerServlet extends HttpServlet {
         String discontinued = request.getParameter("discontinued");
         String companyID = request.getParameter("companyId");
         try {
-            Computer comp = new Computer(name);
+            Computer comp = new Computer.Builder(name).build();
             if (companyID != null && !companyID.equals("0")) {
                 Company company = new Company("TempName");
                 company.setId(Long.parseLong(companyID));

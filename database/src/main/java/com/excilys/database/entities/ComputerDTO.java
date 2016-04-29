@@ -2,7 +2,7 @@ package com.excilys.database.entities;
 
 import java.time.LocalDate;
 
-public class ComputerDTO implements Entity{
+public class ComputerDTO implements Entity {
     private Long id;
     private String name;
     private String introduced;
@@ -17,7 +17,9 @@ public class ComputerDTO implements Entity{
         this.id = comp.getId();
         this.name = comp.getName();
         this.introduced = (comp.getIntroduced() == null ? "" : comp.getIntroduced().toString());
-        this.discontinued = (comp.getDiscontinued() == null ? "" : comp.getDiscontinued().toString());
+        this.discontinued = (comp.getDiscontinued() == null
+                ? ""
+                        : comp.getDiscontinued().toString());
         this.companyName = (comp.getCompany() == null) ? "" : comp.getCompany().getName();
         this.companyId = (comp.getCompany() == null) ? null : comp.getCompany().getId();
     }
@@ -75,14 +77,13 @@ public class ComputerDTO implements Entity{
         this.companyId = companyID;
     }
 
-    public static Computer wrapToComputer(ComputerDTO dtoComp) {
-        Computer comp = new Computer(dtoComp.name);
-        comp.setId(dtoComp.id);
-        comp.setIntroduced(LocalDate.parse(dtoComp.introduced));
-        comp.setDiscontinued(LocalDate.parse(dtoComp.discontinued));
+    public static Computer wrapToComputer(ComputerDTO dto) {
+        Computer comp = new Computer.Builder(dto.name).id(dto.id).build();
+        comp.setIntroduced(LocalDate.parse(dto.introduced));
+        comp.setDiscontinued(LocalDate.parse(dto.discontinued));
 
-        Company company = new Company(dtoComp.companyName);
-        company.setId(dtoComp.companyId);
+        Company company = new Company(dto.companyName);
+        company.setId(dto.companyId);
         comp.setCompany(company);
         return comp;
     }
