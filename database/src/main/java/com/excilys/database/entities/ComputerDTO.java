@@ -67,11 +67,11 @@ public class ComputerDTO implements Entity{
         this.companyName = companyName;
     }
 
-    public Long getCompanyID() {
+    public Long getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyID(Long companyID) {
+    public void setCompanyId(Long companyID) {
         this.companyId = companyID;
     }
 
