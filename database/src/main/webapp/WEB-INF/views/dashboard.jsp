@@ -37,7 +37,7 @@
 
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle">${count}Computers found</h1>
+		<h1 id="homeTitle">${count} Computers found</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -57,7 +57,7 @@
 		</div>
 	</div>
 
-	<form id="deleteForm" action="#" method="POST">
+	<form id="deleteForm" action="${pageContext.request.contextPath}/deleteComputer" method="POST">
 		<input type="hidden" name="selection" value="">
 	</form>
 
@@ -98,7 +98,6 @@
 				</c:forEach>
 			</tbody>
 		</table>
-	</div>
 	</section>
 
 	<footer class="navbar-fixed-bottom"> <myTags:pagination
