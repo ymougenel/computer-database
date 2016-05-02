@@ -3,6 +3,7 @@ package com.excilys.database.services;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
 import com.excilys.database.persistence.ComputerDAO;
+import com.excilys.database.validadors.ComputerValidador;
 
 public enum ComputerService {
 
@@ -21,10 +22,8 @@ public enum ComputerService {
         return computerDAO.find(id);
     }
 
-    public Computer insertComputer(Computer comp) throws InvalidInsertionException {
-        if (comp.getName() == null || comp.getName().equals("")) {
-            throw new InvalidInsertionException();
-        }
+    public Computer insertComputer(Computer comp) {
+        ComputerValidador.computerValidation(comp);
         return computerDAO.create(comp);
     }
 

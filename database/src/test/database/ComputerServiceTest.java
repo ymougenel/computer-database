@@ -1,10 +1,11 @@
-package java.database;
+package database;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,24 +41,29 @@ public class ComputerServiceTest {
 
     @Test
     public void insertTest() {
-        Computer comp = new Computer();
-        comp.setName("Yoloooo");
-        try {
-            computerService.insertComputer(comp);
-        } catch (InvalidInsertionException e) {
-            e.printStackTrace();
-        }
+        Computer comp = new Computer.Builder("Insertion").build();
+        computerService.insertComputer(comp);
         assertNotNull(comp.getId());
     }
 
-    public void insertTestException() {
+    @Test(expected = IllegalArgumentException.class)
+    public void insertTestNameError() {
         Computer comp = new Computer();
-        try {
-            computerService.insertComputer(comp);
-            assert(false);
-        } catch (InvalidInsertionException e) {
-            assert(true);
-        }
+        computerService.insertComputer(comp);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void insertTestDateError() {
+        Computer comp = new Computer.Builder("Insertion").build();
+        comp.setIntroduced(LocalDate.parse("1930-02-03"));
+        computerService.insertComputer(comp);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void insertTestDate2Error() {
+        Computer comp = new Computer.Builder("Insertion").build();
+        comp.setIntroduced(LocalDate.parse("2300-02-03"));
+        computerService.insertComputer(comp);
     }
 
     @Test
@@ -70,13 +76,8 @@ public class ComputerServiceTest {
     @Test
     public void countTestInsertion() {
         long count = computerService.countComputers();
-        Computer comp = new Computer();
-        comp.setName("CountTest");
-        try {
-            computerService.insertComputer(comp);
-        } catch (InvalidInsertionException e) {
-            e.printStackTrace();
-        }
+        Computer comp = new Computer.Builder("CountTest").build();
+        computerService.insertComputer(comp);
         long count2 = computerService.countComputers();
         assertEquals(count + 1, count2);
     }
@@ -86,11 +87,7 @@ public class ComputerServiceTest {
         long count = computerService.countComputers();
         Computer comp = new Computer();
         comp.setName("deletionTest");
-        try {
-            computerService.insertComputer(comp);
-        } catch (InvalidInsertionException e) {
-            e.printStackTrace();
-        }
+        computerService.insertComputer(comp);
 
         long count1 = computerService.countComputers();
         computerService.deleteComputer(comp);
@@ -102,11 +99,7 @@ public class ComputerServiceTest {
 
     public void delete() {
         Computer comp = new Computer.Builder("computer404").build();
-        try {
-            computerService.insertComputer(comp);
-        } catch (InvalidInsertionException e) {
-            e.printStackTrace();
-        }
+        computerService.insertComputer(comp);
         computerService.deleteComputer(comp);
         assertNull(computerService.findComputer(comp.getId()));
     }

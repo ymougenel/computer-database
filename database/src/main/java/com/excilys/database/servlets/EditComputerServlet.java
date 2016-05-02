@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,11 +14,11 @@ import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.ComputerDTO;
 import com.excilys.database.services.CompanyService;
 import com.excilys.database.services.ComputerService;
+import com.excilys.database.validadors.ComputerValidador;
 
 /**
  * Servlet implementation class EditComputer
  */
-@WebServlet("/EditComputer")
 public class EditComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +27,6 @@ public class EditComputerServlet extends HttpServlet {
      */
     public EditComputerServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -37,7 +35,7 @@ public class EditComputerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // TODO Auto-generated method stub
+
         String computerId = request.getParameter("computerId");
         Long id = null;
         Computer comp = null;
@@ -63,35 +61,46 @@ public class EditComputerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("computerId");
-        String name = request.getParameter("computerName");
-        String introduced = request.getParameter("introduced");
-        String discontinued = request.getParameter("discontinued");
-        String companyID = request.getParameter("companyId");
+        String idInput = request.getParameter("computerId");
+        String nameInput = request.getParameter("computerName");
+        String introducedInput = request.getParameter("introduced");
+        String discontinuedInput = request.getParameter("discontinued");
+        String companyIDInput = request.getParameter("companyId");
+
+        // Computer update based on the input parameters (exception if invalid params)
         try {
-            Long computerId = Long.parseLong(id);
-            Computer comp = new Computer.Builder(name).id(computerId).build();
-            if (companyID != null && !companyID.equals("0")) {
-                Company company = new Company("TempName");
-                company.setId(Long.parseLong(companyID));
+            ComputerValidador.computerIdValidation(idInput);
+            Long computerId = Long.parseLong(idInput);
+            Computer comp = new Computer.Builder(nameInput).id(computerId).build();
+
+            if (companyIDInput != null && !companyIDInput.equals("0")) {
+                Company company = new Company("DefaultName");
+                ComputerValidador.computerIdValidation(companyIDInput);
+                company.setId(Long.parseLong(companyIDInput));
                 comp.setCompany(company);
             }
 
-            if (introduced != null && !introduced.equals("")) {
-                comp.setIntroduced(LocalDate.parse(introduced));
+            if (introducedInput != null && !introducedInput.equals("")) {
+                ComputerValidador.computerDateValidation(introducedInput);
+                comp.setIntroduced(LocalDate.parse(introducedInput));
             }
-            if (discontinued != null && !discontinued.equals("")) {
-                comp.setDiscontinued(LocalDate.parse(discontinued));
+
+            if (discontinuedInput != null && !discontinuedInput.equals("")) {
+                ComputerValidador.computerDateValidation(discontinuedInput);
+                comp.setDiscontinued(LocalDate.parse(discontinuedInput));
             }
-            System.out.println("Comp:" + comp.toString());
+
+            System.out.println("Comp:" + comp.toString()); //TODO edit logging
             ComputerService.getInstance().updateComputer(comp);
 
+            // Setting a success feedback navbar
             request.setAttribute("postMessage", "true");
             request.setAttribute("messageLevel", "success");
             request.setAttribute("messageHeader", "Computer updated");
             request.setAttribute("messageBody",
-                    "The computer \"" + name + "\" has been successfully updated.");
+                    "The computer \"" + nameInput + "\" has been successfully updated.");
             request.getRequestDispatcher("/dashboard").forward(request, response);
+
         } catch (Exception e) {
             request.getRequestDispatcher("/WEB-INF/views/500.html").forward(request, response);
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package java.database;
+package database;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -25,9 +25,15 @@ public class CompanyServiceTest {
 
     @Test
     public void findTest() {
-        Company comp = companyService.findCompany(3l);
+        Company comp = companyService.findCompany(3L);
         assertEquals(comp.getName(), "RCA");
     }
+
+    //    @Test (expected = DAOException.class)
+    //    public void findTestError() {
+    //        Company comp = companyService.findCompany(-1L);
+    //        assertEquals(comp.getName(), "RCA");
+    //    }
 
     @Test
     public void findTestNull() {
@@ -43,6 +49,14 @@ public class CompanyServiceTest {
         companyService.insertCompany(comp);
         assertNotNull(comp.getId());
     }
+
+    @Test
+    public void insertTestError() {
+        Company comp = new Company();
+        companyService.insertCompany(comp);
+        assertNotNull(comp.getId());
+    }
+
 
     @Test
     public void countTest() {

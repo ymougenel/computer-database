@@ -15,7 +15,6 @@ import com.excilys.database.services.ComputerService;
 /**
  * Servlet implementation class MyServlet
  */
-// @WebServlet("/MyServlet")
 public class DashboardServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private long pageSize;
@@ -77,19 +76,20 @@ public class DashboardServlet extends HttpServlet {
     // Process the web inputs : page size and page index
     private void processParameters(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        forwardRequestMessage(request);
-        String requestSize = request.getParameter("pageSize");
-        if (requestSize != null) {
-            if (requestSize.equals("10") || requestSize.equals("50") || requestSize.equals("100")) {
-                this.pageSize = Integer.parseInt(requestSize);
+        processNavbarRequestMessage(request);
+        String pageSizeInput = request.getParameter("pageSize");
+
+        if (pageSizeInput != null) {
+            if (pageSizeInput.equals("10") || pageSizeInput.equals("50") || pageSizeInput.equals("100")) {
+                this.pageSize = Integer.parseInt(pageSizeInput);
                 this.pageIndex = 1;
             }
         }
 
-        String pageIndex = request.getParameter("pageIndex");
-        if (pageIndex != null) {
+        String pageIndexInput = request.getParameter("pageIndex");
+        if (pageIndexInput != null) {
             try {
-                this.pageIndex = Integer.parseInt(pageIndex);
+                this.pageIndex = Integer.parseInt(pageIndexInput);
                 if (this.pageIndex < 1) {
                     throw new NumberFormatException("Wrong index");
                 }
@@ -118,10 +118,9 @@ public class DashboardServlet extends HttpServlet {
         }
     }
 
-    // Forward the attributes for a navbar information
-    private void forwardRequestMessage(HttpServletRequest request) {
+    // Forward the attributes for a navbar information (actions feedback)
+    private void processNavbarRequestMessage(HttpServletRequest request) {
         if (request.getAttribute("postMessage") != null) {
-            System.out.println("message received");
             request.setAttribute("postMessage", "true");
             request.setAttribute("messageLevel", request.getAttribute("messageLevel"));
             request.setAttribute("messageHeader", request.getAttribute("messageHeader"));

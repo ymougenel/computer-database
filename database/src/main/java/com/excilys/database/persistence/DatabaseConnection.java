@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -23,11 +22,11 @@ public enum DatabaseConnection {
     private static final String PROPERTIES_FILE = "database.properties";
 
     /*
-     * Static code initializing the database driver Note: Not required for new jdbc versions
+     * Static code initializing the database parameters
+     * Note : driver initialization not required for new jdbc versions
      */
     static {
         try {
-
             Properties databaseProperties = new Properties();
             InputStream inputStream = DatabaseConnection.class.getClassLoader()
                     .getResourceAsStream(PROPERTIES_FILE);
@@ -54,8 +53,8 @@ public enum DatabaseConnection {
     }
 
     /**
-     * Access to a database connection
-     * Note : the connection must be closed by the client
+     * Access to a database connection Note : the connection must be closed by the client
+     *
      * @return a new Connection()
      * @throws SQLException
      */
@@ -63,16 +62,4 @@ public enum DatabaseConnection {
         return DriverManager.getConnection(URL, USERBD, PASSWORDBD);
     }
 
-    public static void printfResult(ResultSet results) throws SQLException {
-        // ResultSetMetaData rsmd = results.getMetaData();
-        // int columnsNumber = rsmd.getColumnCount();
-        while (results.next()) {
-            String id = results.getString("id");
-            String name = results.getString("name");
-            System.out.println("Id :" + id + "\t name :" + name);
-            // if (i > 1) System.out.print(", ");
-            // String columnValue = results.getString(i);
-            // System.out.println("");
-        }
-    }
 }
