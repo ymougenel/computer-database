@@ -41,9 +41,17 @@ public class DashboardServlet extends HttpServlet {
 
         Long count = ComputerService.getInstance().countComputers();
         processParameters(request, response);
+        String search = request.getParameter("search");
+        Page<Computer> page = null;
 
-        Page<Computer> page = ComputerService.getInstance()
-                .listComputers((this.pageIndex - 1) * this.pageSize, this.pageSize);
+        if (search != null && search != "") {
+            request.setAttribute("search", search);
+            page = ComputerService.getInstance().listComputers(search, (this.pageIndex - 1) * this.pageSize,
+                    this.pageSize);
+        } else {
+            page = ComputerService.getInstance().listComputers((this.pageIndex - 1) * this.pageSize,
+                    this.pageSize);
+        }
 
         Page<ComputerDTO> pageDTO = new Page<ComputerDTO>();
         for (Computer comp : page.getEntities()) {
@@ -80,7 +88,8 @@ public class DashboardServlet extends HttpServlet {
         String pageSizeInput = request.getParameter("pageSize");
 
         if (pageSizeInput != null) {
-            if (pageSizeInput.equals("10") || pageSizeInput.equals("50") || pageSizeInput.equals("100")) {
+            if (pageSizeInput.equals("10") || pageSizeInput.equals("50")
+                    || pageSizeInput.equals("100")) {
                 this.pageSize = Integer.parseInt(pageSizeInput);
                 this.pageIndex = 1;
             }

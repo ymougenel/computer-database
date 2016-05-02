@@ -41,7 +41,6 @@ public class DeleteComputerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final String selection = request.getParameter("selection");
-        System.out.println(selection);
         String[] ids =selection.split(",");
         Computer comp;
         for (String idInput : ids ) {

@@ -33,6 +33,7 @@ public enum ComputerDAO implements DAO<Computer> {
     private static final String DELETE = "DELETE FROM computer WHERE id = ?;";
     private static final String LISTALL = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id;";
     private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id LIMIT ?,?;";
+    private static final String LISTALL_INDEX_REGEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name LIKE ? LIMIT ?,?;";
     private static final String COUNT = "SELECT COUNT(*) FROM computer;";
 
     private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
@@ -87,7 +88,8 @@ public enum ComputerDAO implements DAO<Computer> {
      *
      * @param name
      * @return the found Computer (NULL if not found)
-     * @throws DAOException exception raised by connection or wrapper errors
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
      */
     @Override
     public Computer find(String name) {
@@ -123,7 +125,8 @@ public enum ComputerDAO implements DAO<Computer> {
      *
      * @param comp
      * @return the created Computer
-     * @throws DAOException exception raised by connection or wrapper errors
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
      */
     @Override
     public Computer create(Computer comp) {
@@ -358,6 +361,52 @@ public enum ComputerDAO implements DAO<Computer> {
             PreparedStatement stmt = con.prepareStatement(LISTALL_INDEX);
             stmt.setLong(1, begin);
             stmt.setLong(2, end);
+            results = stmt.executeQuery();
+
+            Computer c;
+            while ((c = wrapDatabaseResult(results)) != null) {
+                computers.add(c);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        } finally {
+            try {
+                results.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return computers;
+    }
+
+    /**
+     * List of the computers from an indexed research and a regex
+     *
+     * @param regex
+     *            the regular expression used for the research
+     * @param begin
+     *            the search index start
+     * @param end
+     *            the search index end
+     * @return the list of all the computers
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
+     */
+    public List<Computer> listAll(String regex, long begin, long end) {
+        logger.info("LISTALL_INDEX_REGEX" + " << " + regex + begin + ", " + end);
+        ResultSet results = null;
+        List<Computer> computers = new ArrayList<Computer>();
+        Connection con = null;
+        try {
+            con = DatabaseConnection.getInstance().getConnection();
+            PreparedStatement stmt = con.prepareStatement(LISTALL_INDEX_REGEX);
+            stmt.setString(1, "%"+regex+"%");
+            stmt.setLong(2, begin);
+            stmt.setLong(3, end);
             results = stmt.executeQuery();
 
             Computer c;

@@ -43,6 +43,6 @@
     <exception-type>
           java.lang.IllegalArgumentException
     </exception-type>
-    <location>/WEB-INF/views/500.html</location>
+    <location>/WEB-INF/views/500</location>
   </error-page>
 </web-app>

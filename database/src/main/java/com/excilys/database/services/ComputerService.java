@@ -48,6 +48,11 @@ public enum ComputerService {
         return page;
     }
 
+    public Page<Computer> listComputers(String regex, long begin, long end) {
+        Page<Computer> page = new Page<Computer>(computerDAO.listAll(regex, begin, end));
+        return page;
+    }
+
     public Long countComputers() {
         return computerDAO.count();
     }
