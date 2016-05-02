@@ -5,19 +5,18 @@ import java.util.List;
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.CompanyDAO;
 
-public class CompanyService {
+public enum CompanyService {
+
+    INSTANCE;
+
     private CompanyDAO companyDAO;
-    private static CompanyService companyService;
 
     private CompanyService() {
         companyDAO = CompanyDAO.getInstance();
     }
 
-    public static synchronized CompanyService getInstance() {
-        if (companyService == null) {
-            companyService = new CompanyService();
-        }
-        return companyService;
+    public static CompanyService getInstance() {
+        return INSTANCE;
     }
 
     public Company findCompany(Long id) {

@@ -4,19 +4,17 @@ import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
 import com.excilys.database.persistence.ComputerDAO;
 
-public class ComputerService {
+public enum ComputerService {
+
+    INSTANCE;
     private ComputerDAO computerDAO;
-    private static ComputerService ComputerService;
 
     private ComputerService() {
         computerDAO = ComputerDAO.getInstance();
     }
 
     public static synchronized ComputerService getInstance() {
-        if (ComputerService == null) {
-            ComputerService = new ComputerService();
-        }
-        return ComputerService;
+        return INSTANCE;
     }
 
     public Computer findComputer(Long id) {

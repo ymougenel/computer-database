@@ -49,6 +49,7 @@ public class AddComputerServlet extends HttpServlet {
             throws ServletException, IOException {
         String name = request.getParameter("computerName");
         String introduced = request.getParameter("introduced");
+        System.out.println("introduced formated" + introduced);
         String discontinued = request.getParameter("discontinued");
         String companyID = request.getParameter("companyId");
         try {

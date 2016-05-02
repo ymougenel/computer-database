@@ -8,7 +8,7 @@
     <servlet-name>addComputer</servlet-name>
     <servlet-class>com.excilys.database.servlets.AddComputerServlet</servlet-class>
   </servlet>
-    <servlet>
+  <servlet>
     <servlet-name>editComputer</servlet-name>
     <servlet-class>com.excilys.database.servlets.EditComputerServlet</servlet-class>
   </servlet>
@@ -20,7 +20,7 @@
     <servlet-name>addComputer</servlet-name>
     <url-pattern>/addComputer</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>editComputer</servlet-name>
     <url-pattern>/editComputer</url-pattern>
   </servlet-mapping>

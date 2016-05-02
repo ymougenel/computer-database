@@ -1,4 +1,4 @@
-package database.selenium;
+package java.database.selenium;
 
 import static org.junit.Assert.fail;
 

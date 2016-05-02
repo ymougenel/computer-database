@@ -1,7 +1,6 @@
 package com.excilys.database.persistence;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,7 +41,7 @@ public enum DatabaseConnection {
             USERBD = databaseProperties.getProperty("USERBD");
             PASSWORDBD = databaseProperties.getProperty("PASSWORDBD");
             URL = databaseProperties.getProperty("URL");
-        } catch (ClassNotFoundException | IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -54,7 +53,12 @@ public enum DatabaseConnection {
         return INSTANCE;
     }
 
-    /* TODO prototype to specify close connection */
+    /**
+     * Access to a database connection
+     * Note : the connection must be closed by the client
+     * @return a new Connection()
+     * @throws SQLException
+     */
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USERBD, PASSWORDBD);
     }
