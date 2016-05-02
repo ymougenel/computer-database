@@ -14,7 +14,15 @@
 			</a></li>
 		</c:if>
 		<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
-   			<li><a href="/database/dashboard?pageIndex=${i}">${i}</a></li>
+			<c:choose>
+				<c:when test="${i == currentIndex}">
+					<li class="active"><a
+						href="/database/dashboard?pageIndex=${i}">${i}</a></li>
+				</c:when>
+				<c:otherwise>
+					<li><a href="/database/dashboard?pageIndex=${i}">${i}</a></li>
+				</c:otherwise>
+			</c:choose>
 		</c:forEach>
 		<c:if test="${notEndIndex}">
 			<li><a href="/database/dashboard?pageIndex=${currentIndex + 1}"

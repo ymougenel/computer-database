@@ -14,7 +14,7 @@ public class ComputerValidador {
     }
 
     public static void computerIdValidation(Long id) throws IllegalArgumentException {
-        boolean valid = (id != null) && id >0;
+        boolean valid = (id != null) && id > 0;
         if (!valid) {
             throw new IllegalArgumentException("Id " + id + "not valid");
         }
@@ -53,7 +53,9 @@ public class ComputerValidador {
             throw new IllegalArgumentException("Discontinued date " + discontinued + "not valid");
         }
 
-        //TODO validate the company
+        if (comp.getCompany() != null) {
+            CompanyValidation.companyValidation(comp.getCompany());
+        }
     }
 
     public static void main(String... strings) {
