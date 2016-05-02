@@ -13,6 +13,13 @@ public class ComputerValidador {
         }
     }
 
+    public static void computerIdValidation(Long id) throws IllegalArgumentException {
+        boolean valid = (id != null) && id >0;
+        if (!valid) {
+            throw new IllegalArgumentException("Id " + id + "not valid");
+        }
+    }
+
     public static void computerDateValidation(String date) throws IllegalArgumentException {
         boolean valid = (date != null)
                 && (date.matches("^((?:19|20)\\d{2})-(0?\\d|1[012])-(0?\\d|[12]\\d|3[01])$"));
@@ -46,6 +53,7 @@ public class ComputerValidador {
             throw new IllegalArgumentException("Discontinued date " + discontinued + "not valid");
         }
 
+        //TODO validate the company
     }
 
     public static void main(String... strings) {

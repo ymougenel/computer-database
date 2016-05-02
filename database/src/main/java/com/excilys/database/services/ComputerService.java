@@ -19,6 +19,7 @@ public enum ComputerService {
     }
 
     public Computer findComputer(Long id) {
+        ComputerValidador.computerIdValidation(id);
         return computerDAO.find(id);
     }
 
@@ -28,10 +29,12 @@ public enum ComputerService {
     }
 
     public void deleteComputer(Computer comp) {
+        ComputerValidador.computerValidation(comp);
         computerDAO.delete(comp);
     }
 
     public Computer updateComputer(Computer comp) {
+        ComputerValidador.computerValidation(comp);
         return computerDAO.update(comp);
     }
 
