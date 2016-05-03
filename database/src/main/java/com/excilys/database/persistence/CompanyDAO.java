@@ -200,19 +200,38 @@ public enum CompanyDAO implements DAO<Company> {
     @Override
     public void delete(Company comp) {
         logger.info("DELETE" + " << " + comp.toString());
+
         Connection con = null;
         try {
             con = DatabaseConnection.getInstance().getConnection();
-            PreparedStatement stmt = con.prepareStatement(DELETE);
-            stmt.setLong(1, comp.getId());
-            stmt.executeUpdate();
+            con.setAutoCommit(false);
+
+            // Deleting related computers
+            PreparedStatement deleteComputer = con.prepareStatement("DELETE FROM computer where company_id = ?");
+            deleteComputer.setLong(1, comp.getId());
+
+            PreparedStatement deleteCompany = con.prepareStatement(DELETE);
+            deleteCompany.setLong(1, comp.getId());
+
+            deleteComputer.executeUpdate();
+            deleteCompany.executeUpdate();
+
+            con.commit();
+            con.setAutoCommit(true);
         } catch (SQLException e) {
+            try {
+                con.rollback();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
             e.printStackTrace();
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
             try {
                 con.close();
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }

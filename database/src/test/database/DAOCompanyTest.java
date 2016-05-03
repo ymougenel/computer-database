@@ -14,7 +14,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.excilys.database.entities.Company;
+import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.CompanyDAO;
+import com.excilys.database.persistence.ComputerDAO;
 
 public class DAOCompanyTest {
     private static CompanyDAO companyDAO;
@@ -102,6 +104,27 @@ public class DAOCompanyTest {
         assertEquals(count, companies.size());
     }
 
+    @Test
+    public void deleteCascade(){
+        ComputerDAO  computerDAO = ComputerDAO.getInstance();
+        Company deleteCascade = new Company("deleteCascade");
+        Computer comp1 = new Computer.Builder("c1").company(deleteCascade).build();
+        Computer comp2 = new Computer.Builder("c2").company(deleteCascade).build();
+        companyDAO.create(deleteCascade);
+        computerDAO.create(comp1);
+        computerDAO.create(comp2);
+
+
+        companyDAO.delete(deleteCascade);
+        Computer result1 = computerDAO.find(comp1.getId());
+        Computer result2 = computerDAO.find(comp2.getId());
+        Company result3 = companyDAO.find(deleteCascade.getId());
+        assertNull(result1);
+        assertNull(result2);
+        assertNull(result3);
+
+
+    }
     @AfterClass
     public static void cleanBdd() {
         List<Company> companys = new LinkedList<Company>(companyDAO.listAll());
@@ -111,4 +134,5 @@ public class DAOCompanyTest {
             }
         }
     }
+
 }
