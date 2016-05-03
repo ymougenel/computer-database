@@ -11,7 +11,7 @@
     			</filter>
     			
 	   			<encoder>
-	      			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %file - %msg%n</pattern>
+	      			<pattern>%date [%thread] %-5level %file - %msg%n</pattern>
 	    		</encoder>
 	  	</appender>
 
@@ -23,7 +23,7 @@
     			</filter>
 	  		
 	   			<encoder>
-	      			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %file - %msg%n</pattern>
+	      			<pattern>%date [%thread] %-5level %file - %msg%n</pattern>
 	    		</encoder>
 	  	</appender>
 	  			
