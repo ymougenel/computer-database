@@ -21,6 +21,7 @@ public class DashboardServlet extends HttpServlet {
     private int pageIndex;
     private int beginIndex;
     private int endIndex;
+    private String search;
 
     /**
      * Default constructor.
@@ -39,21 +40,23 @@ public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Long count = ComputerService.getInstance().countComputers();
         processParameters(request, response);
-        String search = request.getParameter("search");
+        Long count = null;
         Page<Computer> page = null;
 
         if (search != null && search != "") {
+            count = ComputerService.getInstance().countComputers(search);
             request.setAttribute("search", search);
-            page = ComputerService.getInstance().listComputers(search, (this.pageIndex - 1) * this.pageSize,
-                    this.pageSize);
+            page = ComputerService.getInstance().listComputers(search,
+                    (this.pageIndex - 1) * this.pageSize, this.pageSize);
         } else {
+            count = ComputerService.getInstance().countComputers();
             page = ComputerService.getInstance().listComputers((this.pageIndex - 1) * this.pageSize,
                     this.pageSize);
         }
 
         Page<ComputerDTO> pageDTO = new Page<ComputerDTO>();
+        pageDTO.setSearch(search);
         for (Computer comp : page.getEntities()) {
             pageDTO.addEntity(new ComputerDTO(comp));
         }
@@ -85,8 +88,8 @@ public class DashboardServlet extends HttpServlet {
     private void processParameters(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processNavbarRequestMessage(request);
+        search = request.getParameter("search");
         String pageSizeInput = request.getParameter("pageSize");
-
         if (pageSizeInput != null) {
             if (pageSizeInput.equals("10") || pageSizeInput.equals("50")
                     || pageSizeInput.equals("100")) {
@@ -97,14 +100,7 @@ public class DashboardServlet extends HttpServlet {
 
         String pageIndexInput = request.getParameter("pageIndex");
         if (pageIndexInput != null) {
-            try {
-                this.pageIndex = Integer.parseInt(pageIndexInput);
-                if (this.pageIndex < 1) {
-                    throw new NumberFormatException("Wrong index");
-                }
-            } catch (NumberFormatException e) {
-                request.getRequestDispatcher("/WEB-INF/views/500.html").forward(request, response);
-            }
+            this.pageIndex = Integer.parseInt(pageIndexInput);
         }
     }
 

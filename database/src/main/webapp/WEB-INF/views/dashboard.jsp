@@ -43,7 +43,7 @@
 				<form id="searchForm" action="#" method="GET" class="form-inline">
 
 					<input type="search" id="searchbox" name="search"
-						class="form-control" value="${search}" placeholder="Search name"/> <input
+						class="form-control" value="${page.search}" placeholder="Search name"/><input
 						type="submit" id="searchsubmit" value="Filter by name"
 						class="btn btn-primary" />
 				</form>
@@ -103,7 +103,7 @@
 	<footer class="navbar-fixed-bottom"> <myTags:pagination
 		currentIndex="${page.index}" notBeginIndex="${notBeginIndex}"
 		notEndIndex="${notEndIndex}" beginIndex="${beginIndex}"
-		endIndex="${endIndex}"></myTags:pagination> </footer>
+		endIndex="${endIndex}" search="${page.search}" offset="${page.maxSize}"></myTags:pagination> </footer>
 	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/dashboard.js"></script>

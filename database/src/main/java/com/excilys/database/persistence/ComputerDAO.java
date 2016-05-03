@@ -35,6 +35,7 @@ public enum ComputerDAO implements DAO<Computer> {
     private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id LIMIT ?,?;";
     private static final String LISTALL_INDEX_REGEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name LIKE ? LIMIT ?,?;";
     private static final String COUNT = "SELECT COUNT(*) FROM computer;";
+    private static final String COUNT_REGEX = "SELECT COUNT(*) FROM computer WHERE name LIKE ?;";
 
     private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
 
@@ -446,6 +447,45 @@ public enum ComputerDAO implements DAO<Computer> {
             con = DatabaseConnection.getInstance().getConnection();
             Statement stmt = con.createStatement();
             results = stmt.executeQuery(COUNT);
+
+            if (results.next()) {
+                count = results.getLong(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        } finally {
+            try {
+                results.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return count;
+    }
+
+    /**
+     * Count the computers.
+     *
+     * @param regex The regular expression used for the counting
+     * @return number of computers
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
+     */
+    public long count(String regex) {
+        logger.info("COUNT" + regex);
+        ResultSet results = null;
+        long count = 0;
+        Connection con = null;
+        try {
+            con = DatabaseConnection.getInstance().getConnection();
+            PreparedStatement stmt = con.prepareStatement(COUNT_REGEX);
+            stmt.setString(1, "%"+regex+"%");
+            results = stmt.executeQuery();
 
             if (results.next()) {
                 count = results.getLong(1);

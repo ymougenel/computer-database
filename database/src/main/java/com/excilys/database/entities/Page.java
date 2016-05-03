@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Page<T extends Entity> {
-    protected long maxSize;
-    protected int index;
+    private long maxSize;
+    private int index;
+    private String search = "";
+
     public int getIndex() {
         return index;
     }
@@ -22,12 +24,10 @@ public class Page<T extends Entity> {
 
     public Page() {
         entities = new ArrayList<T>();
-        maxSize = 12;
     }
 
     public Page(List<T> e) {
         entities = new ArrayList<T>(e);
-        maxSize = 12;
     }
 
     public Page(List<T> e, int s) {
@@ -60,5 +60,13 @@ public class Page<T extends Entity> {
 
     public void setEntities(List<T> entities) {
         this.entities = entities;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
     }
 }

@@ -1,5 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 
+<%@ attribute name="search" required="true"%>
+<%@ attribute name="offset" required="true"%>
 <%@ attribute name="currentIndex" required="true"%>
 <%@ attribute name="notBeginIndex" required="true"%>
 <%@ attribute name="notEndIndex" required="true"%>
@@ -9,7 +12,8 @@
 <div class="container text-center">
 	<ul class="pagination">
 		<c:if test="${notBeginIndex}">
-			<li><a href="/database/dashboard?pageIndex=${currentIndex - 1}"
+			<li><a
+				<tags:href target="/database/dashboard" pageIndex="${currentIndex - 1}" pageSize="${offset}" search="${search}"/>
 				aria-label="Previous" id="previous"> <span aria-hidden="true">&laquo;</span>
 			</a></li>
 		</c:if>
@@ -17,26 +21,29 @@
 			<c:choose>
 				<c:when test="${i == currentIndex}">
 					<li class="active"><a
-						href="/database/dashboard?pageIndex=${i}">${i}</a></li>
+						<tags:href target="/database/dashboard" pageIndex="${i}" pageSize="${offset}" search="${search}"/>>${i}</a></li>
 				</c:when>
 				<c:otherwise>
-					<li><a href="/database/dashboard?pageIndex=${i}">${i}</a></li>
+					<li><a <tags:href target="/database/dashboard" pageIndex="${i}" pageSize="${offset}" search="${search}"/>>${i}</a></li>
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
 		<c:if test="${notEndIndex}">
-			<li><a href="/database/dashboard?pageIndex=${currentIndex + 1}"
+			<li><a <tags:href target="/database/dashboard" pageIndex="${currentIndex + 1}" pageSize="${offset}" search="${search}"/>
 				aria-label="Next" id="next"> <span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</c:if>
 	</ul>
 
 	<div class="btn-group btn-group-sm pull-right" role="group">
-		<a href="/database/dashboard?pageSize=10"><button type="button"
-				class="btn btn-default">10</button></a> <a
-			href="/database/dashboard?pageSize=50"><button type="button"
-				class="btn btn-default">50</button></a> <a
-			href="/database/dashboard?pageSize=100"><button type="button"
+		<a <tags:href target="/database/dashboard" pageIndex="1" pageSize="10" search="${search}"/>>
+			<button type="button"
+				class="btn btn-default">10</button></a>
+				<a <tags:href target="/database/dashboard" pageIndex="1" pageSize="50" search="${search}"/>>
+				<button type="button"
+				class="btn btn-default">50</button></a>
+				<a <tags:href target="/database/dashboard" pageIndex="1" pageSize="100" search="${search}"/>>
+				<button type="button"
 				class="btn btn-default">100</button></a>
 	</div>
 </div>
