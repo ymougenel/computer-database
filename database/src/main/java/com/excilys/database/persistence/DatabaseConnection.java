@@ -3,9 +3,10 @@ package com.excilys.database.persistence;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * . Database connection handler (singleton)
@@ -20,6 +21,7 @@ public enum DatabaseConnection {
     private static String PASSWORDBD = null;
     private static String URL = null;
     private static final String PROPERTIES_FILE = "database.properties";
+    private static HikariDataSource connectionPool;
 
     /*
      * Static code initializing the database parameters
@@ -40,6 +42,18 @@ public enum DatabaseConnection {
             USERBD = databaseProperties.getProperty("USERBD");
             PASSWORDBD = databaseProperties.getProperty("PASSWORDBD");
             URL = databaseProperties.getProperty("URL");
+
+            // Setting the pool (cf https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration )
+            connectionPool = new HikariDataSource();
+            connectionPool.setUsername(USERBD);
+            connectionPool.setPassword(PASSWORDBD);
+            connectionPool.setJdbcUrl(URL);
+            // Enable cache prepared statements
+            connectionPool.addDataSourceProperty("cachePrepStmts", "true");
+            // sets the number of prepared statements that the MySQL driver will cache per connection
+            connectionPool.addDataSourceProperty("prepStmtCacheSize", "10");
+            // This is the maximum length of a prepared SQL statement that the driver will cache (2048 recommended)
+            connectionPool.addDataSourceProperty("prepStmtCacheSqlLimit","2048");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,7 +73,7 @@ public enum DatabaseConnection {
      * @throws SQLException
      */
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USERBD, PASSWORDBD);
+        return connectionPool.getConnection();
     }
 
 }

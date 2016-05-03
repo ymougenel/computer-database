@@ -20,6 +20,7 @@
 		<checkstyle.version>2.17</checkstyle.version>
 		<level.version>1.8</level.version>
 		<compile.version>3.5.1</compile.version>
+		<hikari.version>2.4.5</hikari.version>
 		<tomcatplugin.version>2.2</tomcatplugin.version>
 
 		<slf4j.version>1.7.21</slf4j.version>
@@ -74,6 +75,13 @@
 <!-- 			<scope>runtime</scope> -->
 		</dependency>
 
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>${hikari.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
 		<!-- Servlet -->
 
 		<dependency>
