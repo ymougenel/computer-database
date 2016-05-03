@@ -10,7 +10,7 @@
 	<ul class="pagination">
 		<c:if test="${notBeginIndex}">
 			<li><a href="/database/dashboard?pageIndex=${currentIndex - 1}"
-				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+				aria-label="Previous" id="previous"> <span aria-hidden="true">&laquo;</span>
 			</a></li>
 		</c:if>
 		<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
@@ -26,7 +26,7 @@
 		</c:forEach>
 		<c:if test="${notEndIndex}">
 			<li><a href="/database/dashboard?pageIndex=${currentIndex + 1}"
-				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+				aria-label="Next" id="next"> <span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</c:if>
 	</ul>

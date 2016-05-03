@@ -22,7 +22,6 @@
   <!--  Servlets mapping -->
   <servlet-mapping>
     <servlet-name>dashboard</servlet-name>
-    <url-pattern>/</url-pattern>
     <url-pattern>/dashboard</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
