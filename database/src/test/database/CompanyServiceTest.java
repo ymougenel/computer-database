@@ -13,7 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.excilys.database.entities.Company;
+import com.excilys.database.entities.Computer;
 import com.excilys.database.services.CompanyService;
+import com.excilys.database.services.ComputerService;
 
 public class CompanyServiceTest {
     private static CompanyService companyService;
@@ -115,6 +117,28 @@ public class CompanyServiceTest {
         assertEquals(count, companies.size());
     }
 
+    @Test
+    public void deleteCascade(){
+
+        ComputerService  computerService = ComputerService.getInstance();
+        Company deleteCascade = new Company("deleteCascade");
+        Computer comp1 = new Computer.Builder("c1").company(deleteCascade).build();
+        Computer comp2 = new Computer.Builder("c2").company(deleteCascade).build();
+        companyService.insertCompany(deleteCascade);
+        computerService.insertComputer(comp1);
+        computerService.insertComputer(comp2);
+
+
+        companyService.deleteCompany(deleteCascade);
+        Computer result1 = computerService.findComputer(comp1.getId());
+        Computer result2 = computerService.findComputer(comp2.getId());
+        Company result3 = companyService.findCompany(deleteCascade.getId());
+        assertNull(result1);
+        assertNull(result2);
+        assertNull(result3);
+
+
+    }
     @AfterClass
     public static void cleanBdd() {
         for (Company comp : companyService.listCompanies()) {

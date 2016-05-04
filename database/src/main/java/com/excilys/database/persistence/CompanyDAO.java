@@ -238,6 +238,20 @@ public enum CompanyDAO implements DAO<Company> {
         }
     }
 
+    public void delete(Connection con, Company comp) {
+        logger.info("DELETE con" + " << " + comp.toString());
+        try {
+            PreparedStatement deleteCompany = con.prepareStatement(DELETE);
+            deleteCompany.setLong(1, comp.getId());
+            deleteCompany.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        }
+    }
+
     /**
      * Wrapper function returning the entity.
      *

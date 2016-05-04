@@ -269,6 +269,20 @@ public enum ComputerDAO implements DAO<Computer> {
         }
     }
 
+    public void delete(Connection con, Long idCompany) {
+        logger.info("DELETE ID Company " + " << " + idCompany);
+        try {
+            // Deleting related computers
+            PreparedStatement deleteComputer = con.prepareStatement("DELETE FROM computer where company_id = ?");
+            deleteComputer.setLong(1, idCompany);
+            deleteComputer.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        }
+    }
+
     /**
      * Wrapper function returning the entity
      *
