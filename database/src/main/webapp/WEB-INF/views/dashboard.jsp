@@ -75,12 +75,12 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th>Computer name</th>
-					<th>Introduced date</th>
+					<th><a href="dashboard?field=name" >Computer name</a></th>
+					<th><a href="dashboard?field=introduced" >Introduced date</a></th>
 					<!-- Table header for Discontinued Date -->
-					<th>Discontinued date</th>
+					<th><a href="dashboard?field=discontinued" >Discontinued date</a></th>
 					<!-- Table header for Company -->
-					<th>Company</th>
+					<th><a href="dashboard?field=company" >Company</a></th>
 
 				</tr>
 			</thead>

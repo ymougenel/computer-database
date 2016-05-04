@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
+import com.excilys.database.entities.Page;
 
 /**
  * Computer DAO (Singleton) Provides CRUD computer database methods : Create, Retrieve, Update,
@@ -32,8 +33,8 @@ public enum ComputerDAO implements DAO<Computer> {
     private static final String UPDATE = "UPDATE computer SET name= ?, introduced= ?, discontinued = ?, company_id = ? WHERE id = ?;";
     private static final String DELETE = "DELETE FROM computer WHERE id = ?;";
     private static final String LISTALL = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id;";
-    private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id LIMIT ?,?;";
-    private static final String LISTALL_INDEX_REGEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name LIKE ? LIMIT ?,?;";
+    private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id ORDER BY %s LIMIT ?,?;";
+    private static final String LISTALL_INDEX_REGEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name LIKE ? ORDER BY %s LIMIT ?,?;";
     private static final String COUNT = "SELECT COUNT(*) FROM computer;";
     private static final String COUNT_REGEX = "SELECT COUNT(*) FROM computer WHERE name LIKE ?;";
 
@@ -342,49 +343,6 @@ public enum ComputerDAO implements DAO<Computer> {
     }
 
     /**
-     * List of the computers from an indexed research
-     *
-     * @param begin
-     *            the search index start
-     * @param end
-     *            the search index end
-     * @return the list of all the computers
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
-    public List<Computer> listAll(long begin, long end) {
-        logger.info("LISTALL_INDEX" + " << " + begin + ", " + end);
-        ResultSet results = null;
-        List<Computer> computers = new ArrayList<Computer>();
-        Connection con = null;
-        try {
-            con = DatabaseConnection.getInstance().getConnection();
-            PreparedStatement stmt = con.prepareStatement(LISTALL_INDEX);
-            stmt.setLong(1, begin);
-            stmt.setLong(2, end);
-            results = stmt.executeQuery();
-
-            Computer c;
-            while ((c = wrapDatabaseResult(results)) != null) {
-                computers.add(c);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
-        } finally {
-            try {
-                results.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return computers;
-    }
-
-    /**
      * List of the computers from an indexed research and a regex
      *
      * @param regex
@@ -397,17 +355,29 @@ public enum ComputerDAO implements DAO<Computer> {
      * @throws DAOException
      *             exception raised by connection or wrapper errors
      */
-    public List<Computer> listAll(String regex, long begin, long end) {
+    public List<Computer> listAll(String regex, long begin, long end, Page.CompanyTable field,
+            Page.Order order) {
         logger.info("LISTALL_INDEX_REGEX" + " << " + regex + begin + ", " + end);
         ResultSet results = null;
         List<Computer> computers = new ArrayList<Computer>();
         Connection con = null;
         try {
+            // Getting the connection and preparing the request
             con = DatabaseConnection.getInstance().getConnection();
-            PreparedStatement stmt = con.prepareStatement(LISTALL_INDEX_REGEX);
-            stmt.setString(1, "%"+regex+"%");
-            stmt.setLong(2, begin);
-            stmt.setLong(3, end);
+            PreparedStatement stmt;
+            if (regex != null && !regex.isEmpty()) {
+                stmt = con.prepareStatement(
+                        String.format(LISTALL_INDEX_REGEX, field + " " + order.name()));
+                stmt.setString(1, "%" + regex + "%");
+                stmt.setLong(2, begin);
+                stmt.setLong(3, end);
+            } else {
+                stmt = con
+                        .prepareStatement(String.format(LISTALL_INDEX, field + " " + order.name()));
+                stmt.setLong(1, begin);
+                stmt.setLong(2, end);
+            }
+
             results = stmt.executeQuery();
 
             Computer c;
@@ -471,7 +441,8 @@ public enum ComputerDAO implements DAO<Computer> {
     /**
      * Count the computers.
      *
-     * @param regex The regular expression used for the counting
+     * @param regex
+     *            The regular expression used for the counting
      * @return number of computers
      * @throws DAOException
      *             exception raised by connection or wrapper errors
@@ -484,7 +455,7 @@ public enum ComputerDAO implements DAO<Computer> {
         try {
             con = DatabaseConnection.getInstance().getConnection();
             PreparedStatement stmt = con.prepareStatement(COUNT_REGEX);
-            stmt.setString(1, "%"+regex+"%");
+            stmt.setString(1, "%" + regex + "%");
             results = stmt.executeQuery();
 
             if (results.next()) {

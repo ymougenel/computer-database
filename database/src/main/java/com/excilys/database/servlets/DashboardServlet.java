@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.ComputerDTO;
 import com.excilys.database.entities.Page;
+import com.excilys.database.entities.Page.Order;
 import com.excilys.database.services.ComputerService;
 
 /**
@@ -22,6 +23,8 @@ public class DashboardServlet extends HttpServlet {
     private int beginIndex;
     private int endIndex;
     private String search;
+    private Page.Order order;
+    private Page.CompanyTable field;
 
     /**
      * Default constructor.
@@ -47,13 +50,11 @@ public class DashboardServlet extends HttpServlet {
         if (search != null && search != "") {
             count = ComputerService.getInstance().countComputers(search);
             request.setAttribute("search", search);
-            page = ComputerService.getInstance().listComputers(search,
-                    (this.pageIndex - 1) * this.pageSize, this.pageSize);
         } else {
             count = ComputerService.getInstance().countComputers();
-            page = ComputerService.getInstance().listComputers((this.pageIndex - 1) * this.pageSize,
-                    this.pageSize);
         }
+        page = ComputerService.getInstance().listComputers(search,
+                (this.pageIndex - 1) * this.pageSize, this.pageSize, field, order);
 
         Page<ComputerDTO> pageDTO = new Page<ComputerDTO>();
         pageDTO.setSearch(search);
@@ -88,6 +89,20 @@ public class DashboardServlet extends HttpServlet {
     private void processParameters(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processNavbarRequestMessage(request);
+
+        String orderInput = request.getParameter("order");
+        if (orderInput != null && orderInput.equals("DESC")) {
+            order = Order.DESC;
+        } else {
+            order = Order.ASC;
+        }
+
+        String fieldInput = request.getParameter("field");
+        if (fieldInput != null) {
+            field = Page.CompanyTable.getField(fieldInput);
+        }
+
+
         search = request.getParameter("search");
         String pageSizeInput = request.getParameter("pageSize");
         if (pageSizeInput != null) {

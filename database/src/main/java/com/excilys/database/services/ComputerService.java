@@ -43,13 +43,8 @@ public enum ComputerService {
         return page;
     }
 
-    public Page<Computer> listComputers(long begin, long end) {
-        Page<Computer> page = new Page<Computer>(computerDAO.listAll(begin, end));
-        return page;
-    }
-
-    public Page<Computer> listComputers(String regex, long begin, long end) {
-        Page<Computer> page = new Page<Computer>(computerDAO.listAll(regex, begin, end));
+    public Page<Computer> listComputers(String regex, long begin, long end, Page.CompanyTable field, Page.Order order) {
+        Page<Computer> page = new Page<Computer>(computerDAO.listAll(regex, begin, end, field, order));
         return page;
     }
 

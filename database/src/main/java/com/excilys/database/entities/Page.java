@@ -4,8 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Page<T extends Entity> {
+
+    public enum CompanyTable {
+        ID,NAME,INTRODUCED,DISCONTINUED,COMPANY_ID;
+        public static CompanyTable getField(String field) {
+            switch (field) {
+                case "id":
+                    return ID;
+                case "name":
+                    return NAME;
+                case "introduced":
+                    return INTRODUCED;
+                case "discontinued":
+                    return DISCONTINUED;
+                case "company":
+                    return COMPANY_ID;
+                default :
+                    return ID;
+            }
+        }
+    }
+
+    public enum Order {
+        ASC,DESC;
+    }
+
     private long maxSize;
     private int index;
+    private CompanyTable field;
+    private Order order;
     private String search = "";
 
     public int getIndex() {
@@ -68,5 +95,9 @@ public class Page<T extends Entity> {
 
     public void setSearch(String search) {
         this.search = search;
+    }
+
+    public static void main(String[] strings) {
+        System.out.println();
     }
 }
