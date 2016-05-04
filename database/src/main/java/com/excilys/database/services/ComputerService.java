@@ -2,6 +2,8 @@ package com.excilys.database.services;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
+import com.excilys.database.entities.Page.CompanyTable;
+import com.excilys.database.entities.Page.Order;
 import com.excilys.database.persistence.ComputerDAO;
 import com.excilys.database.validadors.ComputerValidador;
 
@@ -43,7 +45,7 @@ public enum ComputerService {
         return page;
     }
 
-    public Page<Computer> listComputers(String regex, long begin, long end, Page.CompanyTable field, Page.Order order) {
+    public Page<Computer> listComputers(String regex, long begin, long end, CompanyTable field, Order order) {
         Page<Computer> page = new Page<Computer>(computerDAO.listAll(regex, begin, end, field, order));
         return page;
     }

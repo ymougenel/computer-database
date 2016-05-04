@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.CompanyDAO;
+import com.excilys.database.validadors.ComputerValidador;
 
 public enum CompanyService {
 
@@ -20,6 +21,7 @@ public enum CompanyService {
     }
 
     public Company findCompany(Long id) {
+        ComputerValidador.computerIdValidation(id);
         return companyDAO.find(id);
     }
 

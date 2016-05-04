@@ -20,7 +20,7 @@ public class Page<T extends Entity> {
                 case "company":
                     return COMPANY_ID;
                 default :
-                    return ID;
+                    return NAME;
             }
         }
     }
@@ -29,8 +29,8 @@ public class Page<T extends Entity> {
         ASC,DESC;
     }
 
-    private long maxSize;
-    private int index;
+    private long maxSize = 10;
+    private int index = 1;
     private CompanyTable field;
     private Order order;
     private String search = "";
@@ -99,5 +99,21 @@ public class Page<T extends Entity> {
 
     public static void main(String[] strings) {
         System.out.println();
+    }
+
+    public CompanyTable getField() {
+        return field;
+    }
+
+    public void setField(CompanyTable field) {
+        this.field = field;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

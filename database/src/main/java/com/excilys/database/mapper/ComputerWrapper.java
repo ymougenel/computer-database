@@ -10,7 +10,9 @@ import com.excilys.database.validadors.ComputerValidador;
 
 public class ComputerWrapper {
 
-    public static Computer wrapWebRequest(HttpServletRequest request, boolean idValidationRequired) {
+    // Create a page based on the web request
+    public static Computer wrapWebRequest(HttpServletRequest request,
+            boolean idValidationRequired) {
         String idInput = request.getParameter("computerId");
         String nameInput = request.getParameter("computerName");
         String introducedInput = request.getParameter("introduced");
@@ -24,9 +26,6 @@ public class ComputerWrapper {
             Long computerId = Long.parseLong(idInput);
             comp.setId(computerId);
         }
-
-
-
 
         if (companyIDInput != null && !companyIDInput.equals("0")) {
             Company company = new Company("DefaultName");
@@ -47,4 +46,5 @@ public class ComputerWrapper {
 
         return comp;
     }
+
 }

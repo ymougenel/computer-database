@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.ComputerDTO;
 import com.excilys.database.entities.Page;
-import com.excilys.database.entities.Page.Order;
+import com.excilys.database.mapper.PageWrapper;
 import com.excilys.database.services.ComputerService;
 
 /**
@@ -18,21 +18,14 @@ import com.excilys.database.services.ComputerService;
  */
 public class DashboardServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private long pageSize;
-    private int pageIndex;
     private int beginIndex;
     private int endIndex;
-    private String search;
-    private Page.Order order;
-    private Page.CompanyTable field;
 
     /**
      * Default constructor.
      */
     public DashboardServlet() {
         super();
-        pageIndex = 1;
-        pageSize = 10;
     }
 
     /**
@@ -43,10 +36,11 @@ public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        processParameters(request, response);
-        Long count = null;
-        Page<Computer> page = null;
+        processNavbarRequestMessage(request);
 
+        Long count = null;
+        Page<Computer> page = PageWrapper.wrapWebRequest(request);
+        String search = page.getSearch();
         if (search != null && search != "") {
             count = ComputerService.getInstance().countComputers(search);
             request.setAttribute("search", search);
@@ -54,25 +48,17 @@ public class DashboardServlet extends HttpServlet {
             count = ComputerService.getInstance().countComputers();
         }
         page = ComputerService.getInstance().listComputers(search,
-                (this.pageIndex - 1) * this.pageSize, this.pageSize, field, order);
+                (page.getIndex() - 1) * page.getMaxSize(), page.getMaxSize(), page.getField(), page.getOrder());
 
-        Page<ComputerDTO> pageDTO = new Page<ComputerDTO>();
-        pageDTO.setSearch(search);
-        for (Computer comp : page.getEntities()) {
-            pageDTO.addEntity(new ComputerDTO(comp));
-        }
+        Page<ComputerDTO> pageDTO = PageWrapper.wrapPage(page);
 
-        pageDTO.setMaxSize(this.pageSize);
-        pageDTO.setIndex(this.pageIndex);
-
-        setIndexBorders(pageDTO.getMaxSize(), count);
+        setIndexBorders(pageDTO.getMaxSize(), count, page.getIndex());
         request.setAttribute("count", count);
         request.setAttribute("page", pageDTO);
         request.setAttribute("beginIndex", this.beginIndex);
-        request.setAttribute("currentPage", this.pageIndex);
         request.setAttribute("endIndex", this.endIndex);
-        request.setAttribute("notBeginIndex", this.pageIndex != 1);
-        request.setAttribute("notEndIndex", (this.pageIndex - 1) * pageDTO.getMaxSize() < count);
+        request.setAttribute("notBeginIndex", page.getIndex() != 1);
+        request.setAttribute("notEndIndex", (page.getIndex() - 1) * pageDTO.getMaxSize() < count);
         request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
     }
 
@@ -85,42 +71,8 @@ public class DashboardServlet extends HttpServlet {
         doGet(request, response);
     }
 
-    // Process the web inputs : page size and page index
-    private void processParameters(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processNavbarRequestMessage(request);
-
-        String orderInput = request.getParameter("order");
-        if (orderInput != null && orderInput.equals("DESC")) {
-            order = Order.DESC;
-        } else {
-            order = Order.ASC;
-        }
-
-        String fieldInput = request.getParameter("field");
-        if (fieldInput != null) {
-            field = Page.CompanyTable.getField(fieldInput);
-        }
-
-
-        search = request.getParameter("search");
-        String pageSizeInput = request.getParameter("pageSize");
-        if (pageSizeInput != null) {
-            if (pageSizeInput.equals("10") || pageSizeInput.equals("50")
-                    || pageSizeInput.equals("100")) {
-                this.pageSize = Integer.parseInt(pageSizeInput);
-                this.pageIndex = 1;
-            }
-        }
-
-        String pageIndexInput = request.getParameter("pageIndex");
-        if (pageIndexInput != null) {
-            this.pageIndex = Integer.parseInt(pageIndexInput);
-        }
-    }
-
     // Set the pagination index borders (min and max displayed)
-    private void setIndexBorders(Long pageSize, Long nbElements) {
+    private void setIndexBorders(Long pageSize, Long nbElements,int pageIndex) {
         int range = 3;
         beginIndex = pageIndex - range;
         endIndex = pageIndex + range;

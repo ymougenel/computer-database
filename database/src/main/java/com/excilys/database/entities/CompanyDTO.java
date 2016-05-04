@@ -10,7 +10,7 @@ public class CompanyDTO implements Entity{
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
 
     }

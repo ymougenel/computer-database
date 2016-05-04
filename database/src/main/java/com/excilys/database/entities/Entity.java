@@ -4,12 +4,13 @@ public interface Entity {
 
     public Long getId();
 
-    public void setId(long id);
+    public void setId(Long id);
 
     public String getName();
 
     public void setName(String name);
 
+    @Override
     public String toString();
 
 }
