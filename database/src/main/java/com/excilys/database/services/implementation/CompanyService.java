@@ -1,4 +1,4 @@
-package com.excilys.database.services;
+package com.excilys.database.services.implementation;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -8,13 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.database.entities.Company;
-import com.excilys.database.persistence.CompanyDAO;
-import com.excilys.database.persistence.ComputerDAO;
 import com.excilys.database.persistence.DAOException;
 import com.excilys.database.persistence.DatabaseConnection;
+import com.excilys.database.persistence.implementation.CompanyDAO;
+import com.excilys.database.persistence.implementation.ComputerDAO;
+import com.excilys.database.services.CompanyServiceInterface;
 import com.excilys.database.validadors.ComputerValidador;
 
-public enum CompanyService {
+public enum CompanyService implements CompanyServiceInterface{
 
     INSTANCE;
 
@@ -30,19 +31,23 @@ public enum CompanyService {
         return INSTANCE;
     }
 
+    @Override
     public Company findCompany(Long id) {
         ComputerValidador.computerIdValidation(id);
         return companyDAO.find(id);
     }
 
+    @Override
     public Company insertCompany(Company comp) {
         return companyDAO.create(comp);
     }
 
+    @Override
     public Company updateCompany(Company comp) {
         return companyDAO.update(comp);
     }
 
+    @Override
     public void deleteCompany(Company comp) {
 
         logger.info("DELETE" + " << " + comp.toString());
@@ -78,10 +83,12 @@ public enum CompanyService {
         }
     }
 
+    @Override
     public List<Company> listCompanies() {
         return companyDAO.listAll();
     }
 
+    @Override
     public Long countCompanies() {
         return companyDAO.count();
     }

@@ -15,8 +15,8 @@ import org.junit.Test;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
-import com.excilys.database.services.ComputerService;
 import com.excilys.database.services.InvalidInsertionException;
+import com.excilys.database.services.implementation.ComputerService;
 
 public class ComputerServiceTest {
     private static ComputerService computerService;
@@ -125,6 +125,7 @@ public class ComputerServiceTest {
 
     @AfterClass
     public static void cleanBdd() {
+        System.out.println("cleaning");
         Page<Computer> page = computerService.listComputers();
         for (Computer comp : page.getEntities()) {
             if (comp.getId() > 574) {

@@ -1,4 +1,4 @@
-package com.excilys.database.persistence;
+package com.excilys.database.persistence.implementation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.database.entities.Company;
+import com.excilys.database.persistence.CompanyDaoInterface;
+import com.excilys.database.persistence.DAOException;
+import com.excilys.database.persistence.DatabaseConnection;
 
 /**
  * Company DAO (Singleton) Provides CRUD company database methods : Create, Retrieve, Update, Delete
@@ -19,7 +22,7 @@ import com.excilys.database.entities.Company;
  * @author Yann Mougenel
  *
  */
-public enum CompanyDAO implements DAO<Company> {
+public enum CompanyDAO implements CompanyDaoInterface {
 
     INSTANCE;
 

@@ -13,7 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.excilys.database.entities.Computer;
-import com.excilys.database.persistence.ComputerDAO;
+import com.excilys.database.persistence.implementation.ComputerDAO;
 
 public class DAOComputerTest {
     private static ComputerDAO computerDAO;

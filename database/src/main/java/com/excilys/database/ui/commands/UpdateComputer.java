@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.DatabaseConnection;
-import com.excilys.database.persistence.ComputerDAO;
+import com.excilys.database.persistence.implementation.ComputerDAO;
 
 public class UpdateComputer extends CommandBD {
 	private Computer computer;

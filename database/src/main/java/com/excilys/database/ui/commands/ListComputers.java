@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
-import com.excilys.database.persistence.ComputerDAO;
 import com.excilys.database.persistence.DatabaseConnection;
+import com.excilys.database.persistence.implementation.ComputerDAO;
 
 public class ListComputers extends CommandBD {
     private long begin;

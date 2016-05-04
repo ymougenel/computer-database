@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.DatabaseConnection;
-import com.excilys.database.persistence.CompanyDAO;
+import com.excilys.database.persistence.implementation.CompanyDAO;
 
 public class DeleteCompany extends CommandBD {
 	private Long id;

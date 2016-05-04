@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.DatabaseConnection;
-import com.excilys.database.persistence.ComputerDAO;
+import com.excilys.database.persistence.implementation.ComputerDAO;
 
 public class ShowComputerDetails extends CommandBD {
 	private String field;

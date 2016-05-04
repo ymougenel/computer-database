@@ -11,7 +11,7 @@ import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.ComputerDTO;
 import com.excilys.database.entities.Page;
 import com.excilys.database.mapper.PageWrapper;
-import com.excilys.database.services.ComputerService;
+import com.excilys.database.services.implementation.ComputerService;
 
 /**
  * Servlet implementation class MyServlet

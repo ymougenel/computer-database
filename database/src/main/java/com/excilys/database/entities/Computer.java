@@ -87,7 +87,7 @@ public class Computer implements Entity {
         return "id: " + this.id + "\t" + "name: " + (name == null ? "NULL" : name) + splitName
                 + "introduced: " + ((introduced != null) ? introduced.toString() : "NULL") + split
                 + "discontinued: " + ((discontinued != null) ? discontinued.toString() : "NULL")
-                + split + "company_id: " + (company != null ? company.getName() : "null");
+                + split + "company_id: " + (company != null ? (company.getName()+"("+company.getId()+")") : "NULL");
 
     }
 

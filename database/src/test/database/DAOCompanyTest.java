@@ -15,8 +15,8 @@ import org.junit.Test;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
-import com.excilys.database.persistence.CompanyDAO;
-import com.excilys.database.persistence.ComputerDAO;
+import com.excilys.database.persistence.implementation.CompanyDAO;
+import com.excilys.database.persistence.implementation.ComputerDAO;
 
 public class DAOCompanyTest {
     private static CompanyDAO companyDAO;

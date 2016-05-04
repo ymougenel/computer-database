@@ -1,4 +1,4 @@
-package com.excilys.database.persistence;
+package com.excilys.database.persistence.implementation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
+import com.excilys.database.persistence.ComputerDaoInterface;
+import com.excilys.database.persistence.DAOException;
+import com.excilys.database.persistence.DatabaseConnection;
 
 /**
  * Computer DAO (Singleton) Provides CRUD computer database methods : Create, Retrieve, Update,
@@ -23,7 +26,7 @@ import com.excilys.database.entities.Page;
  * @author Yann Mougenel
  *
  */
-public enum ComputerDAO implements DAO<Computer> {
+public enum ComputerDAO implements ComputerDaoInterface {
 
     INSTANCE;
 

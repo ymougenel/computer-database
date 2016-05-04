@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.database.entities.Computer;
-import com.excilys.database.persistence.ComputerDAO;
+import com.excilys.database.persistence.implementation.ComputerDAO;
 import com.excilys.database.validadors.ComputerValidador;
 
 /**

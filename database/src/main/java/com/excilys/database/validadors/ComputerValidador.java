@@ -54,6 +54,8 @@ public class ComputerValidador {
         }
 
         if (comp.getCompany() != null) {
+            System.out.println(comp);
+            System.out.println(comp.getCompany());
             CompanyValidation.companyValidation(comp.getCompany());
         }
     }

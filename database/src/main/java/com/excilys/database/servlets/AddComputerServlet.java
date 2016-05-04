@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.mapper.ComputerWrapper;
-import com.excilys.database.services.CompanyService;
-import com.excilys.database.services.ComputerService;
+import com.excilys.database.services.implementation.CompanyService;
+import com.excilys.database.services.implementation.ComputerService;
 
 /**
  * Servlet implementation class addComputerServlet

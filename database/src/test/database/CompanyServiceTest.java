@@ -14,8 +14,8 @@ import org.junit.Test;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
-import com.excilys.database.services.CompanyService;
-import com.excilys.database.services.ComputerService;
+import com.excilys.database.services.implementation.CompanyService;
+import com.excilys.database.services.implementation.ComputerService;
 
 public class CompanyServiceTest {
     private static CompanyService companyService;
