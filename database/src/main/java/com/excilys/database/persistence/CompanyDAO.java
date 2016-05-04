@@ -217,23 +217,23 @@ public enum CompanyDAO implements DAO<Company> {
             deleteCompany.executeUpdate();
 
             con.commit();
-            con.setAutoCommit(true);
         } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
             try {
                 con.rollback();
             } catch (SQLException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-            e.printStackTrace();
-            logger.error(e.getMessage());
+
             throw new DAOException(e);
         } finally {
             try {
+                con.setAutoCommit(true);
                 con.close();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException e1) {
+                logger.error(e1.getMessage());
+                e1.printStackTrace();
             }
         }
     }

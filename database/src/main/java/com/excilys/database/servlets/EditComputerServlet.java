@@ -1,7 +1,6 @@
 package com.excilys.database.servlets;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.ComputerDTO;
+import com.excilys.database.mapper.ComputerWrapper;
 import com.excilys.database.services.CompanyService;
 import com.excilys.database.services.ComputerService;
-import com.excilys.database.validadors.ComputerValidador;
 
 /**
  * Servlet implementation class EditComputer
@@ -61,50 +60,18 @@ public class EditComputerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String idInput = request.getParameter("computerId");
-        String nameInput = request.getParameter("computerName");
-        String introducedInput = request.getParameter("introduced");
-        String discontinuedInput = request.getParameter("discontinued");
-        String companyIDInput = request.getParameter("companyId");
 
-        // Computer update based on the input parameters (exception if invalid params)
-        try {
-            ComputerValidador.computerIdValidation(idInput);
-            Long computerId = Long.parseLong(idInput);
-            Computer comp = new Computer.Builder(nameInput).id(computerId).build();
+        Computer comp = ComputerWrapper.wrapWebRequest(request, true);
+        // TODO edit logging
+        ComputerService.getInstance().updateComputer(comp);
 
-            if (companyIDInput != null && !companyIDInput.equals("0")) {
-                Company company = new Company("DefaultName");
-                ComputerValidador.computerIdValidation(companyIDInput);
-                company.setId(Long.parseLong(companyIDInput));
-                comp.setCompany(company);
-            }
-
-            if (introducedInput != null && !introducedInput.equals("")) {
-                ComputerValidador.computerDateValidation(introducedInput);
-                comp.setIntroduced(LocalDate.parse(introducedInput));
-            }
-
-            if (discontinuedInput != null && !discontinuedInput.equals("")) {
-                ComputerValidador.computerDateValidation(discontinuedInput);
-                comp.setDiscontinued(LocalDate.parse(discontinuedInput));
-            }
-
-            System.out.println("Comp:" + comp.toString()); //TODO edit logging
-            ComputerService.getInstance().updateComputer(comp);
-
-            // Setting a success feedback navbar
-            request.setAttribute("postMessage", "true");
-            request.setAttribute("messageLevel", "success");
-            request.setAttribute("messageHeader", "Computer updated");
-            request.setAttribute("messageBody",
-                    "The computer \"" + nameInput + "\" has been successfully updated.");
-            request.getRequestDispatcher("/dashboard").forward(request, response);
-
-        } catch (Exception e) {
-            request.getRequestDispatcher("/WEB-INF/views/500.html").forward(request, response);
-            e.printStackTrace();
-        }
+        // Setting a success feedback navbar
+        request.setAttribute("postMessage", "true");
+        request.setAttribute("messageLevel", "success");
+        request.setAttribute("messageHeader", "Computer updated");
+        request.setAttribute("messageBody",
+                "The computer \"" + comp.getName() + "\" has been successfully updated.");
+        request.getRequestDispatcher("/dashboard").forward(request, response);
 
     }
 
