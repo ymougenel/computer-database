@@ -15,6 +15,7 @@ import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.CompanyDaoInterface;
 import com.excilys.database.persistence.DAOException;
 import com.excilys.database.persistence.DatabaseConnection;
+import com.excilys.database.persistence.LocalTransactionThread;
 
 /**
  * Company DAO (Singleton) Provides CRUD company database methods : Create, Retrieve, Update, Delete
@@ -200,50 +201,52 @@ public enum CompanyDAO implements CompanyDaoInterface {
      * @throws DAOException
      *             exception raised by connection or wrapper errors
      */
+    //    @Override
+    //    public void delete(Company comp) {
+    //        logger.info("DELETE" + " << " + comp.toString());
+    //
+    //        Connection con = null;
+    //        try {
+    //            con = DatabaseConnection.getInstance().getConnection();
+    //            con.setAutoCommit(false);
+    //
+    //            // Deleting related computers
+    //            PreparedStatement deleteComputer = con.prepareStatement("DELETE FROM computer where company_id = ?");
+    //            deleteComputer.setLong(1, comp.getId());
+    //
+    //            PreparedStatement deleteCompany = con.prepareStatement(DELETE);
+    //            deleteCompany.setLong(1, comp.getId());
+    //
+    //            deleteComputer.executeUpdate();
+    //            deleteCompany.executeUpdate();
+    //
+    //            con.commit();
+    //        } catch (SQLException e) {
+    //            e.printStackTrace();
+    //            logger.error(e.getMessage());
+    //            try {
+    //                con.rollback();
+    //            } catch (SQLException e1) {
+    //                e1.printStackTrace();
+    //            }
+    //
+    //            throw new DAOException(e);
+    //        } finally {
+    //            try {
+    //                con.setAutoCommit(true);
+    //                con.close();
+    //            } catch (SQLException e1) {
+    //                logger.error(e1.getMessage());
+    //                e1.printStackTrace();
+    //            }
+    //        }
+    //    }
+
     @Override
     public void delete(Company comp) {
-        logger.info("DELETE" + " << " + comp.toString());
-
-        Connection con = null;
-        try {
-            con = DatabaseConnection.getInstance().getConnection();
-            con.setAutoCommit(false);
-
-            // Deleting related computers
-            PreparedStatement deleteComputer = con.prepareStatement("DELETE FROM computer where company_id = ?");
-            deleteComputer.setLong(1, comp.getId());
-
-            PreparedStatement deleteCompany = con.prepareStatement(DELETE);
-            deleteCompany.setLong(1, comp.getId());
-
-            deleteComputer.executeUpdate();
-            deleteCompany.executeUpdate();
-
-            con.commit();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-
-            throw new DAOException(e);
-        } finally {
-            try {
-                con.setAutoCommit(true);
-                con.close();
-            } catch (SQLException e1) {
-                logger.error(e1.getMessage());
-                e1.printStackTrace();
-            }
-        }
-    }
-
-    public void delete(Connection con, Company comp) {
         logger.info("DELETE con" + " << " + comp.toString());
         try {
+            Connection con = LocalTransactionThread.get();
             PreparedStatement deleteCompany = con.prepareStatement(DELETE);
             deleteCompany.setLong(1, comp.getId());
             deleteCompany.executeUpdate();

@@ -18,6 +18,7 @@ import com.excilys.database.entities.Page;
 import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.persistence.DAOException;
 import com.excilys.database.persistence.DatabaseConnection;
+import com.excilys.database.persistence.LocalTransactionThread;
 
 /**
  * Computer DAO (Singleton) Provides CRUD computer database methods : Create, Retrieve, Update,
@@ -272,10 +273,12 @@ public enum ComputerDAO implements ComputerDaoInterface {
         }
     }
 
-    public void delete(Connection con, Long idCompany) {
+    @Override
+    public void delete(Long idCompany) {
         logger.info("DELETE ID Company " + " << " + idCompany);
         try {
             // Deleting related computers
+            Connection con = LocalTransactionThread.get();
             PreparedStatement deleteComputer = con.prepareStatement("DELETE FROM computer where company_id = ?");
             deleteComputer.setLong(1, idCompany);
             deleteComputer.executeUpdate();
@@ -372,6 +375,7 @@ public enum ComputerDAO implements ComputerDaoInterface {
      * @throws DAOException
      *             exception raised by connection or wrapper errors
      */
+    @Override
     public List<Computer> listAll(String regex, long begin, long end, Page.CompanyTable field,
             Page.Order order) {
         logger.info("LISTALL_INDEX_REGEX" + " << " + regex + begin + ", " + end);
@@ -464,6 +468,7 @@ public enum ComputerDAO implements ComputerDaoInterface {
      * @throws DAOException
      *             exception raised by connection or wrapper errors
      */
+    @Override
     public long count(String regex) {
         logger.info("COUNT" + regex);
         ResultSet results = null;

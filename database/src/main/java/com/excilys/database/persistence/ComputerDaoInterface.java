@@ -1,6 +1,5 @@
 package com.excilys.database.persistence;
 
-import java.sql.Connection;
 import java.util.List;
 
 import com.excilys.database.entities.Computer;
@@ -59,7 +58,6 @@ public interface ComputerDaoInterface {
      */
     public void delete(Computer comp);
 
-    public void delete(Connection con, Long idCompany);
 
     /**
      * List of the computers
@@ -105,5 +103,7 @@ public interface ComputerDaoInterface {
      *             exception raised by connection or wrapper errors
      */
     public long count(String regex);
+
+    void delete(Long idCompany);
 
 }
