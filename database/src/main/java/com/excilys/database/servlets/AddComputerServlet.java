@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.database.entities.Company;
-import com.excilys.database.entities.Computer;
+import com.excilys.database.entities.ComputerDTO;
 import com.excilys.database.mapper.ComputerWrapper;
 import com.excilys.database.services.implementation.CompanyService;
 import com.excilys.database.services.implementation.ComputerService;
@@ -45,8 +45,9 @@ public class AddComputerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Computer comp = ComputerWrapper.wrapWebRequest(request, false);
-        ComputerService.getInstance().insertComputer(comp);
+        ComputerDTO comp = ComputerWrapper.wrapWebRequest(request);
+        //TODO validation dto
+        ComputerService.getInstance().insertComputer(ComputerDTO.wrapToComputer(comp));
         // TODO Add insertion logging
 
         // Setting a success feedback navbar

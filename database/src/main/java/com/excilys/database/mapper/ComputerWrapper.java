@@ -1,25 +1,21 @@
 package com.excilys.database.mapper;
 
-import java.time.LocalDate;
-
 import javax.servlet.http.HttpServletRequest;
 
-import com.excilys.database.entities.Company;
-import com.excilys.database.entities.Computer;
-import com.excilys.database.validadors.ComputerValidador;
+import com.excilys.database.entities.ComputerDTO;
 
 public class ComputerWrapper {
 
     // Create a page based on the web request
-    public static Computer wrapWebRequest(HttpServletRequest request,
-            boolean idValidationRequired) {
-        String idInput = request.getParameter("computerId");
-        String nameInput = request.getParameter("computerName");
-        String introducedInput = request.getParameter("introduced");
-        String discontinuedInput = request.getParameter("discontinued");
-        String companyIDInput = request.getParameter("companyId");
+    public static ComputerDTO wrapWebRequest(HttpServletRequest request) {
+        ComputerDTO comp = new ComputerDTO();
+        comp.setId(request.getParameter("computerId"));
+        comp.setName(request.getParameter("computerName"));
+        comp.setIntroduced(request.getParameter("introduced"));
+        comp.setDiscontinued(request.getParameter("discontinued"));
+        comp.setCompanyId(request.getParameter("companyId"));
 
-        Computer comp = new Computer.Builder(nameInput).build();
+        /*Computer comp = new Computer.Builder(nameInput).build();
         // Computer update based on the input parameters (exception if invalid params)
         if (idValidationRequired) {
             ComputerValidador.computerIdValidation(idInput);
@@ -42,7 +38,7 @@ public class ComputerWrapper {
         if (discontinuedInput != null && !discontinuedInput.equals("")) {
             ComputerValidador.computerDateValidation(discontinuedInput);
             comp.setDiscontinued(LocalDate.parse(discontinuedInput));
-        }
+        }*/
 
         return comp;
     }

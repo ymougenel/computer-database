@@ -2,45 +2,41 @@ package com.excilys.database.entities;
 
 import java.time.LocalDate;
 
-public class ComputerDTO implements Entity {
-    private Long id;
+public class ComputerDTO {
+    private String id;
     private String name;
     private String introduced;
     private String discontinued;
     private String companyName;
-    private Long companyId;
+    private String companyId;
 
     public ComputerDTO() {
     }
 
     public ComputerDTO(Computer comp) {
-        this.id = comp.getId();
+        this.id = comp.getId().toString();
         this.name = comp.getName();
         this.introduced = (comp.getIntroduced() == null ? "" : comp.getIntroduced().toString());
         this.discontinued = (comp.getDiscontinued() == null
                 ? ""
                         : comp.getDiscontinued().toString());
         this.companyName = (comp.getCompany() == null) ? "" : comp.getCompany().getName();
-        this.companyId = (comp.getCompany() == null) ? null : comp.getCompany().getId();
+        this.companyId = (comp.getCompany() == null) ? null : comp.getCompany().getId().toString();
     }
 
-    @Override
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    @Override
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
 
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -69,22 +65,35 @@ public class ComputerDTO implements Entity {
         this.companyName = companyName;
     }
 
-    public Long getCompanyId() {
+    public String getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(Long companyID) {
+    public void setCompanyId(String companyID) {
         this.companyId = companyID;
     }
 
     public static Computer wrapToComputer(ComputerDTO dto) {
-        Computer comp = new Computer.Builder(dto.name).id(dto.id).build();
-        comp.setIntroduced(LocalDate.parse(dto.introduced));
-        comp.setDiscontinued(LocalDate.parse(dto.discontinued));
+        Computer comp = new Computer.Builder(dto.name).build();
 
-        Company company = new Company(dto.companyName);
-        company.setId(dto.companyId);
-        comp.setCompany(company);
+        if (dto.id != null && !dto.id.isEmpty()) {
+            comp.setId(Long.parseLong(dto.id));
+        }
+
+        if (!dto.introduced.isEmpty()) {
+            comp.setIntroduced(LocalDate.parse(dto.introduced));
+        }
+
+        if (!dto.discontinued.isEmpty()) {
+            comp.setDiscontinued(LocalDate.parse(dto.discontinued));
+        }
+
+        if (!dto.companyId.isEmpty()) {
+            Company company = new Company(dto.companyName);
+            company.setId(Long.parseLong(dto.companyId));
+            comp.setCompany(company);
+        }
+
         return comp;
     }
 }

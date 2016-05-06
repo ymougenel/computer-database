@@ -6,7 +6,7 @@ package com.excilys.database.entities;
  * @author Yann Mougenel
  *
  */
-public class Company implements Entity {
+public class Company {
     private Long id;
     private String name;
 
@@ -21,22 +21,18 @@ public class Company implements Entity {
         this.name = name;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }

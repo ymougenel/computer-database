@@ -61,9 +61,9 @@ public class EditComputerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Computer comp = ComputerWrapper.wrapWebRequest(request, true);
+        ComputerDTO comp = ComputerWrapper.wrapWebRequest(request);
         // TODO edit logging
-        ComputerService.getInstance().updateComputer(comp);
+        ComputerService.getInstance().updateComputer(ComputerDTO.wrapToComputer(comp));
 
         // Setting a success feedback navbar
         request.setAttribute("postMessage", "true");

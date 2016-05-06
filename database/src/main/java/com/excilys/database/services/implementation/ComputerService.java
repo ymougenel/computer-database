@@ -29,19 +29,16 @@ public enum ComputerService implements ComputerServiceInterface {
 
     @Override
     public Computer insertComputer(Computer comp) {
-        ComputerValidador.computerValidation(comp);
         return computerDAO.create(comp);
     }
 
     @Override
     public void deleteComputer(Computer comp) {
-        ComputerValidador.computerValidation(comp);
         computerDAO.delete(comp);
     }
 
     @Override
     public Computer updateComputer(Computer comp) {
-        ComputerValidador.computerValidation(comp);
         return computerDAO.update(comp);
     }
 

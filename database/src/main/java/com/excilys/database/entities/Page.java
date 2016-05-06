@@ -3,21 +3,21 @@ package com.excilys.database.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Page<T extends Entity> {
+public class Page<T> {
 
     public enum CompanyTable {
-        ID,NAME,INTRODUCED,DISCONTINUED,COMPANY_ID;
+        ID, NAME, INTRODUCED, DISCONTINUED, COMPANY_ID;
         public static CompanyTable getField(String field) {
             switch (field) {
-                case "id":
+                case "id" :
                     return ID;
-                case "name":
+                case "name" :
                     return NAME;
-                case "introduced":
+                case "introduced" :
                     return INTRODUCED;
-                case "discontinued":
+                case "discontinued" :
                     return DISCONTINUED;
-                case "company":
+                case "company" :
                     return COMPANY_ID;
                 default :
                     return NAME;
@@ -26,7 +26,7 @@ public class Page<T extends Entity> {
     }
 
     public enum Order {
-        ASC,DESC;
+        ASC, DESC;
     }
 
     private long maxSize = 10;

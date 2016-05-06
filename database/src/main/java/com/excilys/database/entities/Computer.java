@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * @author Yann Mougenel
  *
  */
-public class Computer implements Entity {
+public class Computer {
     private Long id;
     private String name;
     private LocalDate introduced;
@@ -32,22 +32,18 @@ public class Computer implements Entity {
     public Computer() {
     }
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -87,13 +83,13 @@ public class Computer implements Entity {
         return "id: " + this.id + "\t" + "name: " + (name == null ? "NULL" : name) + splitName
                 + "introduced: " + ((introduced != null) ? introduced.toString() : "NULL") + split
                 + "discontinued: " + ((discontinued != null) ? discontinued.toString() : "NULL")
-                + split + "company_id: " + (company != null ? (company.getName()+"("+company.getId()+")") : "NULL");
+                + split + "company_id: "
+                + (company != null ? (company.getName() + "(" + company.getId() + ")") : "NULL");
 
     }
 
     /**
-     * Builds a computer with the suited parameters
-     * (Based on the Builder pattern)
+     * Builds a computer with the suited parameters (Based on the Builder pattern)
      */
     public static class Builder {
         // required parameters
@@ -138,7 +134,6 @@ public class Computer implements Entity {
             return new Computer(this);
         }
     }
-
 
     @Override
     public int hashCode() {

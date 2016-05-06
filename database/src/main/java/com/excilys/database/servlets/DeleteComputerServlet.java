@@ -44,7 +44,7 @@ public class DeleteComputerServlet extends HttpServlet {
         String[] ids =selection.split(",");
         Computer comp;
         for (String idInput : ids ) {
-            ComputerValidador.computerIdValidation(idInput);
+            ComputerValidador.idValidation(idInput);
             Long id = Long.parseLong(idInput);
             comp = new Computer.Builder("DefaultName").id(id).build();
             computerDAO.delete(comp);

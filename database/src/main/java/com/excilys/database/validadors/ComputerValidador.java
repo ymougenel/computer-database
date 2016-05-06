@@ -1,15 +1,26 @@
 package com.excilys.database.validadors;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.excilys.database.entities.Computer;
+import com.excilys.database.entities.ComputerDTO;
 
 public class ComputerValidador {
+    public static LocalDate minLimit = LocalDate.parse("1970-01-01");
+    public static LocalDate maxLimit = LocalDate.parse("2037-12-31");
+    public static String DATE_REGEX = "^((?:19|20)\\d{2})-(0?\\d|1[012])-(0?\\d|[12]\\d|3[01])$";
 
-    public static void computerIdValidation(String id) throws IllegalArgumentException {
-        boolean valid = id.matches("\\d+") && !id.equals("0");
+    public static void idValidation(String id) throws IllegalArgumentException {
+        boolean valid = (id != null) && id.matches("\\d+") && !id.equals("0");
         if (!valid) {
             throw new IllegalArgumentException("Id " + id + "not valid");
+        }
+    }
+
+    public static void nameValidation(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Name null");
         }
     }
 
@@ -20,52 +31,46 @@ public class ComputerValidador {
         }
     }
 
-    public static void computerDateValidation(String date) throws IllegalArgumentException {
-        boolean valid = (date != null)
-                && (date.matches("^((?:19|20)\\d{2})-(0?\\d|1[012])-(0?\\d|[12]\\d|3[01])$"));
-        if (!valid) {
-            throw new IllegalArgumentException("Date " + date + "not valid");
+    public static boolean computerDateValidation(String date) throws IllegalArgumentException {
+        if (date.isEmpty()) {
+            return true;
         }
+
+        if (date.matches(DATE_REGEX)) {
+            LocalDate currentDate = LocalDate.parse(date);
+            return ((currentDate.isAfter(minLimit) && currentDate.isBefore(maxLimit)));
+        }
+        return false;
     }
 
-    public static void computerValidation(Computer comp) throws IllegalArgumentException {
-        LocalDate minLimit = LocalDate.parse("1970-01-01");
-        LocalDate maxLimit = LocalDate.parse("2037-12-31");
+    public List<String> computerValidation(ComputerDTO comp) throws IllegalArgumentException {
+        List<String> errors = new ArrayList<String>();
 
-        Long id = comp.getId();
-        if (id != null && id <= 0) {
-            throw new IllegalArgumentException("Id " + id + "not valid");
-        }
+        idValidation(comp.getId());
 
         String name = comp.getName();
-        if (name == null || name.equals("")) {
-            throw new IllegalArgumentException("Name " + name + "not valid");
+        String introduced = comp.getIntroduced();
+        String discontinued = comp.getDiscontinued();
+        String company_id = comp.getCompanyId();
+
+        // Check for illegal parameters
+        if (name == null || introduced == null || discontinued == null || company_id == null) {
+            throw new IllegalArgumentException("Invalid parameters");
         }
 
-        LocalDate introduced = comp.getIntroduced();
-        if (introduced != null && (introduced.isBefore(minLimit) || introduced.isAfter(maxLimit))) {
-            throw new IllegalArgumentException("Introduced date " + introduced + "not valid");
+        if (name.equals("")) {
+            errors.add("Name must not be empty");
         }
 
-        LocalDate discontinued = comp.getDiscontinued();
-        if (discontinued != null
-                && (discontinued.isBefore(minLimit) || discontinued.isAfter(maxLimit))) {
-            throw new IllegalArgumentException("Discontinued date " + discontinued + "not valid");
+        if (!computerDateValidation(introduced)) {
+            errors.add("Introduced date invalid");
         }
 
-        if (comp.getCompany() != null) {
-            System.out.println(comp);
-            System.out.println(comp.getCompany());
-            CompanyValidation.companyValidation(comp.getCompany());
+        if (!computerDateValidation(discontinued)) {
+            errors.add("Discontinued date invalid");
         }
-    }
 
-    public static void main(String... strings) {
-        // String s1 = "20";
-        // String s2 = "-20";
-        // LocalDate d1 = LocalDate.parse("2012-12-13");
-        // System.out.println("s1:"+s1+"->"+computerIdValidation(s1));
-        // System.out.println("s2:"+s2+"->"+computerIdValidation(s2));
-        // System.out.println("d1 ->"+computerDateValidation("2012-13-13"));
+        //TODO company validation
+        return errors;
     }
 }
