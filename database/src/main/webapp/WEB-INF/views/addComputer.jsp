@@ -8,7 +8,8 @@
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
+	rel="stylesheet" media="screen">
 <link href="${pageContext.request.contextPath}/css/font-awesome.css"
 	rel="stylesheet" media="screen">
 <link href="${pageContext.request.contextPath}/css/main.css"
@@ -22,6 +23,19 @@
 			Computer Database </a>
 	</div>
 	</header>
+
+	<c:if test="${postMessage}">
+		<c:forEach items="${errors}" var="error">
+			<div class="alert alert-error alert-dismissible"
+				role="alert">
+				<button type="button" class="close" data-dismiss="alert"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<strong>Error encountered:</strong> ${error}
+			</div>
+		</c:forEach>
+	</c:if>
 
 	<section id="main">
 	<div class="container">
@@ -67,7 +81,8 @@
 	</section>
 
 	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/computerFormValidation.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/jsdf/computerFormValidation.js"></script>
 </body>
 
 </html>

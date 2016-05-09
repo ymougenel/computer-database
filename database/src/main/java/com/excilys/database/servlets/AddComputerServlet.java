@@ -13,6 +13,8 @@ import com.excilys.database.entities.ComputerDTO;
 import com.excilys.database.mapper.ComputerWrapper;
 import com.excilys.database.services.implementation.CompanyService;
 import com.excilys.database.services.implementation.ComputerService;
+import com.excilys.database.servlets.utils.NavbarFlaghandler;
+import com.excilys.database.validadors.ComputerValidador;
 
 /**
  * Servlet implementation class addComputerServlet
@@ -47,15 +49,21 @@ public class AddComputerServlet extends HttpServlet {
 
         ComputerDTO comp = ComputerWrapper.wrapWebRequest(request);
         //TODO validation dto
-        ComputerService.getInstance().insertComputer(ComputerDTO.wrapToComputer(comp));
+
+        List<String> errors =ComputerValidador.computerValidation(comp, false);
+        if (!errors.isEmpty()) {
+            request.setAttribute("postMessage", "true");
+            request.setAttribute("errors", errors);
+            request.setAttribute("computer", comp);
+            request.getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
+            return;
+        }
+
+        ComputerService.getInstance().insertComputer(ComputerWrapper.wrapToComputer(comp));
         // TODO Add insertion logging
 
         // Setting a success feedback navbar
-        request.setAttribute("postMessage", "true");
-        request.setAttribute("messageLevel", "success");
-        request.setAttribute("messageHeader", "Computer added");
-        request.setAttribute("messageBody",
-                "The computer \"" + comp.getName() + "\" has been successfully added.");
+        NavbarFlaghandler.setFlag(request, "success", "Computer added", "The computer \"" + comp.getName() + "\" has been successfully added.");
         request.getRequestDispatcher("/dashboard").forward(request, response);
 
     }

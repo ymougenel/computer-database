@@ -1,7 +1,5 @@
 package com.excilys.database.entities;
 
-import java.time.LocalDate;
-
 public class ComputerDTO {
     private String id;
     private String name;
@@ -73,27 +71,4 @@ public class ComputerDTO {
         this.companyId = companyID;
     }
 
-    public static Computer wrapToComputer(ComputerDTO dto) {
-        Computer comp = new Computer.Builder(dto.name).build();
-
-        if (dto.id != null && !dto.id.isEmpty()) {
-            comp.setId(Long.parseLong(dto.id));
-        }
-
-        if (!dto.introduced.isEmpty()) {
-            comp.setIntroduced(LocalDate.parse(dto.introduced));
-        }
-
-        if (!dto.discontinued.isEmpty()) {
-            comp.setDiscontinued(LocalDate.parse(dto.discontinued));
-        }
-
-        if (!dto.companyId.isEmpty()) {
-            Company company = new Company(dto.companyName);
-            company.setId(Long.parseLong(dto.companyId));
-            comp.setCompany(company);
-        }
-
-        return comp;
-    }
 }

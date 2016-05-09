@@ -1,7 +1,11 @@
 package com.excilys.database.mapper;
 
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpServletRequest;
 
+import com.excilys.database.entities.Company;
+import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.ComputerDTO;
 
 public class ComputerWrapper {
@@ -15,30 +19,46 @@ public class ComputerWrapper {
         comp.setDiscontinued(request.getParameter("discontinued"));
         comp.setCompanyId(request.getParameter("companyId"));
 
-        /*Computer comp = new Computer.Builder(nameInput).build();
-        // Computer update based on the input parameters (exception if invalid params)
-        if (idValidationRequired) {
-            ComputerValidador.computerIdValidation(idInput);
-            Long computerId = Long.parseLong(idInput);
-            comp.setId(computerId);
+        return comp;
+    }
+
+    public static Computer wrapToComputer(ComputerDTO dto) {
+        String name = dto.getName();
+        String id = dto.getId();
+        String introduced = dto.getIntroduced();
+        String discontinued = dto.getDiscontinued();
+        String companyId = dto.getCompanyId();
+        String companyName = dto.getCompanyName();
+
+        Computer comp = new Computer.Builder(name).build();
+
+
+        if (dto.getId() != null && !id.isEmpty()) {
+            comp.setId(Long.parseLong(id));
         }
 
-        if (companyIDInput != null && !companyIDInput.equals("0")) {
-            Company company = new Company("DefaultName");
-            ComputerValidador.computerIdValidation(companyIDInput);
-            company.setId(Long.parseLong(companyIDInput));
+        if (!introduced.isEmpty()) {
+            comp.setIntroduced(LocalDate.parse(introduced));
+        }
+        else {
+            comp.setIntroduced(null);
+        }
+
+        if (!discontinued.isEmpty()) {
+            comp.setDiscontinued(LocalDate.parse(discontinued));
+        }
+        else {
+            comp.setDiscontinued(null);
+        }
+
+        if (!companyId.isEmpty() && !companyId.equals("0")) {
+            Company company = new Company(companyName);
+            company.setId(Long.parseLong(companyId));
             comp.setCompany(company);
         }
-
-        if (introducedInput != null && !introducedInput.equals("")) {
-            ComputerValidador.computerDateValidation(introducedInput);
-            comp.setIntroduced(LocalDate.parse(introducedInput));
+        else {
+            comp.setCompany(null);
         }
-
-        if (discontinuedInput != null && !discontinuedInput.equals("")) {
-            ComputerValidador.computerDateValidation(discontinuedInput);
-            comp.setDiscontinued(LocalDate.parse(discontinuedInput));
-        }*/
 
         return comp;
     }

@@ -43,10 +43,12 @@ public class ComputerValidador {
         return false;
     }
 
-    public List<String> computerValidation(ComputerDTO comp) throws IllegalArgumentException {
+    public static List<String> computerValidation(ComputerDTO comp, boolean idRequired) throws IllegalArgumentException {
         List<String> errors = new ArrayList<String>();
 
-        idValidation(comp.getId());
+        if (idRequired) {
+            idValidation(comp.getId());
+        }
 
         String name = comp.getName();
         String introduced = comp.getIntroduced();
@@ -70,7 +72,6 @@ public class ComputerValidador {
             errors.add("Discontinued date invalid");
         }
 
-        //TODO company validation
         return errors;
     }
 }

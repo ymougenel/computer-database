@@ -14,6 +14,8 @@ import com.excilys.database.entities.ComputerDTO;
 import com.excilys.database.mapper.ComputerWrapper;
 import com.excilys.database.services.implementation.CompanyService;
 import com.excilys.database.services.implementation.ComputerService;
+import com.excilys.database.servlets.utils.NavbarFlaghandler;
+import com.excilys.database.validadors.ComputerValidador;
 
 /**
  * Servlet implementation class EditComputer
@@ -60,17 +62,18 @@ public class EditComputerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         ComputerDTO comp = ComputerWrapper.wrapWebRequest(request);
-        // TODO edit logging
-        ComputerService.getInstance().updateComputer(ComputerDTO.wrapToComputer(comp));
+        List<String> errors =ComputerValidador.computerValidation(comp, true);
+        if (!errors.isEmpty()) {
+            request.setAttribute("postMessage", "true");
+            request.setAttribute("errors", errors);
+            request.setAttribute("computer", comp);
+            request.getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request, response);
+            return;
+        }
 
-        // Setting a success feedback navbar
-        request.setAttribute("postMessage", "true");
-        request.setAttribute("messageLevel", "success");
-        request.setAttribute("messageHeader", "Computer updated");
-        request.setAttribute("messageBody",
-                "The computer \"" + comp.getName() + "\" has been successfully updated.");
+        ComputerService.getInstance().updateComputer(ComputerWrapper.wrapToComputer(comp));
+        NavbarFlaghandler.setFlag(request, "success", "Computer updated", "The computer \"" + comp.getName() + "\" has been successfully updated.");
         request.getRequestDispatcher("/dashboard").forward(request, response);
 
     }

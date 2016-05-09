@@ -22,17 +22,27 @@
 			- Computer Database </a>
 	</div>
 	</header>
-	<section id="main">
+	<section id="main"> 
+	<c:if test="${postMessage}">
+		<c:forEach items="${errors}" var="error">
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<strong>Error encountered:</strong> ${error}
+			</div>
+		</c:forEach>
+	</c:if>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
-				<div class="label label-default pull-right">id:
-					${computer.id}</div>
+				<div class="label label-default pull-right">id: ${computer.id}</div>
 				<h1>Edit Computer</h1>
 
-				<form id="computerForm"  action="editComputer" method="POST">
-					<input type="hidden" name="computerId" id="id" value="${computer.id}">
-					<input type="hidden" value="0" />
+				<form id="computerForm" action="editComputer" method="POST">
+					<input type="hidden" name="computerId" id="id"
+						value="${computer.id}"> <input type="hidden" value="0" />
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label> <input

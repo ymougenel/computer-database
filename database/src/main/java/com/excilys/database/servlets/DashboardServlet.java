@@ -36,8 +36,6 @@ public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        processNavbarRequestMessage(request);
-
         Long count = null;
         Page<Computer> page = PageWrapper.wrapWebRequest(request);
         String search = page.getSearch();
@@ -89,18 +87,6 @@ public class DashboardServlet extends HttpServlet {
             beginIndex = 1;
         } else if (beginIndex == 1 && limit > 7) {
             endIndex = 6;
-        }
-    }
-
-    // Forward the attributes for a navbar information (actions feedback)
-    private void processNavbarRequestMessage(HttpServletRequest request) {
-        if (request.getAttribute("postMessage") != null) {
-            request.setAttribute("postMessage", "true");
-            request.setAttribute("messageLevel", request.getAttribute("messageLevel"));
-            request.setAttribute("messageHeader", request.getAttribute("messageHeader"));
-            request.setAttribute("messageBody", request.getAttribute("messageBody"));
-        } else {
-            request.setAttribute("postMessage", "false");
         }
     }
 }
