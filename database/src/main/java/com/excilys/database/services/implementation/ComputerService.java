@@ -1,7 +1,8 @@
 package com.excilys.database.services.implementation;
 
+import java.util.List;
+
 import com.excilys.database.entities.Computer;
-import com.excilys.database.entities.Page;
 import com.excilys.database.entities.Page.CompanyTable;
 import com.excilys.database.entities.Page.Order;
 import com.excilys.database.persistence.implementation.ComputerDAO;
@@ -43,17 +44,9 @@ public enum ComputerService implements ComputerServiceInterface {
     }
 
     @Override
-    public Page<Computer> listComputers() {
-        Page<Computer> page = new Page<Computer>(computerDAO.listAll());
-        return page;
-    }
-
-    @Override
-    public Page<Computer> listComputers(String regex, long begin, long end, CompanyTable field,
+    public List<Computer> listComputers(String regex, long begin, long end, CompanyTable field,
             Order order) {
-        Page<Computer> page = new Page<Computer>(
-                computerDAO.listAll(regex, begin, end, field, order));
-        return page;
+        return computerDAO.listAll(regex, begin, end, field, order);
     }
 
     @Override

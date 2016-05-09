@@ -113,6 +113,10 @@ public class Page<T> {
         return order;
     }
 
+    public String getOrderString() {
+        return order.name();
+    }
+
     public void setOrder(Order order) {
         this.order = order;
     }

@@ -22,8 +22,15 @@ public class PageWrapper {
         if (fieldInput != null) {
             page.setField(Page.CompanyTable.getField(fieldInput));
         }
+        else {
+            page.setField(Page.CompanyTable.NAME);
+        }
 
-        page.setSearch(request.getParameter("search"));
+        String search = request.getParameter("search");
+        if (search != null ) {
+            page.setSearch(search);
+        }
+
         String pageSizeInput = request.getParameter("pageSize");
         if (pageSizeInput != null) {
             if (pageSizeInput.equals("10") || pageSizeInput.equals("50")

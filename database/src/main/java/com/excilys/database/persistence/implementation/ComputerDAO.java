@@ -389,7 +389,7 @@ public enum ComputerDAO implements ComputerDaoInterface {
             if (regex != null && !regex.isEmpty()) {
                 stmt = con.prepareStatement(
                         String.format(LISTALL_INDEX_REGEX, field + " " + order.name()));
-                stmt.setString(1, "%" + regex + "%");
+                stmt.setString(1,regex + "%");
                 stmt.setLong(2, begin);
                 stmt.setLong(3, end);
             } else {
@@ -477,7 +477,7 @@ public enum ComputerDAO implements ComputerDaoInterface {
         try {
             con = DatabaseConnection.getInstance().getConnection();
             PreparedStatement stmt = con.prepareStatement(COUNT_REGEX);
-            stmt.setString(1, "%" + regex + "%");
+            stmt.setString(1, regex + "%");
             results = stmt.executeQuery();
 
             if (results.next()) {

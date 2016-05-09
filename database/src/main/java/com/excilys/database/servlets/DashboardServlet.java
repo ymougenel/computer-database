@@ -47,9 +47,11 @@ public class DashboardServlet extends HttpServlet {
         } else {
             count = ComputerService.getInstance().countComputers();
         }
-        page = ComputerService.getInstance().listComputers(search,
-                (page.getIndex() - 1) * page.getMaxSize(), page.getMaxSize(), page.getField(), page.getOrder());
+        //        page = ComputerService.getInstance().listComputers(search,
+        //                (page.getIndex() - 1) * page.getMaxSize(), page.getMaxSize(), page.getField(), page.getOrder());
 
+        page.setEntities(ComputerService.getInstance().listComputers(search,
+                (page.getIndex() - 1) * page.getMaxSize(), page.getMaxSize(), page.getField(), page.getOrder()));
         Page<ComputerDTO> pageDTO = PageWrapper.wrapPage(page);
 
         setIndexBorders(pageDTO.getMaxSize(), count, page.getIndex());
@@ -57,8 +59,8 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("page", pageDTO);
         request.setAttribute("beginIndex", this.beginIndex);
         request.setAttribute("endIndex", this.endIndex);
-        request.setAttribute("notBeginIndex", page.getIndex() != 1);
-        request.setAttribute("notEndIndex", (page.getIndex() - 1) * pageDTO.getMaxSize() < count);
+        request.setAttribute("notBeginIndex", pageDTO.getIndex() != 1);
+        request.setAttribute("notEndIndex", (pageDTO.getIndex() - 1) * pageDTO.getMaxSize() < count);
         request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
     }
 

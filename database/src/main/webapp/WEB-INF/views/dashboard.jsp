@@ -75,12 +75,12 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th><a href="dashboard?field=name" >Computer name</a></th>
-					<th><a href="dashboard?field=introduced" >Introduced date</a></th>
+					<th><a <myTags:href target="/database/dashboard" pageIndex="${page.index}" pageSize="${page.maxSize}" field="name" search="${page.search}" order="${page.field.ordinal() == 1 && page.order.ordinal() == 0 ? 'DESC' : 'ASC'}"/>> Computer name</a></th>
+					<th><a <myTags:href target="/database/dashboard" pageIndex="${page.index}" pageSize="${page.maxSize}" field="introduced" search="${page.search}" order="${page.field.ordinal() == 2 && page.order.ordinal() == 0 ? 'DESC' : 'ASC'}"/>>Introduced date</a></th>
 					<!-- Table header for Discontinued Date -->
-					<th><a href="dashboard?field=discontinued" >Discontinued date</a></th>
+					<th><a <myTags:href target="/database/dashboard" pageIndex="${page.index}" pageSize="${page.maxSize}" field="discontinued" search="${page.search}" order="${page.field.ordinal() == 3 && page.order.ordinal() == 0 ? 'DESC' : 'ASC'}"/>>Discontinued date</a></th>
 					<!-- Table header for Company -->
-					<th><a href="dashboard?field=company" >Company</a></th>
+					<th><a <myTags:href target="/database/dashboard" pageIndex="${page.index}" pageSize="${page.maxSize}" field="company" search="${page.search}" order="${page.field.ordinal() == 4 && page.order.ordinal() == 0 ? 'DESC' : 'ASC'}"/>>Company</a></th>
 
 				</tr>
 			</thead>
@@ -89,8 +89,8 @@
 				<c:forEach items="${page.entities}" var="computer">
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
-							class="cb" value=${ computer.id}></td>
-						<td><a href="editComputer?computerId=${computer.id}" onclick="" id="computer">${computer.name}</a></td>
+							class="cb" id="${computer.name}_id"  value="${computer.id}"></td>
+						<td><a href="editComputer?computerId=${computer.id}" onclick="" id="${computer.name}_name">${computer.name}</a></td>
 						<td>${computer.introduced}</td>
 						<td>${computer.discontinued}</td>
 						<td>${computer.companyName}</td>
@@ -103,7 +103,7 @@
 	<footer class="navbar-fixed-bottom"> <myTags:pagination
 		currentIndex="${page.index}" notBeginIndex="${notBeginIndex}"
 		notEndIndex="${notEndIndex}" beginIndex="${beginIndex}"
-		endIndex="${endIndex}" search="${page.search}" offset="${page.maxSize}"></myTags:pagination> </footer>
+		endIndex="${endIndex}" offset="${page.maxSize} "></myTags:pagination> </footer>
 	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/dashboard.js"></script>

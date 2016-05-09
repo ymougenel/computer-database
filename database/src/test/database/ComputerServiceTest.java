@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.AfterClass;
@@ -15,11 +14,13 @@ import org.junit.Test;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
+import com.excilys.database.entities.Page.Order;
 import com.excilys.database.services.InvalidInsertionException;
 import com.excilys.database.services.implementation.ComputerService;
 
 public class ComputerServiceTest {
     private static ComputerService computerService;
+    public static long initialDBSize = 574;
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -115,20 +116,14 @@ public class ComputerServiceTest {
         assertEquals("Second", result.getName());
     }
 
-    @Test
-    public void ListAllTest() {
-        long count = computerService.countComputers();
-        Page<Computer> page = computerService.listComputers();
-        List<Computer> companies = new ArrayList<Computer>(page.getEntities());
-        assertEquals(count, companies.size());
-    }
 
     @AfterClass
     public static void cleanBdd() {
         System.out.println("cleaning");
-        Page<Computer> page = computerService.listComputers();
-        for (Computer comp : page.getEntities()) {
-            if (comp.getId() > 574) {
+        long count = computerService.countComputers();
+        List<Computer> computers = computerService.listComputers(null, 0, 2*count, Page.CompanyTable.ID ,Order.ASC);
+        for (Computer comp : computers) {
+            if (comp.getId() > initialDBSize) {
                 computerService.deleteComputer(comp);
             }
         }
