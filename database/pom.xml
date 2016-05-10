@@ -125,7 +125,7 @@
 	</dependencies>
 	<build>
 		<finalName>database</finalName>
-
+		<testSourceDirectory>src/test/database</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
