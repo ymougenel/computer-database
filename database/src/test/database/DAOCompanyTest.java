@@ -11,12 +11,11 @@ import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.excilys.database.entities.Company;
-import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.implementation.CompanyDAO;
-import com.excilys.database.persistence.implementation.ComputerDAO;
 
 public class DAOCompanyTest {
     private static CompanyDAO companyDAO;
@@ -64,7 +63,7 @@ public class DAOCompanyTest {
         assertEquals(count + 1, count2);
     }
 
-    @Test
+    @Ignore @Test
     public void countTestDeletion() {
         long count = companyDAO.count();
         Company comp = new Company();

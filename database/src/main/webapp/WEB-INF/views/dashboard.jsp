@@ -88,7 +88,7 @@
 			<tbody id="results">
 				<c:forEach items="${page.entities}" var="computer">
 					<tr>
-						<td class="editMode"><input type="checkbox" name="cb"
+						<td class="editMode" id="computer"><input type="checkbox" name="cb"
 							class="cb" id="${computer.name}_id"  value="${computer.id}"></td>
 						<td><a href="editComputer?computerId=${computer.id}" onclick="" id="${computer.name}_name">${computer.name}</a></td>
 						<td>${computer.introduced}</td>
