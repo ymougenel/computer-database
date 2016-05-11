@@ -15,7 +15,7 @@ Here is the macro-planning and timeline of all milestones:
  * t0+30 - Web Services, end of project
  * t0+33 - Project presentation to sales & tech audience
 
-#Installation
+#Installation 
 
 ##1. Database
 Create a local **MySQL** server.  
