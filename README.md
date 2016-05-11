@@ -17,7 +17,7 @@ Here is the macro-planning and timeline of all milestones:
 
 #Installation
 
-##1. Database
+##1. Database 
 Create a local **MySQL** server.  
 Execute scripts **1-SCHEMA.sql**, **2-PRIVILEGES.sql** and **3-ENTRIES.sql** in config/db.  
 Schema created: **computer-database-db**
