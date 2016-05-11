@@ -51,8 +51,9 @@ public enum DatabaseConnection {
             // Enable cache prepared statements
             connectionPool.addDataSourceProperty("cachePrepStmts", "true");
             // sets the number of prepared statements that the MySQL driver will cache per connection
-            connectionPool.addDataSourceProperty("prepStmtCacheSize", "10");
+            connectionPool.addDataSourceProperty("prepStmtCacheSize", "250");
             // This is the maximum length of a prepared SQL statement that the driver will cache (2048 recommended)
+            connectionPool.setMaximumPoolSize(20);
             connectionPool.addDataSourceProperty("prepStmtCacheSqlLimit","2048");
         } catch (Exception e) {
             e.printStackTrace();
