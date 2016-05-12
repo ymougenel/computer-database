@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.19.0">
+      <projectUrl>https://github.com/ymougenel/computer-database.git/</projectUrl>
+      <displayName></displayName>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.4">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/ymougenel/computer-database.git</url>
+        <credentialsId>8b8b6365-9b60-4c5d-a1e7-1d0513b079a8</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.19.0">
+      <spec></spec>
+    </com.cloudbees.jenkins.GitHubPushTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#Initialization containers
+
+docker ps
+present=`docker ps -aq -f name=mysql_test_container`
+echo $present
+if [ -z &quot;$present&quot; ]; then
+	 echo &quot;******************* dind not present *********************&quot;
+	 docker network create dind_test_network;
+     docker network ls;
+     docker run -d --net dind_test_network --name=mysql_test_container ymougenel/mysql_test_image;
+     docker run -dit --net dind_test_network --name=java_maven_container ymougenel/java_maven_image /bin/bash;
+else 
+	 echo &quot;******************* dind present *********************&quot;
+fi
+
+</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>docker ps
+docker cp ./database java_maven_container:/database
+docker exec java_maven_container ls 
+docker exec java_maven_container  cp /home/database.properties /database/src/test/resources/database.properties</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>docker exec java_maven_container cat /database/src/test/resources/database.properties
+docker inspect mysql_test_container | grep &quot;IPAddress&quot;
+</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>docker exec java_maven_container mvn -f /database/pom.xml clean install test</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command># Post build success, Tomcat deployment
+
+present=`docker ps -aq -f name=tomtom`
+echo $present
+if [ -z &quot;$present&quot; ]; then
+	 echo &quot;******************* tomtom not present *********************&quot;
+else 
+	 echo &quot;******************* tomtom present *********************&quot;
+     docker rm -f tomtom
+fi
+
+docker run -dit --name=tomtom ymougenel/tomcat_dev
+docker cp java_maven_container:/database/target/database.war /
+docker cp /database.war tomtom:/usr/local/tomcat/webapps
+docker exec tomtom touch /toto
+docker exec tomtom ls /
+docker exec tomtom ls /usr/local/tomcat/webapps
+docker login --username=ymougenel --password=azerty #please dont use the password PLEEEEEASE
+docker commit tomtom  ymougenel/tomcat_dev
+docker push ymougenel/tomcat_dev</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
