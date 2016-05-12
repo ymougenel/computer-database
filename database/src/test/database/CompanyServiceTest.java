@@ -53,6 +53,10 @@ public class CompanyServiceTest {
     }
 
     @Test
+    public void insertFalsy() {
+        assertNotNull(null);
+}
+    @Test
     public void insertTestError() {
         Company comp = new Company();
         companyService.insertCompany(comp);
