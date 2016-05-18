@@ -40,56 +40,107 @@
     <hudson.tasks.Shell>
       <command>#Initialization containers
 
-docker ps
-present=`docker ps -aq -f name=mysql_test_container`
-echo $present
-if [ -z &quot;$present&quot; ]; then
-	 echo &quot;******************* dind not present *********************&quot;
-	 docker network create dind_test_network;
-     docker network ls;
-     docker run -d --net dind_test_network --name=mysql_test_container ymougenel/mysql_test_image;
-     docker run -dit --net dind_test_network --name=java_maven_container ymougenel/java_maven_image /bin/bash;
-else 
-	 echo &quot;******************* dind present *********************&quot;
-fi
+	# create test network
+	network_present=$(docker network ls | grep dind_test_network | awk &apos;{print $1}&apos;)
+	if [ -z &quot;$network_present&quot; ]; then
+		docker network create dind_test_network;
+		echo &quot;******************* dind-test-network not present *********************&quot;
+	else 
+		echo &quot;******************* dind-test-network present *********************&quot;
+	fi
+    
+    # create prod network
+	prod_network_present=$(docker network ls | grep dind_prod_network | awk &apos;{print $1}&apos;)
+	if [ -z &quot;$prod_network_present&quot; ]; then
+		docker network create dind_prod_network;
+		echo &quot;******************* dind-test-network not present *********************&quot;
+	else 
+		echo &quot;******************* dind-test-network present *********************&quot;
+	fi
+    
+        
+	mysql_test_present=`docker ps -aq -f name=mysql_test_container`
+	if [ -z &quot;$mysql_test_present&quot; ]; then
+	 	echo &quot;******************* mysql test not present *********************&quot;
+     	docker run -d --net dind_test_network --name=mysql_test_container ymougenel/mysql_test_image;
+	else 
+	 	echo &quot;******************* mysql test present *********************&quot;
+	fi
 
+	java_present=`docker ps -aq -f name=java_maven_container`
+	if [ -z &quot;$java_present&quot; ]; then
+	 	echo &quot;******************* java maven not present *********************&quot;
+     	docker pull ymougenel/java_maven_image
+     	docker run -dit --net dind_test_network --name=java_maven_container ymougenel/java_maven_image /bin/bash;
+	else 
+	 	echo &quot;******************* java maven present *********************&quot;
+	fi
+
+	mysql_prod_present=`docker ps -aq -f name=mysql_prod_container`
+	if [ -z &quot;$mysql_prod_present&quot; ]; then
+		echo &quot;******************* mysql dev not present *********************&quot;
+	 	#docker network create dind_prod_network;
+     	docker run -d  --net dind_prod_network --name=mysql_prod_container ymougenel/mysql_test_image;
+     
+	else 
+	 	echo &quot;******************* mysql dev present *********************&quot;
+	fi</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command># Preparing the project (git project + database.properties)
+
+	# Copy the git project
+	docker cp ./database java_maven_container:/database
+
+	# Copy the database properties files
+	docker exec java_maven_container  cp /home/database.properties /database/src/test/resources/database.properties
+	docker exec java_maven_container  cp /home/dev_database.properties /database/src/main/resources/database.properties
+
+	# Change the ip values with the mysql ip adresses
+	test_ip=$(docker inspect --format &apos;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&apos; mysql_test_container)
+	docker exec java_maven_container sed -i -e &apos;s/{{INSERT_IP}}/&apos;$test_ip&apos;/g&apos; /database/src/test/resources/database.properties
+
+	dev_ip=$(docker inspect --format &apos;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&apos; mysql_prod_container)
+	docker exec java_maven_container sed -i -e &apos;s/{{INSERT_IP}}/&apos;$dev_ip&apos;/g&apos; /database/src/main/resources/database.properties
 </command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>docker ps
-docker cp ./database java_maven_container:/database
-docker exec java_maven_container ls 
-docker exec java_maven_container  cp /home/database.properties /database/src/test/resources/database.properties</command>
+      <command># Maven test execution
+
+	docker exec java_maven_container mvn -f /database/pom.xml clean install test</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>docker exec java_maven_container cat /database/src/test/resources/database.properties
-docker inspect mysql_test_container | grep &quot;IPAddress&quot;
+      <command># Post build success, Tomcat preparation (cp war then commit)
+
+	present=`docker ps -aq -f name=tomtom`
+	echo $present
+	if [ -z &quot;$present&quot; ]; then
+	 	echo &quot;******************* tomtom not present *********************&quot;
+	else 
+	 	echo &quot;******************* tomtom present *********************&quot;
+     	docker rm -f tomtom
+	fi
+
+	docker run -dit --name=tomtom ymougenel/tomcat_dev
+	docker cp java_maven_container:/database/target/database.war /
+	docker cp /database.war tomtom:/usr/local/tomcat/webapps
+	docker login --username=ymougenel --password=azerty #please dont use the password PLEEEEEASE
+	docker commit tomtom  ymougenel/tomcat_dev;
+	docker push ymougenel/tomcat_dev;</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command># Deploy the tomcat dev container
+
+	tomcat_dev_id=$(docker ps -aq -f name=tomcat_dev_container)
+	if [ ! -z &quot;$tomcat_dev_id&quot; ]; then
+		echo &quot;******************* tomcat dev not present *********************&quot;
+        docker stop tomcat_dev_container;
+    	docker rm tomcat_dev_container;
+	fi
+
+	docker pull ymougenel/tomcat_dev;
+	docker run -dit -p 8082:8080 --net dind_prod_network --name=tomcat_dev_container ymougenel/tomcat_dev;
 </command>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command>docker exec java_maven_container mvn -f /database/pom.xml clean install test</command>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command># Post build success, Tomcat deployment
-
-present=`docker ps -aq -f name=tomtom`
-echo $present
-if [ -z &quot;$present&quot; ]; then
-	 echo &quot;******************* tomtom not present *********************&quot;
-else 
-	 echo &quot;******************* tomtom present *********************&quot;
-     docker rm -f tomtom
-fi
-
-docker run -dit --name=tomtom ymougenel/tomcat_dev
-docker cp java_maven_container:/database/target/database.war /
-docker cp /database.war tomtom:/usr/local/tomcat/webapps
-docker exec tomtom touch /toto
-docker exec tomtom ls /
-docker exec tomtom ls /usr/local/tomcat/webapps
-docker login --username=ymougenel --password=azerty #please dont use the password PLEEEEEASE
-docker commit tomtom  ymougenel/tomcat_dev
-docker push ymougenel/tomcat_dev</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
