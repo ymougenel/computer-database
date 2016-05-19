@@ -24,12 +24,8 @@ public class CompanyService implements CompanyServiceInterface{
     private ComputerDAO computerDAO;
 
     public CompanyService() {
-        //companyDAO = CompanyDAO.getInstance();
     }
 
-    //    public static CompanyService getInstance() {
-    //        return null;//INSTANCE;
-    //    }
 
     @Override
     public Company findCompany(Long id) {

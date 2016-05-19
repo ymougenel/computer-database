@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.database.entities.Computer;
-import com.excilys.database.persistence.implementation.ComputerDAO;
+import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.validadors.ComputerValidador;
 
 /**
@@ -24,7 +24,7 @@ public class DeleteComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Autowired
-    private ComputerDAO computerDAO;
+    private ComputerDaoInterface computerDAO;
 
     /**
      * @see HttpServlet#HttpServlet()

@@ -16,7 +16,7 @@ import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.ComputerDTO;
 import com.excilys.database.entities.Page;
 import com.excilys.database.mapper.PageWrapper;
-import com.excilys.database.services.implementation.ComputerService;
+import com.excilys.database.services.ComputerServiceInterface;
 
 /**
  * Servlet implementation class MyServlet
@@ -27,7 +27,7 @@ public class DashboardServlet extends HttpServlet {
     private int beginIndex;
     private int endIndex;
     @Autowired
-    private ComputerService computerService;
+    private ComputerServiceInterface computerService;
     /**
      * Default constructor.
      */

@@ -25,7 +25,6 @@ public class ComputerServiceTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        //computerService = ComputerService.getInstance();
     }
 
     @Test

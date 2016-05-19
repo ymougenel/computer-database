@@ -17,8 +17,8 @@ import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.ComputerDTO;
 import com.excilys.database.mapper.ComputerWrapper;
-import com.excilys.database.services.implementation.CompanyService;
-import com.excilys.database.services.implementation.ComputerService;
+import com.excilys.database.services.CompanyServiceInterface;
+import com.excilys.database.services.ComputerServiceInterface;
 import com.excilys.database.servlets.utils.NavbarFlaghandler;
 import com.excilys.database.validadors.ComputerValidador;
 
@@ -30,10 +30,10 @@ public class EditComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Autowired
-    CompanyService companyService;
+    CompanyServiceInterface companyService;
 
     @Autowired
-    ComputerService computerService;
+    ComputerServiceInterface computerService;
 
     /**
      * @see HttpServlet#HttpServlet()

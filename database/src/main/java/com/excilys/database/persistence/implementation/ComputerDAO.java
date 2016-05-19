@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
@@ -29,7 +29,7 @@ import com.excilys.database.persistence.LocalTransactionThread;
  * @author Yann Mougenel
  *
  */
-@Component
+@Repository
 public class ComputerDAO implements ComputerDaoInterface {
 
     private static final String FIND_ID = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.id = ?;";
@@ -47,10 +47,6 @@ public class ComputerDAO implements ComputerDaoInterface {
 
     public ComputerDAO() {
     }
-
-    //    public static ComputerDAO getInstance() {
-    //        return INSTANCE;
-    //    }
 
     @Override
     public Computer find(long id) {

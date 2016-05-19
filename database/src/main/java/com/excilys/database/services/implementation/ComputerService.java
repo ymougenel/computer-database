@@ -19,12 +19,7 @@ public class ComputerService implements ComputerServiceInterface {
     private ComputerDAO computerDAO;
 
     public ComputerService() {
-        //computerDAO = ComputerDAO.getInstance();
     }
-
-    //    public static synchronized ComputerService getInstance() {
-    //        return INSTANCE;
-    //    }
 
     @Override
     public Computer findComputer(Long id) {

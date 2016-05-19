@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.CompanyDaoInterface;
@@ -25,9 +25,8 @@ import com.excilys.database.persistence.LocalTransactionThread;
  * @author Yann Mougenel
  *
  */
-@Component
+@Repository
 public class CompanyDAO implements CompanyDaoInterface {
-
 
     private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
     private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
@@ -40,10 +39,6 @@ public class CompanyDAO implements CompanyDaoInterface {
 
     public CompanyDAO() {
     }
-
-    //    public static CompanyDAO getInstance() {
-    //        return null;//INSTANCE;
-    //    }
 
     @Override
     public Company find(long id) {

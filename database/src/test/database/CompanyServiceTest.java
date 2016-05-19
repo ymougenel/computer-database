@@ -29,7 +29,6 @@ public class CompanyServiceTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        //companyService = CompanyService.getInstance();
     }
 
     @Test

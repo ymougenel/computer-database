@@ -16,8 +16,8 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.ComputerDTO;
 import com.excilys.database.mapper.ComputerWrapper;
-import com.excilys.database.services.implementation.CompanyService;
-import com.excilys.database.services.implementation.ComputerService;
+import com.excilys.database.services.CompanyServiceInterface;
+import com.excilys.database.services.ComputerServiceInterface;
 import com.excilys.database.servlets.utils.NavbarFlaghandler;
 import com.excilys.database.validadors.ComputerValidador;
 
@@ -29,10 +29,10 @@ public class AddComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Autowired
-    private ComputerService computerService;
+    private ComputerServiceInterface computerService;
 
     @Autowired
-    private CompanyService companyService;
+    private CompanyServiceInterface companyService;
     /**
      * @see HttpServlet#HttpServlet()
      */
