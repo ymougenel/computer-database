@@ -1,5 +1,7 @@
 package com.excilys.database.persistence.implementation;
 
+import static com.excilys.database.persistence.DatabaseConnection.closePipe;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +13,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
@@ -19,7 +22,6 @@ import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.persistence.DAOException;
 import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.LocalTransactionThread;
-
 /**
  * Computer DAO (Singleton) Provides CRUD computer database methods : Create, Retrieve, Update,
  * Delete
@@ -27,9 +29,8 @@ import com.excilys.database.persistence.LocalTransactionThread;
  * @author Yann Mougenel
  *
  */
-public enum ComputerDAO implements ComputerDaoInterface {
-
-    INSTANCE;
+@Component
+public class ComputerDAO implements ComputerDaoInterface {
 
     private static final String FIND_ID = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.id = ?;";
     private static final String FIND_NAME = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name = ?;";
@@ -44,21 +45,13 @@ public enum ComputerDAO implements ComputerDaoInterface {
 
     private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
 
-    private ComputerDAO() {
+    public ComputerDAO() {
     }
 
-    public static ComputerDAO getInstance() {
-        return INSTANCE;
-    }
+    //    public static ComputerDAO getInstance() {
+    //        return INSTANCE;
+    //    }
 
-    /**
-     * Find a computer based on the id.
-     *
-     * @param id
-     * @return the found Computer (NULL if not found)
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
     @Override
     public Computer find(long id) {
         logger.info("FIND_ID" + " << " + id);
@@ -78,31 +71,17 @@ public enum ComputerDAO implements ComputerDaoInterface {
             logger.debug(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                results.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closePipe(results);
+            closePipe(con);
         }
-
         return cmp;
     }
 
-    /**
-     * Find a computer based on the name.
-     *
-     * @param name
-     * @return the found Computer (NULL if not found)
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
     @Override
     public Computer find(String name) {
         logger.info("FIND_NAME" + " << " + (name == null ? "NULL" : name));
         Computer cmp;
         ResultSet results = null;
-        // System.out.println("### +i query called for : "+query +" << "+name);
         Connection con = null;
         try {
             con = DatabaseConnection.getInstance().getConnection();
@@ -115,25 +94,12 @@ public enum ComputerDAO implements ComputerDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                con.close();
-                results.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
+            closePipe(results);
+            closePipe(con);
         }
         return cmp;
     }
 
-    /**
-     * Insert a new computer into the database.
-     *
-     * @param comp
-     * @return the created Computer
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
     @Override
     public Computer create(Computer comp) {
         logger.info("CREATE" + " << " + comp.toString());
@@ -176,27 +142,14 @@ public enum ComputerDAO implements ComputerDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                if (generatedKeys != null) {
-                    generatedKeys.close();
-                }
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (generatedKeys != null) {
+                closePipe(generatedKeys);
             }
+            closePipe(con);
         }
         return comp;
     }
 
-    /**
-     * Update a computer into the database.
-     *
-     * @param comp
-     *            the computer to update
-     * @return the updated company
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
     @Override
     public Computer update(Computer comp) {
         logger.info("UPDATE" + " << " + comp.toString());
@@ -233,24 +186,12 @@ public enum ComputerDAO implements ComputerDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closePipe(con);
         }
 
         return comp;
     }
 
-    /**
-     * Delete a computer from the database
-     *
-     * @param comp
-     *            the computer to delete
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
     @Override
     public void delete(Computer comp) {
         logger.info("DELETE" + " << " + comp.toString());
@@ -265,11 +206,7 @@ public enum ComputerDAO implements ComputerDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closePipe(con);
         }
     }
 
@@ -324,13 +261,6 @@ public enum ComputerDAO implements ComputerDaoInterface {
         return cmp;
     }
 
-    /**
-     * List of the computers
-     *
-     * @return the list of all the computers
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
     @Override
     public List<Computer> listAll() {
         logger.info("LISTALL");
@@ -351,30 +281,12 @@ public enum ComputerDAO implements ComputerDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                results.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
+            closePipe(results);
+            closePipe(con);
         }
         return computers;
     }
 
-    /**
-     * List of the computers from an indexed research and a regex
-     *
-     * @param regex
-     *            the regular expression used for the research
-     * @param begin
-     *            the search index start
-     * @param end
-     *            the search index end
-     * @return the list of all the computers
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
     @Override
     public List<Computer> listAll(String regex, long begin, long end, Page.CompanyTable field,
             Page.Order order) {
@@ -411,23 +323,21 @@ public enum ComputerDAO implements ComputerDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                results.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closePipe(results);
+            closePipe(con);
         }
         return computers;
     }
 
-    /**
-     * Count the computers.
-     *
-     * @return number of computers
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
+    public List<Computer> listFromCompany(String regex, long begin, long end, Page.CompanyTable field,
+            Page.Order order) {
+        logger.info("LISTALL_INDEX_REGEX" + " << " + regex + begin + ", " + end);
+        List<Computer> computers = new ArrayList<Computer>();
+        // TODO search where company.name LIKE regex
+        // add it to the searched result (before or after ?), it implies changing the second DAO listing's indexes
+        return computers;
+    }
+
     @Override
     public long count() {
         logger.info("COUNT");
@@ -448,26 +358,12 @@ public enum ComputerDAO implements ComputerDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                results.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
+            closePipe(results);
+            closePipe(con);
         }
         return count;
     }
 
-    /**
-     * Count the computers.
-     *
-     * @param regex
-     *            The regular expression used for the counting
-     * @return number of computers
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
     @Override
     public long count(String regex) {
         logger.info("COUNT" + regex);
@@ -489,13 +385,8 @@ public enum ComputerDAO implements ComputerDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                results.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
+            closePipe(results);
+            closePipe(con);
         }
         return count;
     }

@@ -2,38 +2,43 @@ package com.excilys.database.ui.commands;
 
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.implementation.CompanyDAO;
 
 public class InsertCompany extends CommandBD {
-	private String companyName;
-	public InsertCompany() {
-		this.shortcut = "icy";
-		this.name ="Insert Company";
-	}
-	
-	public InsertCompany(String s) {
-		super(s);
-		this.name ="Insert Company";
-	}
-	
-	@Override
-	public void execute(DatabaseConnection bdr) throws SQLException {
-		CompanyDAO dao = CompanyDAO.getInstance();
-		Company c = new Company();
-		c.setName(companyName);
-		dao.create(c);
-	}
+    private String companyName;
+    @Autowired
+    private CompanyDAO companyDAO;
 
-	@Override
-	public boolean optionsFit(String[] values) {
-		boolean correctInputs = values[0].equals(shortcut);
-		if ( correctInputs && values.length == 2) {
-			companyName = values[1];
-			return true;
-		} else
-			return false;
-	}
+    public InsertCompany() {
+        this.shortcut = "icy";
+        this.name ="Insert Company";
+    }
+
+    public InsertCompany(String s) {
+        super(s);
+        this.name ="Insert Company";
+    }
+
+    @Override
+    public void execute(DatabaseConnection bdr) throws SQLException {
+        Company c = new Company();
+        c.setName(companyName);
+        companyDAO.create(c);
+    }
+
+    @Override
+    public boolean optionsFit(String[] values) {
+        boolean correctInputs = values[0].equals(shortcut);
+        if ( correctInputs && values.length == 2) {
+            companyName = values[1];
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

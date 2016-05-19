@@ -11,16 +11,18 @@ import java.util.List;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.implementation.ComputerDAO;
 
 public class DAOComputerTest {
+    @Autowired
     private static ComputerDAO computerDAO;
 
     @BeforeClass
     public static void setUp() throws Exception {
-        computerDAO = ComputerDAO.getInstance();
+        //computerDAO = ComputerDAO.getInstance();
     }
 
     @Test

@@ -2,6 +2,9 @@ package com.excilys.database.services.implementation;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page.CompanyTable;
 import com.excilys.database.entities.Page.Order;
@@ -9,18 +12,19 @@ import com.excilys.database.persistence.implementation.ComputerDAO;
 import com.excilys.database.services.ComputerServiceInterface;
 import com.excilys.database.validadors.ComputerValidador;
 
-public enum ComputerService implements ComputerServiceInterface {
+@Service
+public class ComputerService implements ComputerServiceInterface {
 
-    INSTANCE;
+    @Autowired
     private ComputerDAO computerDAO;
 
-    private ComputerService() {
-        computerDAO = ComputerDAO.getInstance();
+    public ComputerService() {
+        //computerDAO = ComputerDAO.getInstance();
     }
 
-    public static synchronized ComputerService getInstance() {
-        return INSTANCE;
-    }
+    //    public static synchronized ComputerService getInstance() {
+    //        return INSTANCE;
+    //    }
 
     @Override
     public Computer findComputer(Long id) {

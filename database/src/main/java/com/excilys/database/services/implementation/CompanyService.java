@@ -2,6 +2,9 @@ package com.excilys.database.services.implementation;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.LocalTransactionThread;
 import com.excilys.database.persistence.implementation.CompanyDAO;
@@ -9,21 +12,24 @@ import com.excilys.database.persistence.implementation.ComputerDAO;
 import com.excilys.database.services.CompanyServiceInterface;
 import com.excilys.database.validadors.ComputerValidador;
 
-public enum CompanyService implements CompanyServiceInterface{
-
-    INSTANCE;
+@Service
+public class CompanyService implements CompanyServiceInterface{
 
     //private static Logger logger = LoggerFactory.getLogger("CompanyService");
 
+    @Autowired
     private CompanyDAO companyDAO;
 
-    private CompanyService() {
-        companyDAO = CompanyDAO.getInstance();
+    @Autowired
+    private ComputerDAO computerDAO;
+
+    public CompanyService() {
+        //companyDAO = CompanyDAO.getInstance();
     }
 
-    public static CompanyService getInstance() {
-        return INSTANCE;
-    }
+    //    public static CompanyService getInstance() {
+    //        return null;//INSTANCE;
+    //    }
 
     @Override
     public Company findCompany(Long id) {
@@ -45,7 +51,7 @@ public enum CompanyService implements CompanyServiceInterface{
     public void deleteCompany(Company comp) {
 
         LocalTransactionThread.init();
-        ComputerDAO.getInstance().delete(comp.getId());
+        computerDAO.delete(comp.getId());
         companyDAO.delete(comp);
         LocalTransactionThread.commit();
         LocalTransactionThread.close();

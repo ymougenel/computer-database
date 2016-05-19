@@ -1,5 +1,7 @@
 package com.excilys.database.persistence.implementation;
 
+import static com.excilys.database.persistence.DatabaseConnection.closePipe;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,22 +12,22 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.CompanyDaoInterface;
 import com.excilys.database.persistence.DAOException;
 import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.LocalTransactionThread;
-
 /**
  * Company DAO (Singleton) Provides CRUD company database methods : Create, Retrieve, Update, Delete
  *
  * @author Yann Mougenel
  *
  */
-public enum CompanyDAO implements CompanyDaoInterface {
+@Component
+public class CompanyDAO implements CompanyDaoInterface {
 
-    INSTANCE;
 
     private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
     private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
@@ -36,24 +38,13 @@ public enum CompanyDAO implements CompanyDaoInterface {
     private static final String COUNT = "SELECT COUNT(*) FROM company;";
     private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
 
-    private CompanyDAO() {
+    public CompanyDAO() {
     }
 
-    // NOTE optimization possible : synchronized -> if (dao== null) {
-    // synchronized if (dao == null)
-    public static synchronized CompanyDAO getInstance() {
-        return INSTANCE;
-    }
+    //    public static CompanyDAO getInstance() {
+    //        return null;//INSTANCE;
+    //    }
 
-    /**
-     * Find a company based on the id.
-     *
-     * @param id
-     *            id to be found
-     * @return the found company (NULL if not found)
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
     @Override
     public Company find(long id) {
         logger.info("FIND_ID" + " << " + id);
@@ -71,25 +62,14 @@ public enum CompanyDAO implements CompanyDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                results.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closePipe(results);
+            closePipe(con);
         }
 
         return cmp;
     }
 
-    /**
-     * Find a company based on the name.
-     *
-     * @param name
-     * @return the found Company (NULL if not found)
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
+
     @Override
     public Company find(String name) {
         logger.info("FIND_NAME" + " << " + (name == null ? "NULL" : name));
@@ -108,25 +88,14 @@ public enum CompanyDAO implements CompanyDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                con.close();
-                results.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closePipe(con);
+            closePipe(results);
         }
 
         return cmp;
     }
 
-    /**
-     * Insert a new company into the database.
-     *
-     * @param comp
-     * @return the created company
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
+
     @Override
     public Company create(Company comp) {
         logger.info("CREATE" + " << " + comp.toString());
@@ -149,27 +118,15 @@ public enum CompanyDAO implements CompanyDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                if (generatedKeys != null) {
-                    generatedKeys.close();
-                }
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (generatedKeys != null) {
+                closePipe(generatedKeys);
             }
+            closePipe(con);
         }
         return comp;
     }
 
-    /**
-     * Update a company into the database.
-     *
-     * @param comp
-     *            the company to update
-     * @return the updated company
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
+
     @Override
     public Company update(Company comp) {
         logger.info("UPDATE" + " << " + comp.toString());
@@ -185,62 +142,10 @@ public enum CompanyDAO implements CompanyDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closePipe(con);
         }
         return comp;
     }
-
-    /**
-     * Delete a company from the database.
-     *
-     * @param comp
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
-    //    @Override
-    //    public void delete(Company comp) {
-    //        logger.info("DELETE" + " << " + comp.toString());
-    //
-    //        Connection con = null;
-    //        try {
-    //            con = DatabaseConnection.getInstance().getConnection();
-    //            con.setAutoCommit(false);
-    //
-    //            // Deleting related computers
-    //            PreparedStatement deleteComputer = con.prepareStatement("DELETE FROM computer where company_id = ?");
-    //            deleteComputer.setLong(1, comp.getId());
-    //
-    //            PreparedStatement deleteCompany = con.prepareStatement(DELETE);
-    //            deleteCompany.setLong(1, comp.getId());
-    //
-    //            deleteComputer.executeUpdate();
-    //            deleteCompany.executeUpdate();
-    //
-    //            con.commit();
-    //        } catch (SQLException e) {
-    //            e.printStackTrace();
-    //            logger.error(e.getMessage());
-    //            try {
-    //                con.rollback();
-    //            } catch (SQLException e1) {
-    //                e1.printStackTrace();
-    //            }
-    //
-    //            throw new DAOException(e);
-    //        } finally {
-    //            try {
-    //                con.setAutoCommit(true);
-    //                con.close();
-    //            } catch (SQLException e1) {
-    //                logger.error(e1.getMessage());
-    //                e1.printStackTrace();
-    //            }
-    //        }
-    //    }
 
     @Override
     public void delete(Company comp) {
@@ -250,8 +155,7 @@ public enum CompanyDAO implements CompanyDaoInterface {
             PreparedStatement deleteCompany = con.prepareStatement(DELETE);
             deleteCompany.setLong(1, comp.getId());
             deleteCompany.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
             throw new DAOException(e);
@@ -276,13 +180,7 @@ public enum CompanyDAO implements CompanyDaoInterface {
         return cmp;
     }
 
-    /**
-     * List of the companies.
-     *
-     * @return the list of all the companies
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
+
     @Override
     public List<Company> listAll() {
         logger.info("LISTALL");
@@ -303,23 +201,13 @@ public enum CompanyDAO implements CompanyDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                con.close();
-                results.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closePipe(con);
+            closePipe(results);
         }
         return companies;
     }
 
-    /**
-     * Count the companies.
-     *
-     * @return number of companies
-     * @throws DAOException
-     *             exception raised by connection or wrapper errors
-     */
+
     @Override
     public long count() {
         logger.info("COUNT");
@@ -340,13 +228,8 @@ public enum CompanyDAO implements CompanyDaoInterface {
             logger.error(e.getMessage());
             throw new DAOException(e);
         } finally {
-            try {
-                results.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
+            closePipe(results);
+            closePipe(con);
         }
         return count;
     }

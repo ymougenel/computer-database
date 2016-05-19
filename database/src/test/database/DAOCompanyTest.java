@@ -13,16 +13,19 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.implementation.CompanyDAO;
 
 public class DAOCompanyTest {
+
+    @Autowired
     private static CompanyDAO companyDAO;
 
     @BeforeClass
     public static void setUp() throws Exception {
-        companyDAO = CompanyDAO.getInstance();
+        //companyDAO = CompanyDAO.getInstance();
     }
 
     @Test

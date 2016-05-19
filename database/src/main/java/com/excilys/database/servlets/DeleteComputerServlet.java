@@ -2,10 +2,15 @@ package com.excilys.database.servlets;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.implementation.ComputerDAO;
@@ -14,8 +19,11 @@ import com.excilys.database.validadors.ComputerValidador;
 /**
  * Servlet implementation class DeleteComputerServlet
  */
+@Configurable
 public class DeleteComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
+    @Autowired
     private ComputerDAO computerDAO;
 
     /**
@@ -23,7 +31,13 @@ public class DeleteComputerServlet extends HttpServlet {
      */
     public DeleteComputerServlet() {
         super();
-        computerDAO = ComputerDAO.getInstance();
+        //computerDAO = ComputerDAO.getInstance();
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
     }
 
     /**

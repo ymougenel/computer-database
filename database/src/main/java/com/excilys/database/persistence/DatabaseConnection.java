@@ -77,4 +77,13 @@ public enum DatabaseConnection {
         return connectionPool.getConnection();
     }
 
+    public static void closePipe(AutoCloseable c) {
+        try {
+            c.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw new DAOException(e);
+        }
+    }
 }

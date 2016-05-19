@@ -3,10 +3,15 @@ package com.excilys.database.servlets;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.ComputerDTO;
@@ -19,14 +24,26 @@ import com.excilys.database.validadors.ComputerValidador;
 /**
  * Servlet implementation class addComputerServlet
  */
+@Configurable
 public class AddComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    @Autowired
+    private ComputerService computerService;
+
+    @Autowired
+    private CompanyService companyService;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public AddComputerServlet() {
         super();
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
     }
 
     /**
@@ -35,7 +52,7 @@ public class AddComputerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Company> companies = CompanyService.getInstance().listCompanies();
+        List<Company> companies = companyService.listCompanies();
         request.setAttribute("companies", companies);
         request.getRequestDispatcher("WEB-INF/views/addComputer.jsp").forward(request, response);
     }
@@ -59,7 +76,7 @@ public class AddComputerServlet extends HttpServlet {
             return;
         }
 
-        ComputerService.getInstance().insertComputer(ComputerWrapper.wrapToComputer(comp));
+        computerService.insertComputer(ComputerWrapper.wrapToComputer(comp));
         // TODO Add insertion logging
 
         // Setting a success feedback navbar

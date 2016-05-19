@@ -2,10 +2,15 @@ package com.excilys.database.servlets;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.ComputerDTO;
@@ -16,11 +21,13 @@ import com.excilys.database.services.implementation.ComputerService;
 /**
  * Servlet implementation class MyServlet
  */
+@Configurable
 public class DashboardServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private int beginIndex;
     private int endIndex;
-
+    @Autowired
+    private ComputerService computerService;
     /**
      * Default constructor.
      */
@@ -28,6 +35,11 @@ public class DashboardServlet extends HttpServlet {
         super();
     }
 
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+    }
     /**
      * @throws IOException
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,15 +52,15 @@ public class DashboardServlet extends HttpServlet {
         Page<Computer> page = PageWrapper.wrapWebRequest(request);
         String search = page.getSearch();
         if (search != null && search != "") {
-            count = ComputerService.getInstance().countComputers(search);
+            count = computerService.countComputers(search);
             request.setAttribute("search", search);
         } else {
-            count = ComputerService.getInstance().countComputers();
+            count = computerService.countComputers();
         }
         //        page = ComputerService.getInstance().listComputers(search,
         //                (page.getIndex() - 1) * page.getMaxSize(), page.getMaxSize(), page.getField(), page.getOrder());
 
-        page.setEntities(ComputerService.getInstance().listComputers(search,
+        page.setEntities(computerService.listComputers(search,
                 (page.getIndex() - 1) * page.getMaxSize(), page.getMaxSize(), page.getField(), page.getOrder()));
         Page<ComputerDTO> pageDTO = PageWrapper.wrapPage(page);
 
@@ -85,7 +97,7 @@ public class DashboardServlet extends HttpServlet {
 
         if (beginIndex < 1) {
             beginIndex = 1;
-        } else if (beginIndex == 1 && limit > 7) {
+        } else if (beginIndex == 1 && (limit > 7 || nbElements == pageSize) ) {
             endIndex = 6;
         }
     }

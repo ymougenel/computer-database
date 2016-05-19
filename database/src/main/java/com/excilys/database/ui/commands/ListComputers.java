@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
 import com.excilys.database.persistence.DatabaseConnection;
@@ -14,6 +16,8 @@ public class ListComputers extends CommandBD {
     private long begin;
     private boolean limit;
     private static int pageSize = 20;
+    @Autowired
+    ComputerDAO computerDAO;
 
     public ListComputers() {
         super();
@@ -29,13 +33,12 @@ public class ListComputers extends CommandBD {
 
     @Override
     public void execute(DatabaseConnection bdr) throws SQLException {
-        ComputerDAO dao = ComputerDAO.getInstance();
         Page<Computer> page;
         // List<Computer> computers;
         if (limit) {
-            page = new Page<Computer>(dao.listAll(null,begin, pageSize, Page.CompanyTable.ID, Page.Order.ASC), pageSize);
+            page = new Page<Computer>(computerDAO.listAll(null,begin, pageSize, Page.CompanyTable.ID, Page.Order.ASC), pageSize);
         } else {
-            page = new Page<Computer>(dao.listAll(), pageSize);
+            page = new Page<Computer>(computerDAO.listAll(), pageSize);
         }
         page.printf();
 
@@ -50,7 +53,7 @@ public class ListComputers extends CommandBD {
                     } else if (input.equals("2")) {
                         begin += pageSize;
                     }
-                    page = new Page<Computer>(dao.listAll(null, begin, pageSize, Page.CompanyTable.ID, Page.Order.ASC), pageSize);
+                    page = new Page<Computer>(computerDAO.listAll(null, begin, pageSize, Page.CompanyTable.ID, Page.Order.ASC), pageSize);
                     page.printf();
                     System.out.println("<1 - 2> q3");
                 }

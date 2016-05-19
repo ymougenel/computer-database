@@ -23,6 +23,7 @@
 		<tomcatplugin.version>2.2</tomcatplugin.version>
 		<jstl.version>1.2</jstl.version>
 		<slf4j.version>1.7.21</slf4j.version>
+		<spring.version>4.2.6.RELEASE</spring.version>
 	</properties>
 
 
@@ -122,6 +123,35 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Spring -->
+
+		<!-- spring-context which provides core functionality -->
+
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-tx</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-core</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+	
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-web</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+
+		
 	</dependencies>
 	<build>
 		<finalName>database</finalName>

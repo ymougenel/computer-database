@@ -8,10 +8,11 @@ import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
@@ -19,11 +20,16 @@ import com.excilys.database.services.implementation.CompanyService;
 import com.excilys.database.services.implementation.ComputerService;
 
 public class CompanyServiceTest {
+
+    @Autowired
     private static CompanyService companyService;
+
+    @Autowired
+    private static ComputerService computerService;
 
     @BeforeClass
     public static void setUp() throws Exception {
-        companyService = CompanyService.getInstance();
+        //companyService = CompanyService.getInstance();
     }
 
     @Test
@@ -56,7 +62,7 @@ public class CompanyServiceTest {
     @Ignore @Test
     public void insertFalsy() {
         assertNotNull(null);
-}
+    }
     @Test
     public void insertTestError() {
         Company comp = new Company();
@@ -125,7 +131,6 @@ public class CompanyServiceTest {
     @Test
     public void deleteCascade(){
 
-        ComputerService  computerService = ComputerService.getInstance();
         Company deleteCascade = new Company("deleteCascade");
         Computer comp1 = new Computer.Builder("c1").company(deleteCascade).build();
         Computer comp2 = new Computer.Builder("c2").company(deleteCascade).build();
