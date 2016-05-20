@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.database.entities.Company;
@@ -30,7 +30,7 @@ import com.excilys.database.persistence.DAOException;
 public class CompanyDAO implements CompanyDaoInterface {
 
     @Resource
-    private DriverManagerDataSource dataSource;
+    private DataSource dataSource;
 
     private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
     private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
