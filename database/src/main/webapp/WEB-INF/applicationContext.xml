@@ -9,12 +9,17 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://127.0.0.1:3306/computer-database-db?zeroDateTimeBehavior=convertToNull" />
+		<property name="username" value="admincdb" />
+		<property name="password" value="qwerty1234" />
+	</bean>
+
 	<context:component-scan base-package="com.excilys.database"></context:component-scan>
 
-<!-- 	<bean id="dataSource" class="oracle.jdbc.pool.OracleConnectionPoolDataSource">
-		<property name="URL" value="${jdbc.url}" />
-		<property name="user" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
-	</bean> -->
+
 
 </beans>

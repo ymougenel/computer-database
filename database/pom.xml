@@ -26,7 +26,7 @@
 		<spring.version>4.2.6.RELEASE</spring.version>
 		<jcl.slf4j.version>1.7.12</jcl.slf4j.version>
 		<junit.version>4.12</junit.version>
-		<logbackExt.version>0.1.4</logbackExt.version>
+		<logbackext.version>0.1.4</logbackext.version>
 	</properties>
 
 
@@ -39,7 +39,7 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
@@ -72,7 +72,7 @@
 		<dependency>
 			<groupId>org.logback-extensions</groupId>
 			<artifactId>logback-ext-spring</artifactId>
-			<version>${logbackExt.version}]</version>
+			<version>${logbackext.version}</version>
 		</dependency>
 
 		<!-- SQL -->
@@ -139,28 +139,36 @@
 			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
 
 	</dependencies>
 	<build>

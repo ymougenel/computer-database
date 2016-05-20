@@ -11,8 +11,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.database.entities.Company;
@@ -20,7 +23,6 @@ import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
 import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.persistence.DAOException;
-import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.LocalTransactionThread;
 /**
  * Computer DAO (Singleton) Provides CRUD computer database methods : Create, Retrieve, Update,
@@ -31,6 +33,9 @@ import com.excilys.database.persistence.LocalTransactionThread;
  */
 @Repository
 public class ComputerDAO implements ComputerDaoInterface {
+
+    @Resource
+    private DriverManagerDataSource dataSource;
 
     private static final String FIND_ID = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.id = ?;";
     private static final String FIND_NAME = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name = ?;";
@@ -56,7 +61,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         // System.out.println("### +i query called for : "+query +" << "+name);
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             PreparedStatement stmt = con.prepareStatement(FIND_ID);
             stmt.setLong(1, id);
             results = stmt.executeQuery();
@@ -80,7 +85,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         ResultSet results = null;
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             PreparedStatement stmt = con.prepareStatement(FIND_NAME);
             stmt.setString(1, name);
             results = stmt.executeQuery();
@@ -102,7 +107,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         Connection con = null;
         ResultSet generatedKeys = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             PreparedStatement stmt = con.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, comp.getName());
 
@@ -151,7 +156,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         logger.info("UPDATE" + " << " + comp.toString());
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             PreparedStatement stmt = con.prepareStatement(UPDATE);
             stmt.setString(1, comp.getName());
 
@@ -193,7 +198,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         logger.info("DELETE" + " << " + comp.toString());
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             PreparedStatement stmt = con.prepareStatement(DELETE);
             stmt.setLong(1, comp.getId());
             stmt.executeUpdate();
@@ -264,7 +269,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         List<Computer> computers = new ArrayList<Computer>();
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();
             results = stmt.executeQuery(LISTALL);
 
@@ -292,7 +297,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         Connection con = null;
         try {
             // Getting the connection and preparing the request
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             PreparedStatement stmt;
             if (regex != null && !regex.isEmpty()) {
                 stmt = con.prepareStatement(
@@ -341,7 +346,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         long count = 0;
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();
             results = stmt.executeQuery(COUNT);
 
@@ -367,7 +372,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         long count = 0;
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             PreparedStatement stmt = con.prepareStatement(COUNT_REGEX);
             stmt.setString(1, regex + "%");
             results = stmt.executeQuery();

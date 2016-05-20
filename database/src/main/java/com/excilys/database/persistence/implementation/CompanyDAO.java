@@ -10,14 +10,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.CompanyDaoInterface;
 import com.excilys.database.persistence.DAOException;
-import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.LocalTransactionThread;
 /**
  * Company DAO (Singleton) Provides CRUD company database methods : Create, Retrieve, Update, Delete
@@ -27,6 +29,9 @@ import com.excilys.database.persistence.LocalTransactionThread;
  */
 @Repository
 public class CompanyDAO implements CompanyDaoInterface {
+
+    @Resource
+    private DriverManagerDataSource dataSource;
 
     private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
     private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
@@ -47,7 +52,7 @@ public class CompanyDAO implements CompanyDaoInterface {
         ResultSet results = null;
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             PreparedStatement stmt = con.prepareStatement(FIND_ID);
             stmt.setLong(1, id);
             results = stmt.executeQuery();
@@ -73,7 +78,7 @@ public class CompanyDAO implements CompanyDaoInterface {
         // System.out.println("### +i query called for : "+query +" << "+name);
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             PreparedStatement stmt = con.prepareStatement(FIND_NAME);
             stmt.setString(1, name);
             results = stmt.executeQuery();
@@ -97,7 +102,7 @@ public class CompanyDAO implements CompanyDaoInterface {
         ResultSet generatedKeys = null;
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             PreparedStatement stmt = con.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, comp.getName());
             stmt.executeUpdate();
@@ -127,7 +132,7 @@ public class CompanyDAO implements CompanyDaoInterface {
         logger.info("UPDATE" + " << " + comp.toString());
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             PreparedStatement stmt = con.prepareStatement(UPDATE);
             stmt.setString(1, comp.getName());
             stmt.setLong(2, comp.getId());
@@ -183,7 +188,7 @@ public class CompanyDAO implements CompanyDaoInterface {
         List<Company> companies = new ArrayList<Company>();
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();
             results = stmt.executeQuery(LISTALL);
 
@@ -210,7 +215,7 @@ public class CompanyDAO implements CompanyDaoInterface {
         long count = 0;
         Connection con = null;
         try {
-            con = DatabaseConnection.getInstance().getConnection();
+            con = this.dataSource.getConnection();
             Statement stmt = con.createStatement();
             results = stmt.executeQuery(COUNT);
 
