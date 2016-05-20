@@ -8,10 +8,14 @@ import static org.junit.Assert.assertNull;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
@@ -19,8 +23,12 @@ import com.excilys.database.entities.Page.Order;
 import com.excilys.database.services.InvalidInsertionException;
 import com.excilys.database.services.implementation.ComputerService;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class ComputerServiceTest {
-    private static ComputerService computerService;
+
+    @Autowired
+    private ComputerService computerService;
     public static long initialDBSize = 574;
 
     @BeforeClass
@@ -118,9 +126,8 @@ public class ComputerServiceTest {
     }
 
 
-    @AfterClass
-    public static void cleanBdd() {
-        System.out.println("cleaning");
+    @After
+    public void cleanBdd() {
         long count = computerService.countComputers();
         List<Computer> computers = computerService.listComputers(null, 0, 2*count, Page.CompanyTable.ID ,Order.ASC);
         for (Computer comp : computers) {

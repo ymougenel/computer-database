@@ -9,19 +9,24 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.implementation.CompanyDAO;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class DAOCompanyTest {
 
     @Autowired
-    private static CompanyDAO companyDAO;
+    private CompanyDAO companyDAO;
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -106,8 +111,8 @@ public class DAOCompanyTest {
         assertEquals(count, companies.size());
     }
 
-    @AfterClass
-    public static void cleanBdd() {
+    @After
+    public void cleanBdd() {
         List<Company> companys = new LinkedList<Company>(companyDAO.listAll());
         for (Company comp : companys) {
             if (comp.getId() > 574) {

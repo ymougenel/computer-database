@@ -8,27 +8,32 @@ import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.services.implementation.CompanyService;
 import com.excilys.database.services.implementation.ComputerService;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class CompanyServiceTest {
 
     @Autowired
-    private static CompanyService companyService;
+    public CompanyService companyService;
 
     @Autowired
-    private static ComputerService computerService;
+    public ComputerService computerService;
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() {
     }
 
     @Test
@@ -148,8 +153,9 @@ public class CompanyServiceTest {
 
 
     }
-    @AfterClass
-    public static void cleanBdd() {
+
+    @After
+    public void cleanBdd() {
         for (Company comp : companyService.listCompanies()) {
             if (comp.getId() > 43) {
                 companyService.deleteCompany(comp);

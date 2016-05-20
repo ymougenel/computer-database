@@ -8,17 +8,23 @@ import static org.junit.Assert.assertNull;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.implementation.ComputerDAO;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class DAOComputerTest {
+
     @Autowired
-    private static ComputerDAO computerDAO;
+    private ComputerDAO computerDAO;
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -114,8 +120,8 @@ public class DAOComputerTest {
     //        }
     //    }
 
-    @AfterClass
-    public static void cleanBdd() {
+    @After
+    public void cleanBdd() {
         List<Computer> computers = new LinkedList<Computer>(computerDAO.listAll());
         for (Computer comp : computers) {
             if (comp.getId() > 574) {
