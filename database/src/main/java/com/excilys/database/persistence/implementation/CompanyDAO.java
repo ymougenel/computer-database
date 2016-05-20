@@ -20,7 +20,6 @@ import org.springframework.stereotype.Repository;
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.CompanyDaoInterface;
 import com.excilys.database.persistence.DAOException;
-import com.excilys.database.persistence.LocalTransactionThread;
 /**
  * Company DAO (Singleton) Provides CRUD company database methods : Create, Retrieve, Update, Delete
  *
@@ -151,7 +150,7 @@ public class CompanyDAO implements CompanyDaoInterface {
     public void delete(Company comp) {
         logger.info("DELETE con" + " << " + comp.toString());
         try {
-            Connection con = LocalTransactionThread.get();
+            Connection con = this.dataSource.getConnection();
             PreparedStatement deleteCompany = con.prepareStatement(DELETE);
             deleteCompany.setLong(1, comp.getId());
             deleteCompany.executeUpdate();

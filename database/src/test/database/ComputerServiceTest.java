@@ -20,15 +20,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
 import com.excilys.database.entities.Page.Order;
+import com.excilys.database.services.ComputerServiceInterface;
 import com.excilys.database.services.InvalidInsertionException;
-import com.excilys.database.services.implementation.ComputerService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class ComputerServiceTest {
 
     @Autowired
-    private ComputerService computerService;
+    private ComputerServiceInterface computerService;
     public static long initialDBSize = 574;
 
     @BeforeClass

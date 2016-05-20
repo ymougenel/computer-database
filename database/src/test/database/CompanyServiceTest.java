@@ -19,18 +19,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
-import com.excilys.database.services.implementation.CompanyService;
-import com.excilys.database.services.implementation.ComputerService;
+import com.excilys.database.services.CompanyServiceInterface;
+import com.excilys.database.services.ComputerServiceInterface;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class CompanyServiceTest {
 
     @Autowired
-    public CompanyService companyService;
+    public CompanyServiceInterface companyService;
 
     @Autowired
-    public ComputerService computerService;
+    public ComputerServiceInterface computerService;
 
     @BeforeClass
     public static void setUp() {

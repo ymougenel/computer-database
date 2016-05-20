@@ -17,14 +17,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.database.entities.Computer;
-import com.excilys.database.persistence.implementation.ComputerDAO;
+import com.excilys.database.persistence.ComputerDaoInterface;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class DAOComputerTest {
 
     @Autowired
-    private ComputerDAO computerDAO;
+    private ComputerDaoInterface computerDAO;
 
     @BeforeClass
     public static void setUp() throws Exception {

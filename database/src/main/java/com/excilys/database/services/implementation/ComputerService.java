@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page.CompanyTable;
@@ -13,6 +14,7 @@ import com.excilys.database.services.ComputerServiceInterface;
 import com.excilys.database.validadors.ComputerValidador;
 
 @Service
+@Transactional
 public class ComputerService implements ComputerServiceInterface {
 
     @Autowired

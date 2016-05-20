@@ -19,14 +19,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.database.entities.Company;
-import com.excilys.database.persistence.implementation.CompanyDAO;
+import com.excilys.database.persistence.CompanyDaoInterface;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class DAOCompanyTest {
 
     @Autowired
-    private CompanyDAO companyDAO;
+    private CompanyDaoInterface companyDAO;
 
     @BeforeClass
     public static void setUp() throws Exception {

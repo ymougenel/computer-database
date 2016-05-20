@@ -23,7 +23,7 @@ import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
 import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.persistence.DAOException;
-import com.excilys.database.persistence.LocalTransactionThread;
+
 /**
  * Computer DAO (Singleton) Provides CRUD computer database methods : Create, Retrieve, Update,
  * Delete
@@ -216,7 +216,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         logger.info("DELETE ID Company " + " << " + idCompany);
         try {
             // Deleting related computers
-            Connection con = LocalTransactionThread.get();
+            Connection con = this.dataSource.getConnection();
             PreparedStatement deleteComputer = con.prepareStatement("DELETE FROM computer where company_id = ?");
             deleteComputer.setLong(1, idCompany);
             deleteComputer.executeUpdate();
