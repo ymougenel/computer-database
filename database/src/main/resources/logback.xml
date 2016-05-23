@@ -3,10 +3,17 @@
 
 <configuration>
 
-    <appender name="consoleAppender" class="ch.qos.logback.ext.spring.DelegatingLogbackAppender"/>
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n
+			</Pattern>
+		</encoder>
+		<!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter"> <level>TRACE</level> 
+			</filter> -->
+	</appender>
 
 	<appender name="Database Actions" class="ch.qos.logback.core.FileAppender"> <!-- ConsoleAppender -->
-		<file>log/database/actions.log</file>
+		<file>log/database/actions.log</file>info
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
 			<level>INFO</level>
 			<onMatch>ACCEPT</onMatch>
@@ -33,6 +40,8 @@
 	<root level="ERROR">
 		<appender-ref ref="Database Actions" />
 		<appender-ref ref="Database Errors" />
+		<appender-ref ref="consoleAppender" />
+
 	</root>
 
 </configuration>

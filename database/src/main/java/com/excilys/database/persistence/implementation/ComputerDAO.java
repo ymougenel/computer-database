@@ -16,12 +16,14 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
 import com.excilys.database.entities.Page.CompanyTable;
+import com.excilys.database.persistence.CachePersistenceHandler;
 import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.persistence.DAOException;
 
@@ -35,19 +37,23 @@ import com.excilys.database.persistence.DAOException;
 @Repository
 public class ComputerDAO implements ComputerDaoInterface {
 
+    @Autowired
+    CachePersistenceHandler cachePersistenceHandler;
+
     @Resource
     private DataSource dataSource;
 
-    private static final String FIND_ID = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.id = ?;";
-    private static final String FIND_NAME = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name = ?;";
+    private static final String FIND_ID = "SELECT c.id, c.name, c.introduced, c.discontinued, c.company_id FROM computer c WHERE c.id = ?;";
+    private static final String FIND_NAME = "SELECT c.id, c.name, c.introduced, c.discontinued, c.company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name = ?;";
     private static final String CREATE = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?);";
     private static final String UPDATE = "UPDATE computer SET name= ?, introduced= ?, discontinued = ?, company_id = ? WHERE id = ?;";
     private static final String DELETE = "DELETE FROM computer WHERE id = ?;";
     private static final String LISTALL = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id;";
-    private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c %s LEFT JOIN company o on c.company_id = o.id ORDER BY %s LIMIT ?,?;";
-    private static final String LISTALL_INDEX_REGEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c %s LEFT JOIN company o on c.company_id = o.id WHERE c.name LIKE ? ORDER BY %s LIMIT ?,?;";
+    private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, c.company_id FROM computer c %s ORDER BY %s LIMIT ?,?;";
+    private static final String LISTALL_INDEX_REGEX = "SELECT c.id, c.name, c.introduced, c.discontinued, c.company_id FROM computer c %s WHERE c.name LIKE ? ORDER BY %s LIMIT ?,?;";
     private static final String COUNT = "SELECT COUNT(*) FROM computer;";
     private static final String COUNT_REGEX = "SELECT COUNT(*) FROM computer WHERE name LIKE ?;";
+
 
     private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
 
@@ -255,8 +261,9 @@ public class ComputerDAO implements ComputerDaoInterface {
             if (companyId != null) {
                 company = new Company();
                 company.setId(companyId);
-                String companyName = rs.getString(6);
-                company.setName(companyName);
+
+                //String companyName = rs.getString(6);
+                company.setName(cachePersistenceHandler.getCompanyName(companyId));
             }
             cmp.setCompany(company);
         }
