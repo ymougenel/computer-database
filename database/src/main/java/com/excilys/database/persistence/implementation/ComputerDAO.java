@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
+import com.excilys.database.entities.Page.CompanyTable;
 import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.persistence.DAOException;
 
@@ -43,8 +44,8 @@ public class ComputerDAO implements ComputerDaoInterface {
     private static final String UPDATE = "UPDATE computer SET name= ?, introduced= ?, discontinued = ?, company_id = ? WHERE id = ?;";
     private static final String DELETE = "DELETE FROM computer WHERE id = ?;";
     private static final String LISTALL = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id;";
-    private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id ORDER BY %s LIMIT ?,?;";
-    private static final String LISTALL_INDEX_REGEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name LIKE ? ORDER BY %s LIMIT ?,?;";
+    private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c %s LEFT JOIN company o on c.company_id = o.id ORDER BY %s LIMIT ?,?;";
+    private static final String LISTALL_INDEX_REGEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c %s LEFT JOIN company o on c.company_id = o.id WHERE c.name LIKE ? ORDER BY %s LIMIT ?,?;";
     private static final String COUNT = "SELECT COUNT(*) FROM computer;";
     private static final String COUNT_REGEX = "SELECT COUNT(*) FROM computer WHERE name LIKE ?;";
 
@@ -288,6 +289,19 @@ public class ComputerDAO implements ComputerDaoInterface {
         return computers;
     }
 
+    private String parseFormat(CompanyTable field) {
+        switch (field) {
+            case NAME :
+                return "force index(computer_name)";
+            case INTRODUCED :
+                return "force index(computer_introduced)";
+            case DISCONTINUED :
+                return "force index(computer_discontinued)";
+            default :
+                return "";
+
+        }
+    }
     @Override
     public List<Computer> listAll(String regex, long begin, long end, Page.CompanyTable field,
             Page.Order order) {
@@ -300,14 +314,15 @@ public class ComputerDAO implements ComputerDaoInterface {
             con = this.dataSource.getConnection();
             PreparedStatement stmt;
             if (regex != null && !regex.isEmpty()) {
+
                 stmt = con.prepareStatement(
-                        String.format(LISTALL_INDEX_REGEX, field + " " + order.name()));
+                        String.format(LISTALL_INDEX_REGEX, parseFormat(field), field + " " + order.name()));
                 stmt.setString(1,regex + "%");
                 stmt.setLong(2, begin);
                 stmt.setLong(3, end);
             } else {
                 stmt = con
-                        .prepareStatement(String.format(LISTALL_INDEX, field + " " + order.name()));
+                        .prepareStatement(String.format(LISTALL_INDEX, parseFormat(field), field + " " + order.name()));
                 stmt.setLong(1, begin);
                 stmt.setLong(2, end);
             }

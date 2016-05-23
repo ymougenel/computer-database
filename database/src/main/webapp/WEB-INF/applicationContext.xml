@@ -33,7 +33,7 @@
 		<property name="poolName" value="springHikariCP" />
 		<property name="connectionTestQuery" value="SELECT 1" />
 		<property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
-		<property name="maximumPoolSize" value="10" />
+		<property name="maximumPoolSize" value="50" />
 
 		<property name="dataSourceProperties">
 			<props>

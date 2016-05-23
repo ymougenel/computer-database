@@ -30,7 +30,7 @@
 		</encoder>
 	</appender>
 
-	<root level="DEBUG">
+	<root level="ERROR">
 		<appender-ref ref="Database Actions" />
 		<appender-ref ref="Database Errors" />
 	</root>

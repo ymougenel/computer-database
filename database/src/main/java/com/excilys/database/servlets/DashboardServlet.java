@@ -86,6 +86,13 @@ public class DashboardServlet extends HttpServlet {
     // Set the pagination index borders (min and max displayed)
     private void setIndexBorders(Long pageSize, Long nbElements,int pageIndex) {
         int range = 3;
+
+        if (nbElements <= pageSize) {
+            beginIndex = 1;
+            endIndex =1;
+            return;
+        }
+
         beginIndex = pageIndex - range;
         endIndex = pageIndex + range;
 
@@ -97,7 +104,7 @@ public class DashboardServlet extends HttpServlet {
 
         if (beginIndex < 1) {
             beginIndex = 1;
-        } else if (beginIndex == 1 && (limit > 7 || nbElements == pageSize) ) {
+        } else if (beginIndex == 1 && limit > 7) {
             endIndex = 6;
         }
     }
