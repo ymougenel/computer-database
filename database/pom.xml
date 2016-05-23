@@ -4,7 +4,7 @@
 	<groupId>org.apache.maven.plugins</groupId>
 	<artifactId>database</artifactId>
 	<packaging>war</packaging>
-	<version>0.4.0-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>database</name>
 	<url>http://maven.apache.org</url>
 
