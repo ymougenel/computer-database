@@ -62,9 +62,6 @@ public class ComputerDAO implements ComputerDaoInterface {
         @Override
         public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
             Computer computer = new Computer();
-            if (!rs.next()) {
-                return null;
-            }
 
             computer.setId(rs.getLong("id"));
             computer.setName(rs.getString("name"));
@@ -93,6 +90,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         try {
             cmp = this.jdbcTemplate.queryForObject(FIND_ID, new Object[]{id},
                     new ComputerMapper());
+            System.out.println("Wazzaaaaaa"+cmp==null);
         } catch (DataAccessException e) {
             e.printStackTrace();
             logger.debug(e.getMessage());
@@ -245,6 +243,7 @@ public class ComputerDAO implements ComputerDaoInterface {
                 computers = this.jdbcTemplate.query(
                         String.format(LISTALL_INDEX_REGEX, field + " " + order.name()),
                         new Object[] { regex + "%", begin, end }, new ComputerMapper());
+                System.out.println("c---------->"+computers.size());
             } else {
                 computers = this.jdbcTemplate.query(
                         String.format(LISTALL_INDEX, field + " " + order.name()),
