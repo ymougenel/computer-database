@@ -21,6 +21,11 @@ public class Company {
         this.name = name;
     }
 
+    public Company(Long id, String name) {
+        this.name = name;
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

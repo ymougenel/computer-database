@@ -1,13 +1,10 @@
 package com.excilys.database.persistence.implementation;
 
-import static com.excilys.database.persistence.DatabaseConnection.closePipe;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +13,10 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.database.entities.Company;
@@ -37,6 +38,9 @@ public class ComputerDAO implements ComputerDaoInterface {
     @Resource
     private DataSource dataSource;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
     private static final String FIND_ID = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.id = ?;";
     private static final String FIND_NAME = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name = ?;";
     private static final String CREATE = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?);";
@@ -53,27 +57,46 @@ public class ComputerDAO implements ComputerDaoInterface {
     public ComputerDAO() {
     }
 
+    private static final class ComputerMapper implements RowMapper<Computer> {
+
+        @Override
+        public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Computer computer = new Computer();
+            if (!rs.next()) {
+                return null;
+            }
+
+            computer.setId(rs.getLong("id"));
+            computer.setName(rs.getString("name"));
+            Timestamp introduced = rs.getTimestamp("introduced");
+            if (introduced != null) {
+                computer.setIntroduced(introduced.toLocalDateTime().toLocalDate());
+            }
+            Timestamp discontinued = rs.getTimestamp("discontinued");
+            if (discontinued != null) {
+                computer.setDiscontinued(discontinued.toLocalDateTime().toLocalDate());
+            }
+            Long companyId = rs.getLong("company_id");
+            if (companyId != null) {
+                String companyName = rs.getString("company_name");
+                computer.setCompany(new Company(companyId, companyName));
+            }
+            return computer;
+        }
+    }
+
     @Override
     public Computer find(long id) {
         logger.info("FIND_ID" + " << " + id);
         Computer cmp = null;
-        ResultSet results = null;
-        // System.out.println("### +i query called for : "+query +" << "+name);
-        Connection con = null;
+        System.out.println("### +i query called for : "+FIND_ID +" << "+id);
         try {
-            con = this.dataSource.getConnection();
-            PreparedStatement stmt = con.prepareStatement(FIND_ID);
-            stmt.setLong(1, id);
-            results = stmt.executeQuery();
-            cmp = wrapDatabaseResult(results);
-
-        } catch (SQLException e) {
+            cmp = this.jdbcTemplate.queryForObject(FIND_ID, new Object[]{id},
+                    new ComputerMapper());
+        } catch (DataAccessException e) {
             e.printStackTrace();
             logger.debug(e.getMessage());
             throw new DAOException(e);
-        } finally {
-            closePipe(results);
-            closePipe(con);
         }
         return cmp;
     }
@@ -82,21 +105,13 @@ public class ComputerDAO implements ComputerDaoInterface {
     public Computer find(String name) {
         logger.info("FIND_NAME" + " << " + (name == null ? "NULL" : name));
         Computer cmp;
-        ResultSet results = null;
-        Connection con = null;
         try {
-            con = this.dataSource.getConnection();
-            PreparedStatement stmt = con.prepareStatement(FIND_NAME);
-            stmt.setString(1, name);
-            results = stmt.executeQuery();
-            cmp = wrapDatabaseResult(results);
-        } catch (SQLException e) {
+            cmp = this.jdbcTemplate.queryForObject(FIND_NAME, new Object[] { name },
+                    new ComputerMapper());
+        } catch (DataAccessException e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.debug(e.getMessage());
             throw new DAOException(e);
-        } finally {
-            closePipe(results);
-            closePipe(con);
         }
         return cmp;
     }
@@ -104,49 +119,23 @@ public class ComputerDAO implements ComputerDaoInterface {
     @Override
     public Computer create(Computer comp) {
         logger.info("CREATE" + " << " + comp.toString());
-        Connection con = null;
-        ResultSet generatedKeys = null;
+        // define query arguments
+        Object[] args = new Object[4];
+        args[0] = comp.getName();
+        args[1] = (comp.getIntroduced() == null ? null : Date.valueOf(comp.getIntroduced()));
+        args[2] = (comp.getDiscontinued() == null ? null : Date.valueOf(comp.getDiscontinued()));
+        args[3] = (comp.getCompany() == null ? null : comp.getCompany().getId());
+
+        // define SQL types of the arguments
+        int[] types = new int[] { Types.VARCHAR, java.sql.Types.DATE, java.sql.Types.DATE,
+                Types.BIGINT };
         try {
-            con = this.dataSource.getConnection();
-            PreparedStatement stmt = con.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, comp.getName());
-
-            if (comp.getIntroduced() != null) {
-                stmt.setDate(2, java.sql.Date.valueOf(comp.getIntroduced()));
-            } else {
-                stmt.setNull(2, java.sql.Types.DATE);
-            }
-
-            if (comp.getDiscontinued() != null) {
-                stmt.setDate(3, java.sql.Date.valueOf(comp.getDiscontinued()));
-            } else {
-                stmt.setNull(3, java.sql.Types.DATE);
-            }
-
-            if (comp.getCompany() != null) {
-                stmt.setLong(4, comp.getCompany().getId());
-            } else {
-                stmt.setNull(4, java.sql.Types.INTEGER);
-            }
-
-            stmt.executeUpdate();
-
-            generatedKeys = stmt.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                comp.setId(generatedKeys.getLong(1));
-            } else {
-                throw new SQLException("Creating user failed, no ID obtained.");
-            }
-
-        } catch (SQLException e) {
+            long row = this.jdbcTemplate.update(CREATE, args, types);
+            comp.setId(row);
+        } catch (DataAccessException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
             throw new DAOException(e);
-        } finally {
-            if (generatedKeys != null) {
-                closePipe(generatedKeys);
-            }
-            closePipe(con);
         }
         return comp;
     }
@@ -154,60 +143,34 @@ public class ComputerDAO implements ComputerDaoInterface {
     @Override
     public Computer update(Computer comp) {
         logger.info("UPDATE" + " << " + comp.toString());
-        Connection con = null;
+
+        Object[] args = new Object[5];
+        args[0] = comp.getName();
+        args[1] = (comp.getIntroduced() == null ? null : Date.valueOf(comp.getIntroduced()));
+        args[2] = (comp.getDiscontinued() == null ? null : Date.valueOf(comp.getDiscontinued()));
+        args[3] = (comp.getCompany() == null ? null : comp.getCompany().getId());
+        args[4] = comp.getId();
+
         try {
-            con = this.dataSource.getConnection();
-            PreparedStatement stmt = con.prepareStatement(UPDATE);
-            stmt.setString(1, comp.getName());
-
-            if (comp.getIntroduced() != null) {
-                stmt.setDate(2, java.sql.Date.valueOf(comp.getIntroduced()));
-            } else {
-                stmt.setNull(2, java.sql.Types.DATE);
-            }
-
-            if (comp.getDiscontinued() != null) {
-                stmt.setDate(3, java.sql.Date.valueOf(comp.getDiscontinued()));
-            } else {
-                stmt.setNull(3, java.sql.Types.DATE);
-            }
-
-            if (comp.getCompany() != null) {
-                stmt.setLong(4, comp.getCompany().getId());
-            }
-
-            else {
-                stmt.setNull(4, java.sql.Types.INTEGER);
-            }
-
-            stmt.setLong(5, comp.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
+            this.jdbcTemplate.update(UPDATE, args);
+        } catch (DataAccessException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
             throw new DAOException(e);
-        } finally {
-            closePipe(con);
         }
-
         return comp;
+
     }
 
     @Override
     public void delete(Computer comp) {
         logger.info("DELETE" + " << " + comp.toString());
-        Connection con = null;
         try {
-            con = this.dataSource.getConnection();
-            PreparedStatement stmt = con.prepareStatement(DELETE);
-            stmt.setLong(1, comp.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
+            this.jdbcTemplate.update(DELETE, comp.getId());
+        } catch (DataAccessException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
             throw new DAOException(e);
-        } finally {
-            closePipe(con);
         }
     }
 
@@ -215,12 +178,8 @@ public class ComputerDAO implements ComputerDaoInterface {
     public void delete(Long idCompany) {
         logger.info("DELETE ID Company " + " << " + idCompany);
         try {
-            // Deleting related computers
-            Connection con = this.dataSource.getConnection();
-            PreparedStatement deleteComputer = con.prepareStatement("DELETE FROM computer where company_id = ?");
-            deleteComputer.setLong(1, idCompany);
-            deleteComputer.executeUpdate();
-        } catch (SQLException e) {
+            this.jdbcTemplate.update("DELETE FROM computer where company_id = ?", idCompany);
+        } catch (DataAccessException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
             throw new DAOException(e);
@@ -265,25 +224,13 @@ public class ComputerDAO implements ComputerDaoInterface {
     @Override
     public List<Computer> listAll() {
         logger.info("LISTALL");
-        ResultSet results = null;
-        List<Computer> computers = new ArrayList<Computer>();
-        Connection con = null;
+        List<Computer> computers;
         try {
-            con = this.dataSource.getConnection();
-            Statement stmt = con.createStatement();
-            results = stmt.executeQuery(LISTALL);
-
-            Computer c;
-            while ((c = wrapDatabaseResult(results)) != null) {
-                computers.add(c);
-            }
-        } catch (SQLException e) {
+            computers = this.jdbcTemplate.query(LISTALL, new ComputerMapper());
+        } catch (DataAccessException e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.debug(e.getMessage());
             throw new DAOException(e);
-        } finally {
-            closePipe(results);
-            closePipe(con);
         }
         return computers;
     }
@@ -292,103 +239,46 @@ public class ComputerDAO implements ComputerDaoInterface {
     public List<Computer> listAll(String regex, long begin, long end, Page.CompanyTable field,
             Page.Order order) {
         logger.info("LISTALL_INDEX_REGEX" + " << " + regex + begin + ", " + end);
-        ResultSet results = null;
-        List<Computer> computers = new ArrayList<Computer>();
-        Connection con = null;
+        List<Computer> computers;
         try {
-            // Getting the connection and preparing the request
-            con = this.dataSource.getConnection();
-            PreparedStatement stmt;
             if (regex != null && !regex.isEmpty()) {
-                stmt = con.prepareStatement(
-                        String.format(LISTALL_INDEX_REGEX, field + " " + order.name()));
-                stmt.setString(1,regex + "%");
-                stmt.setLong(2, begin);
-                stmt.setLong(3, end);
+                computers = this.jdbcTemplate.query(
+                        String.format(LISTALL_INDEX_REGEX, field + " " + order.name()),
+                        new Object[] { regex + "%", begin, end }, new ComputerMapper());
             } else {
-                stmt = con
-                        .prepareStatement(String.format(LISTALL_INDEX, field + " " + order.name()));
-                stmt.setLong(1, begin);
-                stmt.setLong(2, end);
+                computers = this.jdbcTemplate.query(
+                        String.format(LISTALL_INDEX, field + " " + order.name()),
+                        new Object[] { begin, end }, new ComputerMapper());
             }
 
-            results = stmt.executeQuery();
-
-            Computer c;
-            while ((c = wrapDatabaseResult(results)) != null) {
-                computers.add(c);
-            }
-
-        } catch (SQLException e) {
+        } catch (DataAccessException e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.debug(e.getMessage());
             throw new DAOException(e);
-        } finally {
-            closePipe(results);
-            closePipe(con);
         }
+
         return computers;
     }
 
-    public List<Computer> listFromCompany(String regex, long begin, long end, Page.CompanyTable field,
-            Page.Order order) {
+    public List<Computer> listFromCompany(String regex, long begin, long end,
+            Page.CompanyTable field, Page.Order order) {
         logger.info("LISTALL_INDEX_REGEX" + " << " + regex + begin + ", " + end);
         List<Computer> computers = new ArrayList<Computer>();
         // TODO search where company.name LIKE regex
-        // add it to the searched result (before or after ?), it implies changing the second DAO listing's indexes
+        // add it to the searched result (before or after ?), it implies changing the second DAO
+        // listing's indexes
         return computers;
     }
 
     @Override
     public long count() {
         logger.info("COUNT");
-        ResultSet results = null;
-        long count = 0;
-        Connection con = null;
-        try {
-            con = this.dataSource.getConnection();
-            Statement stmt = con.createStatement();
-            results = stmt.executeQuery(COUNT);
-
-            if (results.next()) {
-                count = results.getLong(1);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
-        } finally {
-            closePipe(results);
-            closePipe(con);
-        }
-        return count;
+        return this.jdbcTemplate.queryForObject(COUNT, Long.class);
     }
 
     @Override
     public long count(String regex) {
         logger.info("COUNT" + regex);
-        ResultSet results = null;
-        long count = 0;
-        Connection con = null;
-        try {
-            con = this.dataSource.getConnection();
-            PreparedStatement stmt = con.prepareStatement(COUNT_REGEX);
-            stmt.setString(1, regex + "%");
-            results = stmt.executeQuery();
-
-            if (results.next()) {
-                count = results.getLong(1);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
-        } finally {
-            closePipe(results);
-            closePipe(con);
-        }
-        return count;
+        return jdbcTemplate.queryForObject(COUNT_REGEX, new String[] { regex + "%" }, Long.class);
     }
 }

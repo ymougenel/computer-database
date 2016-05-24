@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -8,12 +10,15 @@
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
-	rel="stylesheet" media="screen">
-<link href="${pageContext.request.contextPath}/css/font-awesome.css"
-	rel="stylesheet" media="screen">
-<link href="${pageContext.request.contextPath}/css/main.css"
-	rel="stylesheet" media="screen">
+<spring:url value="/css/bootstrap.min.css"
+	var="bootstrap.mincss" />
+<spring:url value="/css/font-awesome.css"
+	var="font-awesomecss" />
+<spring:url value="/css/main.css" var="maincss" />
+
+<link href="${bootstrap.mincss}" rel="stylesheet" media="screen">
+<link href="${font-awesomecss}" rel="stylesheet" media="screen">
+<link href="${maincss}" rel="stylesheet" media="screen">
 </head>
 
 <body>
@@ -26,8 +31,7 @@
 
 	<c:if test="${postMessage}">
 		<c:forEach items="${errors}" var="error">
-			<div class="alert alert-error alert-dismissible"
-				role="alert">
+			<div class="alert alert-error alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -79,10 +83,11 @@
 		</div>
 	</div>
 	</section>
-
-	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/jsdf/computerFormValidation.js"></script>
+	<spring:url value="/js/jquery.min.js" var="jqueryjs" />
+	<spring:url value="/js/computerFormValidation.js"
+		var="valjs" />
+	<script src="${jqueryjs}"></script>
+	<script src="${valjs}"></script>
 </body>
 
 </html>

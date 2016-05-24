@@ -5,10 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,17 +24,20 @@ public class DAOComputerTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
+        System.out.println("set uop");
         //computerDAO = ComputerDAO.getInstance();
     }
 
     @Test
     public void findTest() {
+        System.out.println("find");
         Computer comp = computerDAO.find(2);
         assertEquals(comp.getName(), "CM-2a");
     }
 
     @Test
     public void findTestNull() {
+        System.out.println("find null");
         Long count = computerDAO.count();
         Computer comp = computerDAO.find(count + 10);
         assertNull(comp);
@@ -46,6 +45,7 @@ public class DAOComputerTest {
 
     @Test
     public void insertTest() {
+        System.out.println("insert");
         Computer comp = new Computer();
         comp.setName("Yoloooo");
         computerDAO.create(comp);
@@ -54,6 +54,7 @@ public class DAOComputerTest {
 
     @Test
     public void countTest() {
+        System.out.println("count test");
         Long count = computerDAO.count();
         assertNotNull(count);
         assertNotSame(count, 0);
@@ -61,6 +62,7 @@ public class DAOComputerTest {
 
     @Test
     public void countTestInsertion() {
+        System.out.println("count insertion");
         long count = computerDAO.count();
         Computer comp = new Computer();
         comp.setName("CountTest");
@@ -71,6 +73,7 @@ public class DAOComputerTest {
 
     @Test
     public void countTestDeletion() {
+        System.out.println("count deletion");
         long count = computerDAO.count();
         Computer comp = new Computer();
         comp.setName("deletionTest");
@@ -84,7 +87,9 @@ public class DAOComputerTest {
         assertEquals(count1, count2 + 1);
     }
 
-    public void delete() {
+    @Test
+    public void deleteTest() {
+        System.out.println("Delete");
         Computer comp = new Computer.Builder("computer404").build();
         computerDAO.create(comp);
         computerDAO.delete(comp);
@@ -93,6 +98,7 @@ public class DAOComputerTest {
 
     @Test
     public void updateTest() {
+        System.out.println("update");
         Computer comp = new Computer();
         comp.setName("First");
         computerDAO.create(comp);
@@ -120,13 +126,15 @@ public class DAOComputerTest {
     //        }
     //    }
 
-    @After
+    /* @After
     public void cleanBdd() {
-        List<Computer> computers = new LinkedList<Computer>(computerDAO.listAll());
+        System.out.println("cleaning");
+        List<Computer> computers = computerDAO.listAll();
         for (Computer comp : computers) {
             if (comp.getId() > 574) {
                 computerDAO.delete(comp);
             }
         }
-    }
+        System.out.println("done cleaning");
+    }*/
 }

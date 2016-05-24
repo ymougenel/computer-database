@@ -1,16 +1,15 @@
 package com.excilys.database.servlets;
 
-import java.io.IOException;
+import java.util.Map;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.ComputerDaoInterface;
@@ -19,7 +18,8 @@ import com.excilys.database.validadors.ComputerValidador;
 /**
  * Servlet implementation class DeleteComputerServlet
  */
-@Configurable
+@Controller
+@RequestMapping("/deleteComputer")
 public class DeleteComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -34,27 +34,9 @@ public class DeleteComputerServlet extends HttpServlet {
         //computerDAO = ComputerDAO.getInstance();
     }
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-    }
-
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        response.getWriter().append("Served at: ").append(request.getContextPath());
-    }
-
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final String selection = request.getParameter("selection");
+    @RequestMapping(method = RequestMethod.POST)
+    public String doPost(final ModelMap pModel, @RequestParam Map<String, String> params) {
+        final String selection = params.get("selection");
         String[] ids =selection.split(",");
         Computer comp;
         for (String idInput : ids ) {
@@ -63,8 +45,8 @@ public class DeleteComputerServlet extends HttpServlet {
             comp = new Computer.Builder("DefaultName").id(id).build();
             computerDAO.delete(comp);
         }
-
-        request.getRequestDispatcher("/dashboard").forward(request, response);
+        return "dashboard";
+        //request.getRequestDispatcher("/dashboard").forward(request, response);
     }
 
 }

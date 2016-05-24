@@ -33,16 +33,19 @@ public class ComputerServiceTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
+        System.out.println("setup");
     }
 
     @Test
     public void findTest() {
+        System.out.println("find test");
         Computer comp = computerService.findComputer(3l);
         assertEquals(comp.getName(), "CM-200");
     }
 
     @Test
     public void findTestNull() {
+        System.out.println("find null");
         Long count = computerService.countComputers();
         Computer comp = computerService.findComputer(count + 100);
         assertNull(comp);
@@ -50,6 +53,7 @@ public class ComputerServiceTest {
 
     @Test
     public void insertTest() {
+        System.out.println("insert teset");
         Computer comp = new Computer.Builder("Insertion").build();
         computerService.insertComputer(comp);
         assertNotNull(comp.getId());
@@ -58,6 +62,7 @@ public class ComputerServiceTest {
     // Exception based tests are ignored : computer validation is done by the servlet
     @Ignore @Test(expected = IllegalArgumentException.class)
     public void insertTestNameError() {
+        System.out.println("insert error");
         Computer comp = new Computer();
         computerService.insertComputer(comp);
     }
@@ -78,6 +83,7 @@ public class ComputerServiceTest {
 
     @Test
     public void countTest() {
+        System.out.println("count");
         Long count = computerService.countComputers();
         assertNotNull(count);
         assertNotSame(count, 0);
@@ -85,6 +91,7 @@ public class ComputerServiceTest {
 
     @Test
     public void countTestInsertion() {
+        System.out.println("count insertion");
         long count = computerService.countComputers();
         Computer comp = new Computer.Builder("CountTest").build();
         computerService.insertComputer(comp);
@@ -107,7 +114,9 @@ public class ComputerServiceTest {
         assertEquals(count1, count2 + 1);
     }
 
-    public void delete() {
+    @Test
+    public void deleteTest() {
+        System.out.println("delete");
         Computer comp = new Computer.Builder("computer404").build();
         computerService.insertComputer(comp);
         computerService.deleteComputer(comp);
@@ -116,6 +125,7 @@ public class ComputerServiceTest {
 
     @Test
     public void updateTest() throws InvalidInsertionException {
+        System.out.println("udateTest");
         Computer comp = new Computer();
         comp.setName("First");
         computerService.insertComputer(comp);
@@ -128,6 +138,7 @@ public class ComputerServiceTest {
 
     @After
     public void cleanBdd() {
+        System.out.println("cleaning");
         long count = computerService.countComputers();
         List<Computer> computers = computerService.listComputers(null, 0, 2*count, Page.CompanyTable.ID ,Order.ASC);
         for (Computer comp : computers) {
