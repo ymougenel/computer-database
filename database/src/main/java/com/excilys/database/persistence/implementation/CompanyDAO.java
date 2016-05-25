@@ -41,7 +41,7 @@ public class CompanyDAO implements CompanyDaoInterface {
 
     private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
     private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
-    private static final String CREATE = "INSERT INTO company (name) VALUES (?);";
+    //private static final String CREATE = "INSERT INTO company (name) VALUES (?);";
     private static final String UPDATE = "UPDATE company SET name= ? WHERE id = ?;";
     private static final String DELETE = "DELETE FROM company WHERE id = ?;";
     private static final String LISTALL = "SELECT id,name from company;";
@@ -148,16 +148,16 @@ public class CompanyDAO implements CompanyDaoInterface {
      *            : ResultSet receive by the database request
      * @return The created object (null if ResultSet error)
      */
-    private Company wrapDatabaseResult(ResultSet rs) throws SQLException {
-        Company cmp = null;
-        // If result found, Company created from the Database result
-        if (rs.next()) {
-            cmp = new Company();
-            cmp.setId(rs.getLong("id"));
-            cmp.setName(rs.getString("name"));
-        }
-        return cmp;
-    }
+    //    private Company wrapDatabaseResult(ResultSet rs) throws SQLException {
+    //        Company cmp = null;
+    //        // If result found, Company created from the Database result
+    //        if (rs.next()) {
+    //            cmp = new Company();
+    //            cmp.setId(rs.getLong("id"));
+    //            cmp.setName(rs.getString("name"));
+    //        }
+    //        return cmp;
+    //    }
 
     @Override
     public List<Company> listAll() {

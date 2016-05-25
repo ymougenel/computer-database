@@ -12,6 +12,23 @@
 
     <context:component-scan base-package="com.excilys.database.*" />
 
+	<!-- i18n -->
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="fr" />
+	</bean>
+
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="lang" />
+		</bean>
+	</mvc:interceptors>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+	
     <bean
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">

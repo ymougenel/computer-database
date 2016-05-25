@@ -37,7 +37,7 @@
 		</encoder>
 	</appender>
 
-	<root level="INFO">
+	<root level="DEBUG">
 		<appender-ref ref="Database Actions" />
 		<appender-ref ref="Database Errors" />
 		<appender-ref ref="consoleAppender" />
