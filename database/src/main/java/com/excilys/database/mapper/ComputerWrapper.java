@@ -1,6 +1,7 @@
 package com.excilys.database.mapper;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +22,19 @@ public class ComputerWrapper {
 
         return comp;
     }
+
+    // Create a page based on the web request
+    public static ComputerDTO wrapWebRequest(Map<String, String> params) {
+        ComputerDTO comp = new ComputerDTO();
+        comp.setId(params.get("computerId"));
+        comp.setName(params.get("computerName"));
+        comp.setIntroduced(params.get("introduced"));
+        comp.setDiscontinued(params.get("discontinued"));
+        comp.setCompanyId(params.get("companyId"));
+
+        return comp;
+    }
+
 
     public static Computer wrapToComputer(ComputerDTO dto) {
         String name = dto.getName();

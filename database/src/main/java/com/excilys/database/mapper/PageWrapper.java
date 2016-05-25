@@ -1,5 +1,7 @@
 package com.excilys.database.mapper;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.excilys.database.entities.Computer;
@@ -47,6 +49,47 @@ public class PageWrapper {
 
         return page;
     }
+
+    public static Page<Computer> wrapWebRequest(Map<String, String> request) {
+        Page<Computer> page = new Page<Computer>();
+
+        String orderInput = request.get("order");
+        if (orderInput != null && orderInput.equals("DESC")) {
+            page.setOrder(Order.DESC);
+        } else {
+            page.setOrder(Order.ASC);
+        }
+
+        String fieldInput = request.get("field");
+        if (fieldInput != null) {
+            page.setField(Page.CompanyTable.getField(fieldInput));
+        }
+        else {
+            page.setField(Page.CompanyTable.NAME);
+        }
+
+        String search = request.get("search");
+        if (search != null ) {
+            page.setSearch(search);
+        }
+
+        String pageSizeInput = request.get("pageSize");
+        if (pageSizeInput != null) {
+            if (pageSizeInput.equals("10") || pageSizeInput.equals("50")
+                    || pageSizeInput.equals("100")) {
+                page.setMaxSize(Long.parseLong(pageSizeInput));
+                page.setIndex(1);
+            }
+        }
+
+        String pageIndexInput = request.get("pageIndex");
+        if (pageIndexInput != null) {
+            page.setIndex(Integer.parseInt(pageIndexInput));
+        }
+
+        return page;
+    }
+
 
     public static Page<ComputerDTO> wrapPage(Page<Computer> page) {
         Page<ComputerDTO> pageDTO = new Page<ComputerDTO>();

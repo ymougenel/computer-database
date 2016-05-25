@@ -1,17 +1,16 @@
 package com.excilys.database.servlets;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
@@ -25,7 +24,8 @@ import com.excilys.database.validadors.ComputerValidador;
 /**
  * Servlet implementation class EditComputer
  */
-@Configurable
+@Controller
+@RequestMapping("/editComputer")
 public class EditComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -42,57 +42,49 @@ public class EditComputerServlet extends HttpServlet {
         super();
     }
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-    }
+    // @Override
+    // public void init(ServletConfig config) throws ServletException {
+    // super.init(config);
+    // SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+    // config.getServletContext());
+    // }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    @RequestMapping(method = RequestMethod.GET)
+    public String doGet(final ModelMap pModel, @RequestParam Map<String, String> params) {
 
-        String computerId = request.getParameter("computerId");
+        String computerId = params.get("computerId");
         Long id = null;
         Computer comp = null;
-        try {
-            id = Long.parseLong(computerId);
-            comp = computerService.findComputer(id);
-            if (comp == null) {
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            request.getRequestDispatcher("/WEB-INF/views/500.html").forward(request, response);
-        }
+        id = Long.parseLong(computerId);
+        System.out.println(id);
+        comp = computerService.findComputer(id);
+        System.out.println(comp.toString());
         ComputerDTO compDTO = new ComputerDTO(comp);
         List<Company> companies = companyService.listCompanies();
-        request.setAttribute("companies", companies);
-        request.setAttribute("computer", compDTO);
-        request.getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request, response);
+        pModel.addAttribute("companies", companies);
+        pModel.addAttribute("computer", compDTO);
+        return "editComputer";
+        // request.getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request,
+        // response);
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        ComputerDTO comp = ComputerWrapper.wrapWebRequest(request);
-        List<String> errors =ComputerValidador.computerValidation(comp, true);
+    @RequestMapping(method = RequestMethod.POST)
+    public String doPost(final ModelMap pModel, @RequestParam Map<String, String> params){
+        ComputerDTO comp = ComputerWrapper.wrapWebRequest(params);
+        List<String> errors = ComputerValidador.computerValidation(comp, true);
         if (!errors.isEmpty()) {
-            request.setAttribute("postMessage", "true");
-            request.setAttribute("errors", errors);
-            request.setAttribute("computer", comp);
-            request.getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request, response);
-            return;
+            pModel.addAttribute("postMessage", "true");
+            pModel.addAttribute("errors", errors);
+            pModel.addAttribute("computer", comp);
+            return "editComputer";
         }
 
         computerService.updateComputer(ComputerWrapper.wrapToComputer(comp));
-        NavbarFlaghandler.setFlag(request, "success", "Computer updated", "The computer \"" + comp.getName() + "\" has been successfully updated.");
-        request.getRequestDispatcher("/dashboard").forward(request, response);
+
+        NavbarFlaghandler.setFlag(pModel, "success", "Computer updated",
+                "The computer \"" + comp.getName() + "\" has been successfully updated.");
+        return "dashboard";
+        //request.getRequestDispatcher("/dashboard").forward(request, response);
 
     }
 

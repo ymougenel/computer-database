@@ -1,17 +1,16 @@
 package com.excilys.database.servlets;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.ComputerDTO;
@@ -24,8 +23,9 @@ import com.excilys.database.validadors.ComputerValidador;
 /**
  * Servlet implementation class addComputerServlet
  */
-@Configurable
-public class AddComputerServlet extends HttpServlet {
+@Controller
+@RequestMapping("/addComputer")
+public class AddComputerServlet extends HttpServlet{
     private static final long serialVersionUID = 1L;
 
     @Autowired
@@ -33,55 +33,58 @@ public class AddComputerServlet extends HttpServlet {
 
     @Autowired
     private CompanyServiceInterface companyService;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public AddComputerServlet() {
         super();
     }
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-    }
+    //    @Override
+    //    public void init(ServletConfig config) throws ServletException {
+    //        super.init(config);
+    //        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+    //    }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String doGet(final ModelMap pModel) {
         List<Company> companies = companyService.listCompanies();
-        request.setAttribute("companies", companies);
-        request.getRequestDispatcher("WEB-INF/views/addComputer.jsp").forward(request, response);
+        //pModel.addAllAttributes(companies);
+        pModel.addAttribute("companies", companies);
+        System.out.println("------ Hello world from Add computer get ("+companies.size()+")");
+        return "addComputer";
+        //request.setAttribute("companies", companies);
+        //request.getRequestDispatcher("WEB-INF/views/addComputer.jsp").forward(request, response);
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    @RequestMapping(method = RequestMethod.POST)
+    public String doPost(final ModelMap pModel, @RequestParam Map<String, String> params) {
+        System.out.println("***** Hello world from Add computer post ()");
+        String name = params.get("computerName");
+        System.out.println("--->"+name);
 
-        ComputerDTO comp = ComputerWrapper.wrapWebRequest(request);
+        ComputerDTO comp = ComputerWrapper.wrapWebRequest(params);
         //TODO validation dto
 
         List<String> errors =ComputerValidador.computerValidation(comp, false);
         if (!errors.isEmpty()) {
-            request.setAttribute("postMessage", "true");
-            request.setAttribute("errors", errors);
-            request.setAttribute("computer", comp);
-            request.getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
-            return;
+            System.err.println("Error arguments for add computer:"+errors.toString());;
+            //request.setAttribute("postMessage", "true");
+            //request.setAttribute("errors", errors);
+            //request.setAttribute("computer", comp);
+            //request.getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
+            pModel.addAttribute("postMessage", "true");
+            pModel.addAttribute("errors", errors);
+            pModel.addAttribute("computer", comp);
+            return "addComputer";
         }
 
         computerService.insertComputer(ComputerWrapper.wrapToComputer(comp));
         // TODO Add insertion logging
 
         // Setting a success feedback navbar
-        NavbarFlaghandler.setFlag(request, "success", "Computer added", "The computer \"" + comp.getName() + "\" has been successfully added.");
-        request.getRequestDispatcher("/dashboard").forward(request, response);
+        NavbarFlaghandler.setFlag(pModel, "success", "Computer added", "The computer \"" + comp.getName() + "\" has been successfully added.");
+        //request.getRequestDispatcher("/dashboard").forward(request, response);*/
+        return "dashboard";
 
     }
 

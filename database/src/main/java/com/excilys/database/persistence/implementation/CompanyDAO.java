@@ -1,20 +1,24 @@
 package com.excilys.database.persistence.implementation;
 
-import static com.excilys.database.persistence.DatabaseConnection.closePipe;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.database.entities.Company;
@@ -32,9 +36,12 @@ public class CompanyDAO implements CompanyDaoInterface {
     @Resource
     private DataSource dataSource;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
     private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
     private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
-    private static final String CREATE = "INSERT INTO company (name) VALUES (?);";
+    //private static final String CREATE = "INSERT INTO company (name) VALUES (?);";
     private static final String UPDATE = "UPDATE company SET name= ? WHERE id = ?;";
     private static final String DELETE = "DELETE FROM company WHERE id = ?;";
     private static final String LISTALL = "SELECT id,name from company;";
@@ -44,104 +51,78 @@ public class CompanyDAO implements CompanyDaoInterface {
     public CompanyDAO() {
     }
 
+    private static final class CompanyMapper implements RowMapper<Company> {
+
+        @Override
+        public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Company company = new Company();
+            company.setId(rs.getLong("id"));
+            company.setName(rs.getString("name"));
+            return company;
+        }
+    }
+
     @Override
     public Company find(long id) {
         logger.info("FIND_ID" + " << " + id);
         Company cmp;
-        ResultSet results = null;
-        Connection con = null;
         try {
-            con = this.dataSource.getConnection();
-            PreparedStatement stmt = con.prepareStatement(FIND_ID);
-            stmt.setLong(1, id);
-            results = stmt.executeQuery();
-            cmp = wrapDatabaseResult(results);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
-        } finally {
-            closePipe(results);
-            closePipe(con);
-        }
 
+            cmp = this.jdbcTemplate.queryForObject(FIND_ID, new Object[] { id },
+                    new CompanyMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            logger.debug(e.getMessage());
+            throw new DAOException(e);
+        }
         return cmp;
     }
-
 
     @Override
     public Company find(String name) {
         logger.info("FIND_NAME" + " << " + (name == null ? "NULL" : name));
         Company cmp;
-        ResultSet results = null;
-        // System.out.println("### +i query called for : "+query +" << "+name);
-        Connection con = null;
         try {
-            con = this.dataSource.getConnection();
-            PreparedStatement stmt = con.prepareStatement(FIND_NAME);
-            stmt.setString(1, name);
-            results = stmt.executeQuery();
-            cmp = wrapDatabaseResult(results);
-        } catch (SQLException e) {
+            cmp = this.jdbcTemplate.queryForObject(FIND_NAME, new Object[] { name },
+                    new CompanyMapper());
+        } catch (DataAccessException e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.debug(e.getMessage());
             throw new DAOException(e);
-        } finally {
-            closePipe(con);
-            closePipe(results);
         }
-
         return cmp;
     }
-
 
     @Override
     public Company create(Company comp) {
         logger.info("CREATE" + " << " + comp.toString());
-        ResultSet generatedKeys = null;
-        Connection con = null;
+        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("company").usingGeneratedKeyColumns("id")
+                .usingColumns("name");
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("name", comp.getName());
         try {
-            con = this.dataSource.getConnection();
-            PreparedStatement stmt = con.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, comp.getName());
-            stmt.executeUpdate();
-
-            generatedKeys = stmt.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                comp.setId(generatedKeys.getLong(1));
-            } else {
-                throw new SQLException("Creating user failed, no ID obtained.");
-            }
-        } catch (SQLException e) {
+            long row = insert.executeAndReturnKey(parameters).longValue();
+            comp.setId(row);
+        } catch (DataAccessException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
             throw new DAOException(e);
-        } finally {
-            if (generatedKeys != null) {
-                closePipe(generatedKeys);
-            }
-            closePipe(con);
         }
         return comp;
     }
 
-
     @Override
     public Company update(Company comp) {
         logger.info("UPDATE" + " << " + comp.toString());
-        Connection con = null;
         try {
-            con = this.dataSource.getConnection();
-            PreparedStatement stmt = con.prepareStatement(UPDATE);
-            stmt.setString(1, comp.getName());
-            stmt.setLong(2, comp.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
+            this.jdbcTemplate.update(UPDATE, new Object[] {comp.getName(), comp.getId()});
+        } catch (DataAccessException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
             throw new DAOException(e);
-        } finally {
-            closePipe(con);
         }
         return comp;
     }
@@ -150,11 +131,10 @@ public class CompanyDAO implements CompanyDaoInterface {
     public void delete(Company comp) {
         logger.info("DELETE con" + " << " + comp.toString());
         try {
-            Connection con = this.dataSource.getConnection();
-            PreparedStatement deleteCompany = con.prepareStatement(DELETE);
-            deleteCompany.setLong(1, comp.getId());
-            deleteCompany.executeUpdate();
-        } catch (SQLException e) {
+            Object[] params = { comp.getId() };
+            int[] types = {Types.BIGINT};
+            this.jdbcTemplate.update(DELETE, params, types);
+        } catch (DataAccessException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
             throw new DAOException(e);
@@ -168,68 +148,34 @@ public class CompanyDAO implements CompanyDaoInterface {
      *            : ResultSet receive by the database request
      * @return The created object (null if ResultSet error)
      */
-    private Company wrapDatabaseResult(ResultSet rs) throws SQLException {
-        Company cmp = null;
-        // If result found, Company created from the Database result
-        if (rs.next()) {
-            cmp = new Company();
-            cmp.setId(rs.getLong("id"));
-            cmp.setName(rs.getString("name"));
-        }
-        return cmp;
-    }
-
+    //    private Company wrapDatabaseResult(ResultSet rs) throws SQLException {
+    //        Company cmp = null;
+    //        // If result found, Company created from the Database result
+    //        if (rs.next()) {
+    //            cmp = new Company();
+    //            cmp.setId(rs.getLong("id"));
+    //            cmp.setName(rs.getString("name"));
+    //        }
+    //        return cmp;
+    //    }
 
     @Override
     public List<Company> listAll() {
         logger.info("LISTALL");
-        ResultSet results = null;
         List<Company> companies = new ArrayList<Company>();
-        Connection con = null;
         try {
-            con = this.dataSource.getConnection();
-            Statement stmt = con.createStatement();
-            results = stmt.executeQuery(LISTALL);
-
-            Company c;
-            while ((c = wrapDatabaseResult(results)) != null) {
-                companies.add(c);
-            }
-        } catch (SQLException e) {
+            companies = this.jdbcTemplate.query(LISTALL, new CompanyMapper());
+        } catch (DataAccessException e) {
             e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.debug(e.getMessage());
             throw new DAOException(e);
-        } finally {
-            closePipe(con);
-            closePipe(results);
         }
         return companies;
     }
 
-
     @Override
     public long count() {
         logger.info("COUNT");
-        ResultSet results = null;
-        long count = 0;
-        Connection con = null;
-        try {
-            con = this.dataSource.getConnection();
-            Statement stmt = con.createStatement();
-            results = stmt.executeQuery(COUNT);
-
-            if (results.next()) {
-                count = results.getLong(1);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
-        } finally {
-            closePipe(results);
-            closePipe(con);
-        }
-        return count;
+        return this.jdbcTemplate.queryForObject(COUNT, Long.class);
     }
 }

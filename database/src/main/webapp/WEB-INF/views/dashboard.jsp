@@ -2,8 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="myTags" tagdir="/WEB-INF/tags"%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<!DOCTYPE html>
+<html>
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,20 +25,10 @@
 	</div>
 	</header>
 
-	<c:if test="${postMessage}">
-		<div class="alert alert-${messageLevel} alert-dismissible"
-			role="alert">
-			<button type="button" class="close" data-dismiss="alert"
-				aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<strong>${messageHeader}</strong> ${messageBody}
-		</div>
-	</c:if>
 
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle">${count} Computers found</h1>
+		<h1 id="homeTitle"><spring:message code="label.computercount" />  ${count} </h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" action="#" method="GET" class="form-inline">

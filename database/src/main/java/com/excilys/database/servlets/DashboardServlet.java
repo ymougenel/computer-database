@@ -1,16 +1,18 @@
 package com.excilys.database.servlets;
 
 import java.io.IOException;
+import java.util.Map;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.ComputerDTO;
@@ -21,7 +23,8 @@ import com.excilys.database.services.ComputerServiceInterface;
 /**
  * Servlet implementation class MyServlet
  */
-@Configurable
+@Controller
+@RequestMapping("/dashboard")
 public class DashboardServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private int beginIndex;
@@ -35,25 +38,24 @@ public class DashboardServlet extends HttpServlet {
         super();
     }
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-    }
+    //    @Override
+    //    public void init(ServletConfig config) throws ServletException {
+    //        super.init(config);
+    //        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+    //    }
     /**
      * @throws IOException
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    @RequestMapping(method = RequestMethod.GET)
+    public String doGet(final ModelMap pModel, @RequestParam Map<String, String> params) {
 
         Long count = null;
-        Page<Computer> page = PageWrapper.wrapWebRequest(request);
+        Page<Computer> page = PageWrapper.wrapWebRequest(params);
         String search = page.getSearch();
         if (search != null && search != "") {
             count = computerService.countComputers(search);
-            request.setAttribute("search", search);
+            pModel.addAttribute("search", search);
         } else {
             count = computerService.countComputers();
         }
@@ -65,22 +67,19 @@ public class DashboardServlet extends HttpServlet {
         Page<ComputerDTO> pageDTO = PageWrapper.wrapPage(page);
 
         setIndexBorders(pageDTO.getMaxSize(), count, page.getIndex());
-        request.setAttribute("count", count);
-        request.setAttribute("page", pageDTO);
-        request.setAttribute("beginIndex", this.beginIndex);
-        request.setAttribute("endIndex", this.endIndex);
-        request.setAttribute("notBeginIndex", pageDTO.getIndex() != 1);
-        request.setAttribute("notEndIndex", (pageDTO.getIndex() - 1) * pageDTO.getMaxSize() < count);
-        request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+        pModel.addAttribute("count", count);
+        pModel.addAttribute("page", pageDTO);
+        pModel.addAttribute("beginIndex", this.beginIndex);
+        pModel.addAttribute("endIndex", this.endIndex);
+        pModel.addAttribute("notBeginIndex", pageDTO.getIndex() != 1);
+        pModel.addAttribute("notEndIndex", (pageDTO.getIndex() - 1) * pageDTO.getMaxSize() < count);
+        return "dashboard";
+        //pModel.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
+    @RequestMapping(method = RequestMethod.POST)
+    protected String doPost(final ModelMap pModel, @RequestParam Map<String, String> params) {
+        return doGet(pModel, params);
     }
 
     // Set the pagination index borders (min and max displayed)
