@@ -5,6 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 
+import java.util.List;
+
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,9 +42,10 @@ public class DAOComputerTest {
     public void findTestNull() {
         System.out.println("find null");
         Long count = computerDAO.count();
-        Computer comp = computerDAO.find(count + 10);
+        Computer comp = computerDAO.find(count + 100);
         assertNull(comp);
     }
+
 
     @Test
     public void insertTest() {
@@ -126,15 +130,13 @@ public class DAOComputerTest {
     //        }
     //    }
 
-    /* @After
+    @After
     public void cleanBdd() {
-        System.out.println("cleaning");
         List<Computer> computers = computerDAO.listAll();
         for (Computer comp : computers) {
             if (comp.getId() > 574) {
                 computerDAO.delete(comp);
             }
         }
-        System.out.println("done cleaning");
-    }*/
+    }
 }
