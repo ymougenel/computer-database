@@ -41,7 +41,6 @@ public class CompanyDAO implements CompanyDaoInterface {
 
     private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
     private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
-    //private static final String CREATE = "INSERT INTO company (name) VALUES (?);";
     private static final String UPDATE = "UPDATE company SET name= ? WHERE id = ?;";
     private static final String DELETE = "DELETE FROM company WHERE id = ?;";
     private static final String LISTALL = "SELECT id,name from company;";
@@ -67,7 +66,6 @@ public class CompanyDAO implements CompanyDaoInterface {
         logger.info("FIND_ID" + " << " + id);
         Company cmp;
         try {
-
             cmp = this.jdbcTemplate.queryForObject(FIND_ID, new Object[] { id },
                     new CompanyMapper());
         } catch (EmptyResultDataAccessException e) {
@@ -98,9 +96,8 @@ public class CompanyDAO implements CompanyDaoInterface {
     @Override
     public Company create(Company comp) {
         logger.info("CREATE" + " << " + comp.toString());
-        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("company").usingGeneratedKeyColumns("id")
-                .usingColumns("name");
+        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate).withTableName("company")
+                .usingGeneratedKeyColumns("id").usingColumns("name");
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", comp.getName());
         try {
@@ -118,7 +115,7 @@ public class CompanyDAO implements CompanyDaoInterface {
     public Company update(Company comp) {
         logger.info("UPDATE" + " << " + comp.toString());
         try {
-            this.jdbcTemplate.update(UPDATE, new Object[] {comp.getName(), comp.getId()});
+            this.jdbcTemplate.update(UPDATE, new Object[] { comp.getName(), comp.getId() });
         } catch (DataAccessException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
@@ -132,7 +129,7 @@ public class CompanyDAO implements CompanyDaoInterface {
         logger.info("DELETE con" + " << " + comp.toString());
         try {
             Object[] params = { comp.getId() };
-            int[] types = {Types.BIGINT};
+            int[] types = { Types.BIGINT };
             this.jdbcTemplate.update(DELETE, params, types);
         } catch (DataAccessException e) {
             e.printStackTrace();
@@ -140,24 +137,6 @@ public class CompanyDAO implements CompanyDaoInterface {
             throw new DAOException(e);
         }
     }
-
-    /**
-     * Wrapper function returning the entity.
-     *
-     * @param rs
-     *            : ResultSet receive by the database request
-     * @return The created object (null if ResultSet error)
-     */
-    //    private Company wrapDatabaseResult(ResultSet rs) throws SQLException {
-    //        Company cmp = null;
-    //        // If result found, Company created from the Database result
-    //        if (rs.next()) {
-    //            cmp = new Company();
-    //            cmp.setId(rs.getLong("id"));
-    //            cmp.setName(rs.getString("name"));
-    //        }
-    //        return cmp;
-    //    }
 
     @Override
     public List<Company> listAll() {

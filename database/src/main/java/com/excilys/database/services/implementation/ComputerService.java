@@ -58,6 +58,5 @@ public class ComputerService implements ComputerServiceInterface {
     @Override
     public Long countComputers(String regex) {
         return computerDAO.count(regex);
-        // NOTE if counting code duplication, mixte in 1 method with input condition
     }
 }

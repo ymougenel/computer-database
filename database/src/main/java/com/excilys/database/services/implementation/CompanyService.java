@@ -14,9 +14,9 @@ import com.excilys.database.validadors.ComputerValidador;
 
 @Service
 @Transactional
-public class CompanyService implements CompanyServiceInterface{
+public class CompanyService implements CompanyServiceInterface {
 
-    //private static Logger logger = LoggerFactory.getLogger("CompanyService");
+    // private static Logger logger = LoggerFactory.getLogger("CompanyService");
 
     @Autowired
     private CompanyDaoInterface companyDAO;
@@ -26,7 +26,6 @@ public class CompanyService implements CompanyServiceInterface{
 
     public CompanyService() {
     }
-
 
     @Override
     @Transactional(readOnly = true)
@@ -53,7 +52,6 @@ public class CompanyService implements CompanyServiceInterface{
 
         computerDAO.delete(comp.getId());
         companyDAO.delete(comp);
-
     }
 
     @Override

@@ -58,6 +58,14 @@ public interface ComputerDaoInterface {
      */
     public void delete(Computer comp);
 
+    /**
+     * Delete computers related to a company
+     *
+     * @param idCompany
+     * @throws DAOException
+     *             exception raised by connection or wrapper errors
+     */
+    void delete(Long idCompany);
 
     /**
      * List of the computers
@@ -103,7 +111,5 @@ public interface ComputerDaoInterface {
      *             exception raised by connection or wrapper errors
      */
     public long count(String regex);
-
-    void delete(Long idCompany);
 
 }

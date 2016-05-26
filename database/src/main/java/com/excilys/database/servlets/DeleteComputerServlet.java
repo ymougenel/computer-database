@@ -31,7 +31,6 @@ public class DeleteComputerServlet extends HttpServlet {
      */
     public DeleteComputerServlet() {
         super();
-        //computerDAO = ComputerDAO.getInstance();
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -45,8 +44,7 @@ public class DeleteComputerServlet extends HttpServlet {
             comp = new Computer.Builder("DefaultName").id(id).build();
             computerDAO.delete(comp);
         }
-        return "dashboard";
-        //request.getRequestDispatcher("/dashboard").forward(request, response);
+        return "redirect:dashboard";
     }
 
 }

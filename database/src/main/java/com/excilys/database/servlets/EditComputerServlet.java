@@ -42,35 +42,28 @@ public class EditComputerServlet extends HttpServlet {
         super();
     }
 
-    // @Override
-    // public void init(ServletConfig config) throws ServletException {
-    // super.init(config);
-    // SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
-    // config.getServletContext());
-    // }
-
     @RequestMapping(method = RequestMethod.GET)
     public String doGet(final ModelMap pModel, @RequestParam Map<String, String> params) {
 
         String computerId = params.get("computerId");
-        Long id = null;
+        // TODO id validation
+        Long id = Long.parseLong(computerId);
         Computer comp = null;
-        id = Long.parseLong(computerId);
-        System.out.println(id);
+
         comp = computerService.findComputer(id);
-        System.out.println(comp.toString());
         ComputerDTO compDTO = new ComputerDTO(comp);
         List<Company> companies = companyService.listCompanies();
+
         pModel.addAttribute("companies", companies);
         pModel.addAttribute("computer", compDTO);
         return "editComputer";
-        // request.getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request,
-        // response);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String doPost(final ModelMap pModel, @RequestParam Map<String, String> params){
+    public String doPost(final ModelMap pModel, @RequestParam Map<String, String> params) {
+
         ComputerDTO comp = ComputerWrapper.wrapWebRequest(params);
+
         List<String> errors = ComputerValidador.computerValidation(comp, true);
         if (!errors.isEmpty()) {
             pModel.addAttribute("postMessage", "true");
@@ -84,8 +77,6 @@ public class EditComputerServlet extends HttpServlet {
         NavbarFlaghandler.setFlag(pModel, "success", "Computer updated",
                 "The computer \"" + comp.getName() + "\" has been successfully updated.");
         return "redirect:dashboard";
-        //request.getRequestDispatcher("/dashboard").forward(request, response);
-
     }
 
 }
