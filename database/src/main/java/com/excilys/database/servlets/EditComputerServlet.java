@@ -83,7 +83,7 @@ public class EditComputerServlet extends HttpServlet {
 
         NavbarFlaghandler.setFlag(pModel, "success", "Computer updated",
                 "The computer \"" + comp.getName() + "\" has been successfully updated.");
-        return "dashboard";
+        return "redirect:dashboard";
         //request.getRequestDispatcher("/dashboard").forward(request, response);
 
     }

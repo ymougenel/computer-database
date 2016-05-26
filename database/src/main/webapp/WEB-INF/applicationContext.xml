@@ -64,7 +64,8 @@
 
 	<!-- JDBC Template -->
 	<bean id="JdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="hikariDataSource" />
+		
 	</bean>
 
 </beans>

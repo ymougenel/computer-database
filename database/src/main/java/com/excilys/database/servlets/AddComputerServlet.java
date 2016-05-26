@@ -84,7 +84,7 @@ public class AddComputerServlet extends HttpServlet{
         // Setting a success feedback navbar
         NavbarFlaghandler.setFlag(pModel, "success", "Computer added", "The computer \"" + comp.getName() + "\" has been successfully added.");
         //request.getRequestDispatcher("/dashboard").forward(request, response);*/
-        return "dashboard";
+        return "redirect:dashboard";
 
     }
 
