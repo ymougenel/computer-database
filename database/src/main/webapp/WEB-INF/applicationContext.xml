@@ -18,17 +18,16 @@
 	<tx:annotation-driven transaction-manager="txManager" />
 	<mvc:annotation-driven />
 
-
-
+	<!-- properties file -->
+	<context:property-placeholder location="classpath:database.properties" />
 
 	<!-- Standard database configuration (not used-> Hikari) -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mysql://127.0.0.1:3306/computer-database-db?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="admincdb" />
-		<property name="password" value="qwerty1234" />
+		<property name="url" value="${URL}" />
+		<property name="username" value="${USERBD}" />
+		<property name="password" value="${PASSWORDBD}" />
 	</bean>
 
 	<bean id="txManager"
@@ -40,20 +39,19 @@
 
 	<!-- Hikari database configuration -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="poolName" value="springHikariCP" />
-		<property name="connectionTestQuery" value="SELECT 1" />
 		<property name="dataSourceClassName"
 			value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
-		<property name="maximumPoolSize" value="10" />
+		<property name="maximumPoolSize" value="50" />
 
 		<property name="dataSourceProperties">
 			<props>
-				<prop key="url">jdbc:mysql://127.0.0.1:3306/computer-database-db?zeroDateTimeBehavior=convertToNull
-				</prop>
-				<prop key="user">admincdb</prop>
-				<prop key="password">qwerty1234</prop>
+				<prop key="url">${URL}</prop>
+				<prop key="user">${USERBD}</prop>
+				<prop key="password">${PASSWORDBD}</prop>
 			</props>
 		</property>
+
+
 	</bean>
 
 	<!-- HikariCP configuration -->
@@ -65,7 +63,7 @@
 	<!-- JDBC Template -->
 	<bean id="JdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="hikariDataSource" />
-		
+
 	</bean>
 
 </beans>
