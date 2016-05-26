@@ -67,6 +67,9 @@ public class DashboardServlet extends HttpServlet {
         Page<ComputerDTO> pageDTO = PageWrapper.wrapPage(page);
 
         setIndexBorders(pageDTO.getMaxSize(), count, page.getIndex());
+        if (beginIndex<1) {
+            beginIndex=1;
+        }
         pModel.addAttribute("count", count);
         pModel.addAttribute("page", pageDTO);
         pModel.addAttribute("beginIndex", this.beginIndex);

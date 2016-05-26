@@ -55,6 +55,11 @@ public class ComputerService implements ComputerServiceInterface {
     }
 
     @Override
+    public List<Computer> listAll() {
+        return computerDAO.listAll();
+    }
+
+    @Override
     public Long countComputers() {
         if (CachePersistenceHandler.count == null) {
             CachePersistenceHandler.count = new AtomicLong();

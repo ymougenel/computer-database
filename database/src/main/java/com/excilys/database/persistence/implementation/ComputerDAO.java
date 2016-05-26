@@ -42,7 +42,7 @@ import com.excilys.database.persistence.DAOException;
 public class ComputerDAO implements ComputerDaoInterface {
 
     @Autowired
-    CachePersistenceHandler cachePersistenceHandler;
+    public CachePersistenceHandler cachePersistenceHandler;
 
     @Resource
     private DataSource dataSource;
@@ -87,10 +87,17 @@ public class ComputerDAO implements ComputerDaoInterface {
             }
             Long companyId = rs.getLong("company_id");
             if (companyId != null) {
-                String companyName = rs.getString("company_name");
-                computer.setCompany(new Company(companyId, companyName));
+                computer.setCompany(new Company(companyId));
             }
             return computer;
+        }
+    }
+
+    private static final class ComputerMapper2 implements RowMapper<Long> {
+
+        @Override
+        public Long mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return rs.getLong("id");
         }
     }
 
@@ -239,17 +246,17 @@ public class ComputerDAO implements ComputerDaoInterface {
     public List<Computer> listAll(String regex, long begin, long end, Page.CompanyTable field,
             Page.Order order) {
         logger.info("LISTALL_INDEX_REGEX" + " << " + regex + begin + ", " + end);
-        List<Computer> computers;
+
+        List<Long> ids;
         try {
             if (regex != null && !regex.isEmpty()) {
-                computers = this.jdbcTemplate.query(
+                ids = this.jdbcTemplate.query(
                         String.format(LISTALL_INDEX_REGEX, parseFormat(field), field + " " + order.name()),
-                        new Object[] { regex + "%", begin, end }, new ComputerMapper());
-                System.out.println("c---------->"+computers.size());
+                        new Object[] { regex + "%", begin, end }, new ComputerMapper2());
             } else {
-                computers = this.jdbcTemplate.query(
-                        String.format(LISTALL_INDEX, field + " " + order.name()),
-                        new Object[] { begin, end }, new ComputerMapper());
+                ids = this.jdbcTemplate.query(
+                        String.format(LISTALL_INDEX, parseFormat(field), field + " " + order.name()),
+                        new Object[] { begin, end }, new ComputerMapper2());
             }
 
         } catch (DataAccessException e) {
@@ -257,9 +264,14 @@ public class ComputerDAO implements ComputerDaoInterface {
             logger.debug(e.getMessage());
             throw new DAOException(e);
         }
-
+        List<Computer> computers = new ArrayList<>(ids.size());
+        for (Long l : ids) {
+            computers.add(cachePersistenceHandler.getComp(l));
+        }
         return computers;
     }
+
+
 
     public List<Computer> listFromCompany(String regex, long begin, long end,
             Page.CompanyTable field, Page.Order order) {

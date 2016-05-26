@@ -16,4 +16,6 @@ public interface ComputerServiceInterface {
     public Long countComputers();
     public Long countComputers(String regex);
 
+    public List<Computer> listAll();
+
 }
