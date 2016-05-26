@@ -52,7 +52,7 @@ public class ComputerDAO implements ComputerDaoInterface {
     private static final String DELETE = "DELETE FROM computer WHERE id = ?;";
     private static final String LISTALL = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id;";
     private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id ORDER BY %s LIMIT ?,?;";
-    private static final String LISTALL_INDEX_REGEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name LIKE ? ORDER BY %s LIMIT ?,?;";
+    private static final String LISTALL_INDEX_REGEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name LIKE ? OR o.name LIKE ? ORDER BY %s LIMIT ?,?;";
     private static final String COUNT = "SELECT COUNT(*) FROM computer;";
     private static final String COUNT_REGEX = "SELECT COUNT(*) FROM computer WHERE name LIKE ?;";
 
@@ -221,7 +221,7 @@ public class ComputerDAO implements ComputerDaoInterface {
             if (regex != null && !regex.isEmpty()) {
                 computers = this.jdbcTemplate.query(
                         String.format(LISTALL_INDEX_REGEX, field + " " + order.name()),
-                        new Object[] { regex + "%", begin, end }, new ComputerMapper());
+                        new Object[] { regex + "%", regex + "%", begin, end }, new ComputerMapper());
                 System.out.println("c---------->"+computers.size());
             } else {
                 computers = this.jdbcTemplate.query(
