@@ -6,18 +6,21 @@ import java.io.InputStreamReader;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
+import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.persistence.DatabaseConnection;
-import com.excilys.database.persistence.implementation.ComputerDAO;
 
+@ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class ListComputers extends CommandBD {
     private long begin;
     private boolean limit;
     private static int pageSize = 20;
+
     @Autowired
-    ComputerDAO computerDAO;
+    ComputerDaoInterface computerDAO;
 
     public ListComputers() {
         super();

@@ -108,6 +108,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
+			</div>
 	</section>
 
 	<script type="text/javascript">
@@ -116,10 +117,7 @@
 	</script>
 
 	<footer class="navbar-fixed-bottom">
-		<myTags:pagination currentIndex="${page.index}"
-			notBeginIndex="${notBeginIndex}" notEndIndex="${notEndIndex}"
-			beginIndex="${beginIndex}" endIndex="${endIndex}"
-			offset="${page.maxSize} "></myTags:pagination>
+		<myTags:pagination currentIndex="${page.index}" offset="${page.maxSize} "></myTags:pagination>
 	</footer>
 	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>

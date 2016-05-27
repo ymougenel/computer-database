@@ -3,13 +3,16 @@ package com.excilys.database.ui.commands;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.persistence.implementation.CompanyDAO;
 
+@Component
 public class DeleteCompany extends CommandBD {
     private Long id;
+
     @Autowired
     CompanyDAO companyDAO;
 

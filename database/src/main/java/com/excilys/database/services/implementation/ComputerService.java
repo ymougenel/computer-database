@@ -24,6 +24,7 @@ public class ComputerService implements ComputerServiceInterface {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Computer findComputer(Long id) {
         ComputerValidador.computerIdValidation(id);
         return computerDAO.find(id);
@@ -45,17 +46,20 @@ public class ComputerService implements ComputerServiceInterface {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Computer> listComputers(String regex, long begin, long end, CompanyTable field,
             Order order) {
         return computerDAO.listAll(regex, begin, end, field, order);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long countComputers() {
         return computerDAO.count();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long countComputers(String regex) {
         return computerDAO.count(regex);
     }

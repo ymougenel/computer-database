@@ -35,7 +35,10 @@
 		<property name="dataSource" ref="hikariDataSource" />
 	</bean>
 
-	<context:component-scan base-package="com.excilys.database" />
+	<context:component-scan base-package="com.excilys.database" >
+		<context:exclude-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
 
 	<!-- Hikari database configuration -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
@@ -43,7 +46,8 @@
 			value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
 		<property name="maximumPoolSize" value="50" />
 
-		<property name="dataSourceProperties">
+<!-- 	<property name="zeroDateTimeBehavior" value="convertToNull" />
+ -->		<property name="dataSourceProperties">
 			<props>
 				<prop key="url">${URL}</prop>
 				<prop key="user">${USERBD}</prop>

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.test.context.ContextConfiguration;
+
 import com.excilys.database.persistence.DAOException;
 import com.excilys.database.persistence.DatabaseConnection;
 import com.excilys.database.ui.commands.CommandBD;
@@ -18,6 +20,7 @@ import com.excilys.database.ui.commands.ListComputers;
 import com.excilys.database.ui.commands.ShowComputerDetails;
 import com.excilys.database.ui.commands.UpdateComputer;
 
+@ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class CommandLineInterface {
 
     // System.out.println("Prompt launch");

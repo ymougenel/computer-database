@@ -4,15 +4,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.excilys.database.entities.Company;
+import com.excilys.database.persistence.CompanyDaoInterface;
 import com.excilys.database.persistence.DatabaseConnection;
-import com.excilys.database.persistence.implementation.CompanyDAO;
 
+@ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class ListCompagnies extends CommandBD {
 
     @Autowired
-    CompanyDAO companyDAO;
+    CompanyDaoInterface companyDAO;
 
     public ListCompagnies() {
         super();

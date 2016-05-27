@@ -1,5 +1,4 @@
 package com.excilys.database.servlets.utils;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.ModelMap;

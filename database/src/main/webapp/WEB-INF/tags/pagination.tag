@@ -3,10 +3,22 @@
 
 <%@ attribute name="offset" required="true"%>
 <%@ attribute name="currentIndex" required="true"%>
-<%@ attribute name="notBeginIndex" required="true"%>
-<%@ attribute name="notEndIndex" required="true"%>
-<%@ attribute name="beginIndex" required="true"%>
-<%@ attribute name="endIndex" required="true"%>
+
+
+<c:set var="beginIndex" value="1" />
+
+<c:if test="${(currentIndex - 3) >= 1}">
+	<c:set var="beginIndex" value="${currentIndex - 3}" />
+</c:if>
+
+<c:set var="endIndex" value="${limitPages}" />
+
+<c:if test="${(currentIndex + 3) <= limitPages}">
+	<c:set var="endIndex" value="${currentIndex + 3}" />
+</c:if>
+
+<c:set var="notBeginIndex" value="${currentIndex!=1}" />
+<c:set var="notEndIndex" value="${currentIndex!=endIndex}" />
 
 <div class="container text-center">
 	<ul class="pagination">
