@@ -25,6 +25,16 @@
 		</div>
 	</header>
 
+	<c:if test="${postMessage}">
+		<div class="alert alert-${messageLevel} alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<strong>${messageHeader}</strong> ${messageBody}
+		</div>
+	</c:if>
 
 	<section id="main">
 		<div class="container">
@@ -108,7 +118,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			</div>
+		</div>
 	</section>
 
 	<script type="text/javascript">
@@ -117,7 +127,8 @@
 	</script>
 
 	<footer class="navbar-fixed-bottom">
-		<myTags:pagination currentIndex="${page.index}" offset="${page.maxSize} "></myTags:pagination>
+		<myTags:pagination currentIndex="${page.index}"
+			offset="${page.maxSize} "></myTags:pagination>
 	</footer>
 	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>

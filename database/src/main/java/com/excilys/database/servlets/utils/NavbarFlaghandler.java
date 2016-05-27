@@ -15,7 +15,7 @@ public class NavbarFlaghandler {
 
     public static void setFlag(ModelMap request, String level, String header, String body) {
         // Setting a success feedback navbar
-        request.addAttribute("postMessage", true);
+        request.addAttribute("postMessage", "true");
         request.addAttribute("messageLevel", level);
         request.addAttribute("messageHeader", header);
         request.addAttribute("messageBody", body);

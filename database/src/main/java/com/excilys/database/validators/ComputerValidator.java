@@ -1,4 +1,4 @@
-package com.excilys.database.validadors;
+package com.excilys.database.validators;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.excilys.database.entities.ComputerDTO;
 
-public class ComputerValidador {
+public class ComputerValidator {
     public static LocalDate minLimit = LocalDate.parse("1970-01-01");
     public static LocalDate maxLimit = LocalDate.parse("2037-12-31");
     public static String DATE_REGEX = "^((?:19|20)\\d{2})[-/](0?\\d|1[012])[-/](0?\\d|[12]\\d|3[01])$";

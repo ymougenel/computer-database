@@ -11,7 +11,7 @@ import com.excilys.database.entities.Page.CompanyTable;
 import com.excilys.database.entities.Page.Order;
 import com.excilys.database.persistence.implementation.ComputerDAO;
 import com.excilys.database.services.ComputerServiceInterface;
-import com.excilys.database.validadors.ComputerValidador;
+import com.excilys.database.validators.ComputerValidator;
 
 @Service
 @Transactional
@@ -26,7 +26,7 @@ public class ComputerService implements ComputerServiceInterface {
     @Override
     @Transactional(readOnly = true)
     public Computer findComputer(Long id) {
-        ComputerValidador.computerIdValidation(id);
+        ComputerValidator.computerIdValidation(id);
         return computerDAO.find(id);
     }
 

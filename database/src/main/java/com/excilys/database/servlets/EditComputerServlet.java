@@ -19,7 +19,7 @@ import com.excilys.database.mapper.ComputerWrapper;
 import com.excilys.database.services.CompanyServiceInterface;
 import com.excilys.database.services.ComputerServiceInterface;
 import com.excilys.database.servlets.utils.NavbarFlaghandler;
-import com.excilys.database.validadors.ComputerValidador;
+import com.excilys.database.validators.ComputerValidator;
 
 /**
  * Servlet implementation class EditComputer
@@ -64,7 +64,7 @@ public class EditComputerServlet extends HttpServlet {
 
         ComputerDTO comp = ComputerWrapper.wrapWebRequest(params);
 
-        List<String> errors = ComputerValidador.computerValidation(comp, true);
+        List<String> errors = ComputerValidator.computerValidation(comp, true);
         if (!errors.isEmpty()) {
             pModel.addAttribute("postMessage", "true");
             pModel.addAttribute("errors", errors);

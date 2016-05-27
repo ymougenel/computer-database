@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.database.entities.Computer;
 import com.excilys.database.persistence.ComputerDaoInterface;
-import com.excilys.database.validadors.ComputerValidador;
+import com.excilys.database.validators.ComputerValidator;
 
 /**
  * Servlet implementation class DeleteComputerServlet
@@ -39,7 +39,7 @@ public class DeleteComputerServlet extends HttpServlet {
         String[] ids =selection.split(",");
         Computer comp;
         for (String idInput : ids ) {
-            ComputerValidador.idValidation(idInput);
+            ComputerValidator.idValidation(idInput);
             Long id = Long.parseLong(idInput);
             comp = new Computer.Builder("DefaultName").id(id).build();
             computerDAO.delete(comp);

@@ -67,10 +67,10 @@ public class DashboardServlet extends HttpServlet {
         return "dashboard";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    protected String doPost(final ModelMap pModel, @RequestParam Map<String, String> params) {
-        return doGet(pModel, params);
-    }
+    //    @RequestMapping(method = RequestMethod.POST)
+    //    protected String doPost(final ModelMap pModel, @RequestParam Map<String, String> params) {
+    //        return doGet(pModel, params);
+    //    }
 
 
 }

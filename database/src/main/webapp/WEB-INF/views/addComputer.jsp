@@ -82,7 +82,7 @@
 
 	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 	<script
-		src="${pageContext.request.contextPath}/jsdf/computerFormValidation.js"></script>
+		src="${pageContext.request.contextPath}/js/computerFormValidation.js"></script>
 </body>
 
 </html>

@@ -10,7 +10,7 @@ import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.CompanyDaoInterface;
 import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.services.CompanyServiceInterface;
-import com.excilys.database.validadors.ComputerValidador;
+import com.excilys.database.validators.ComputerValidator;
 
 @Service
 @Transactional
@@ -30,7 +30,7 @@ public class CompanyService implements CompanyServiceInterface {
     @Override
     @Transactional(readOnly = true)
     public Company findCompany(Long id) {
-        ComputerValidador.computerIdValidation(id);
+        ComputerValidator.computerIdValidation(id);
         return companyDAO.find(id);
     }
 

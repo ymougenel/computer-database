@@ -18,7 +18,7 @@ import com.excilys.database.mapper.ComputerWrapper;
 import com.excilys.database.services.CompanyServiceInterface;
 import com.excilys.database.services.ComputerServiceInterface;
 import com.excilys.database.servlets.utils.NavbarFlaghandler;
-import com.excilys.database.validadors.ComputerValidador;
+import com.excilys.database.validators.ComputerValidator;
 
 /**
  * Servlet implementation class addComputerServlet
@@ -49,9 +49,9 @@ public class AddComputerServlet extends HttpServlet {
     public String doPost(final ModelMap pModel, @RequestParam Map<String, String> params) {
 
         ComputerDTO comp = ComputerWrapper.wrapWebRequest(params);
-        // TODO validation dto
+        //ComputerValidador.
 
-        List<String> errors = ComputerValidador.computerValidation(comp, false);
+        List<String> errors = ComputerValidator.computerValidation(comp, false);
         if (!errors.isEmpty()) {
             System.err.println("Error arguments for add computer:" + errors.toString());;
             pModel.addAttribute("postMessage", "true");

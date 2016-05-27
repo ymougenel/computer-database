@@ -1,4 +1,4 @@
-package com.excilys.database.validadors;
+package com.excilys.database.validators;
 
 import com.excilys.database.entities.Company;
 
