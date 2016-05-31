@@ -2,17 +2,33 @@ package com.excilys.database.entities;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * Computer Bean
  *
  * @author Yann Mougenel
  *
  */
+@Entity
+@Table(name = "computer")
 public class Computer {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private LocalDate introduced;
     private LocalDate discontinued;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
     private Company company;
 
     /**

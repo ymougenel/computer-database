@@ -2,20 +2,26 @@ package com.excilys.database.persistence.implementation;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -39,6 +45,16 @@ public class CompanyDAO implements CompanyDaoInterface {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @PersistenceContext
+    protected EntityManager entityManager;
+
+    protected CriteriaBuilder criteriaBuilder;
+    //    protected CriteriaQuery<Company> criteriaQuery;
+    //    protected CriteriaUpdate<Company> criteriaUpdate;
+    //    protected Root<Company> companyRoot;
+    //    protected Root<Company> companyRootUpdate;
+
+
     private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
     private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
     private static final String UPDATE = "UPDATE company SET name= ? WHERE id = ?;";
@@ -48,6 +64,15 @@ public class CompanyDAO implements CompanyDaoInterface {
     private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
 
     public CompanyDAO() {
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        criteriaBuilder = entityManager.getCriteriaBuilder();
+        //criteriaQuery = criteriaBuilder.createQuery(Company.class);
+        //companyRoot = criteriaQuery.from(Company.class);
+        //criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Company.class);
+        //companyRootUpdate = criteriaUpdate.from(Company.class);
     }
 
     private static final class CompanyMapper implements RowMapper<Company> {
@@ -64,33 +89,28 @@ public class CompanyDAO implements CompanyDaoInterface {
     @Override
     public Company find(long id) {
         logger.info("FIND_ID" + " << " + id);
-        Company cmp;
-        try {
-            cmp = this.jdbcTemplate.queryForObject(FIND_ID, new Object[] { id },
-                    new CompanyMapper());
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.debug(e.getMessage());
-            throw new DAOException(e);
-        }
-        return cmp;
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Company> criteriaQuery = criteriaBuilder.createQuery(Company.class);
+        Root<Company> companyRoot = criteriaQuery.from(Company.class);
+        criteriaQuery.select(companyRoot).where(criteriaBuilder.equal(companyRoot.get("id"), id));
+
+        TypedQuery<Company> query = entityManager.createQuery(criteriaQuery);
+        return query.getSingleResult();
     }
 
     @Override
     public Company find(String name) {
         logger.info("FIND_NAME" + " << " + (name == null ? "NULL" : name));
-        Company cmp;
-        try {
-            cmp = this.jdbcTemplate.queryForObject(FIND_NAME, new Object[] { name },
-                    new CompanyMapper());
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.debug(e.getMessage());
-            throw new DAOException(e);
-        }
-        return cmp;
+
+        criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Company> criteriaQuery = criteriaBuilder.createQuery(Company.class);
+        Root<Company> companyRoot = criteriaQuery.from(Company.class);
+        //Root<Company> c =criteriaQuery.from(Company.class);
+        criteriaQuery.select(companyRoot).where(criteriaBuilder.equal(companyRoot.get("name"), name));
+
+        TypedQuery<Company> query = entityManager.createQuery(criteriaQuery);
+        return query.getSingleResult();
     }
 
     @Override
@@ -113,48 +133,51 @@ public class CompanyDAO implements CompanyDaoInterface {
 
     @Override
     public Company update(Company comp) {
-        logger.info("UPDATE" + " << " + comp.toString());
-        try {
-            this.jdbcTemplate.update(UPDATE, new Object[] { comp.getName(), comp.getId() });
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
+        logger.info("CREATE" + " << " + comp.toString());
+        CriteriaUpdate<Company> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Company.class);
+        System.out.println(comp.toString());
+        criteriaUpdate.set("name", "tt");
+        System.out.println("it works");
+        int res = entityManager.createQuery(criteriaUpdate).executeUpdate();
+        if (res==0) {
+            logger.error("Error update for: " + " << " + comp.toString());
+            return null;
         }
-        return comp;
+        else {
+            return comp;
+        }
     }
 
     @Override
     public void delete(Company comp) {
         logger.info("DELETE con" + " << " + comp.toString());
-        try {
-            Object[] params = { comp.getId() };
-            int[] types = { Types.BIGINT };
-            this.jdbcTemplate.update(DELETE, params, types);
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
+
+        CriteriaDelete<Company> delete = criteriaBuilder
+                .createCriteriaDelete(Company.class);
+        Root<Company> e = delete.from(Company.class);
+        delete.where(criteriaBuilder.equal(e.get("id"), comp.getId()));
+        int res = this.entityManager.createQuery(delete).executeUpdate();
+
+        if (res == 0) {
+            System.err.println("Computer not deleted :"+comp.toString());
         }
     }
 
     @Override
     public List<Company> listAll() {
         logger.info("LISTALL");
-        List<Company> companies = new ArrayList<Company>();
-        try {
-            companies = this.jdbcTemplate.query(LISTALL, new CompanyMapper());
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.debug(e.getMessage());
-            throw new DAOException(e);
-        }
-        return companies;
+        CriteriaQuery<Company> criteriaQuery = criteriaBuilder.createQuery(Company.class);
+        Root<Company> companyRoot = criteriaQuery.from(Company.class);
+        criteriaQuery.select(companyRoot);
+        TypedQuery<Company> typedQuery = entityManager.createQuery(criteriaQuery);
+        return typedQuery.getResultList();
     }
 
     @Override
     public long count() {
         logger.info("COUNT");
-        return this.jdbcTemplate.queryForObject(COUNT, Long.class);
+        CriteriaQuery<Long> cq = criteriaBuilder.createQuery(Long.class);
+        cq.select(criteriaBuilder.count(cq.from(Company.class)));
+        return entityManager.createQuery(cq).getSingleResult();
     }
 }

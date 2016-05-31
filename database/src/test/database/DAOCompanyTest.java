@@ -42,7 +42,12 @@ public class DAOCompanyTest {
     @Test
     public void findTestNull() {
         Long count = companyDAO.count();
-        Company comp = companyDAO.find(count + 100);
+        Company comp = null;
+        try {
+            comp = companyDAO.find(count + 100);
+        } catch (javax.persistence.NoResultException e){
+
+        }
         assertNull(comp);
     }
 

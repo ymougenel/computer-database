@@ -3,7 +3,7 @@ package com.excilys.database.persistence;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
 
 /**
  * . Database connection handler (singleton)
@@ -14,7 +14,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public enum DatabaseConnection {
     INSTANCE;
 
-    private static HikariDataSource connectionPool;
+    private static DataSource connectionPool;
 
     private DatabaseConnection() {
     }
