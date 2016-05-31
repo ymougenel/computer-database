@@ -1,8 +1,5 @@
 package com.excilys.database.persistence.implementation;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,13 +17,9 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
 import com.excilys.database.entities.Page.Order;
@@ -45,9 +38,6 @@ public class ComputerDAO implements ComputerDaoInterface {
     @Resource
     private DataSource dataSource;
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
-
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     protected EntityManager entityManager;
 
@@ -64,29 +54,6 @@ public class ComputerDAO implements ComputerDaoInterface {
         // companyRoot = criteriaQuery.from(Company.class);
         // criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Company.class);
         // companyRootUpdate = criteriaUpdate.from(Company.class);
-    }
-    private static final class ComputerMapper implements RowMapper<Computer> {
-
-        @Override
-        public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Computer computer = new Computer();
-            computer.setId(rs.getLong("id"));
-            computer.setName(rs.getString("name"));
-            Timestamp introduced = rs.getTimestamp("introduced");
-            if (introduced != null) {
-                computer.setIntroduced(introduced.toLocalDateTime().toLocalDate());
-            }
-            Timestamp discontinued = rs.getTimestamp("discontinued");
-            if (discontinued != null) {
-                computer.setDiscontinued(discontinued.toLocalDateTime().toLocalDate());
-            }
-            Long companyId = rs.getLong("company_id");
-            if (companyId != null) {
-                String companyName = rs.getString("company_name");
-                computer.setCompany(new Company(companyId, companyName));
-            }
-            return computer;
-        }
     }
 
     @Override
@@ -127,6 +94,7 @@ public class ComputerDAO implements ComputerDaoInterface {
     }
 
     @Override
+    @Transactional
     public Computer update(Computer comp) {
         logger.info("UPDATE" + " << " + comp.toString());
 
@@ -154,25 +122,23 @@ public class ComputerDAO implements ComputerDaoInterface {
     public void delete(Computer comp) {
         logger.info("DELETE" + " << " + comp.toString());
 
-        entityManager.remove(entityManager.merge(comp));
-        // entityManager.flush();
-        /*
+        //entityManager.remove(entityManager.merge(comp));
+
         // entityManager.joinTransaction();
         CriteriaDelete<Computer> delete = criteriaBuilder
                 .createCriteriaDelete(Computer.class);
         Root<Computer> e = delete.from(Computer.class);
         delete.where(criteriaBuilder.equal(e.get("id"), comp.getId()));
-        //int res = this.entityManager.createQuery(delete).executeUpdate();
-        System.out.println("wazaaaaaaa");
-        //
-        //        if (res == 0) {
-        //            System.err.println("Computer not deleted :"+comp.toString());
-        //        }*/
+        int res = this.entityManager.createQuery(delete).executeUpdate();
+
+        if (res == 0) {
+            System.err.println("Computer not deleted :" + comp.toString());
+        }
     }
 
     @Override
+    @Transactional
     public void delete(Long idCompany) {
-        //entityManager.joinTransaction();
         logger.info("DELETE ID Company " + " << " + idCompany);
 
         CriteriaDelete<Computer> delete = criteriaBuilder
@@ -205,7 +171,7 @@ public class ComputerDAO implements ComputerDaoInterface {
         Root<Computer> computerRoot = criteriaQuery.from(Computer.class);
 
         criteriaQuery.select(computerRoot);
-        if (!(regex == null && regex.isEmpty())) {
+        if (!(regex == null || regex.isEmpty())) {
             criteriaQuery.where(criteriaBuilder.like(computerRoot.get("name"), regex + "%"));
         }
         System.out.println("My name is what:"+field.name());

@@ -2,9 +2,7 @@ package com.excilys.database.persistence.implementation;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -20,16 +18,12 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.persistence.CompanyDaoInterface;
-import com.excilys.database.persistence.DAOException;
 /**
  * Company DAO (Singleton) Provides CRUD company database methods : Create, Retrieve, Update, Delete
  *
@@ -42,17 +36,14 @@ public class CompanyDAO implements CompanyDaoInterface {
     @Resource
     private DataSource dataSource;
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
-
     @PersistenceContext
     protected EntityManager entityManager;
 
     protected CriteriaBuilder criteriaBuilder;
-    //    protected CriteriaQuery<Company> criteriaQuery;
-    //    protected CriteriaUpdate<Company> criteriaUpdate;
-    //    protected Root<Company> companyRoot;
-    //    protected Root<Company> companyRootUpdate;
+    // protected CriteriaQuery<Company> criteriaQuery;
+    // protected CriteriaUpdate<Company> criteriaUpdate;
+    // protected Root<Company> companyRoot;
+    // protected Root<Company> companyRootUpdate;
 
     private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
 
@@ -62,10 +53,10 @@ public class CompanyDAO implements CompanyDaoInterface {
     @PostConstruct
     public void postConstruct() {
         criteriaBuilder = entityManager.getCriteriaBuilder();
-        //criteriaQuery = criteriaBuilder.createQuery(Company.class);
-        //companyRoot = criteriaQuery.from(Company.class);
-        //criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Company.class);
-        //companyRootUpdate = criteriaUpdate.from(Company.class);
+        // criteriaQuery = criteriaBuilder.createQuery(Company.class);
+        // companyRoot = criteriaQuery.from(Company.class);
+        // criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Company.class);
+        // companyRootUpdate = criteriaUpdate.from(Company.class);
     }
 
     private static final class CompanyMapper implements RowMapper<Company> {
@@ -99,8 +90,8 @@ public class CompanyDAO implements CompanyDaoInterface {
         criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Company> criteriaQuery = criteriaBuilder.createQuery(Company.class);
         Root<Company> companyRoot = criteriaQuery.from(Company.class);
-        //Root<Company> c =criteriaQuery.from(Company.class);
-        criteriaQuery.select(companyRoot).where(criteriaBuilder.equal(companyRoot.get("name"), name));
+        criteriaQuery.select(companyRoot)
+        .where(criteriaBuilder.equal(companyRoot.get("name"), name));
 
         TypedQuery<Company> query = entityManager.createQuery(criteriaQuery);
         return query.getSingleResult();
@@ -109,54 +100,49 @@ public class CompanyDAO implements CompanyDaoInterface {
     @Override
     public Company create(Company comp) {
         logger.info("CREATE" + " << " + comp.toString());
-        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate).withTableName("company")
-                .usingGeneratedKeyColumns("id").usingColumns("name");
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", comp.getName());
-        try {
-            long row = insert.executeAndReturnKey(parameters).longValue();
-            comp.setId(row);
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
-        }
+
+        this.entityManager.persist(comp);
+        this.entityManager.flush();
+        this.entityManager.clear();
         return comp;
     }
 
     @Override
+    @Transactional
     public Company update(Company comp) {
         logger.info("CREATE" + " << " + comp.toString());
-        CriteriaUpdate<Company> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Company.class);
+        CriteriaUpdate<Company> criteriaUpdate = criteriaBuilder
+                .createCriteriaUpdate(Company.class);
         System.out.println(comp.toString());
-        /*NOTE error here for tests due to JPA bug :
-         * http://stackoverflow.com/questions/3854687/jpa-hibernate-static-metamodel-attributes-not-populated-nullpointerexception
+        /*
+         * NOTE error here for tests due to JPA bug :
+         * http://stackoverflow.com/questions/3854687/jpa-hibernate-static-metamodel-attributes-not-
+         * populated-nullpointerexception
          *
          */
         criteriaUpdate.set("name", comp.getName());
         System.out.println("it works");
         int res = entityManager.createQuery(criteriaUpdate).executeUpdate();
-        if (res==0) {
+        if (res == 0) {
             logger.error("Error update for: " + " << " + comp.toString());
             return null;
-        }
-        else {
+        } else {
             return comp;
         }
     }
 
     @Override
+    @Transactional
     public void delete(Company comp) {
         logger.info("DELETE con" + " << " + comp.toString());
 
-        CriteriaDelete<Company> delete = criteriaBuilder
-                .createCriteriaDelete(Company.class);
+        CriteriaDelete<Company> delete = criteriaBuilder.createCriteriaDelete(Company.class);
         Root<Company> e = delete.from(Company.class);
         delete.where(criteriaBuilder.equal(e.get("id"), comp.getId()));
         int res = this.entityManager.createQuery(delete).executeUpdate();
 
         if (res == 0) {
-            System.err.println("Computer not deleted :"+comp.toString());
+            System.err.println("Computer not deleted :" + comp.toString());
         }
     }
 
