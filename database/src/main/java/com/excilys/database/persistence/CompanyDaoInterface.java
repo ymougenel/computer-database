@@ -15,7 +15,7 @@ public interface CompanyDaoInterface {
      * @throws DAOException
      *             exception raised by connection or wrapper errors
      */
-    public Company find(long id);
+    public Company find(Long id);
 
     /**
      * Find a company based on the name.

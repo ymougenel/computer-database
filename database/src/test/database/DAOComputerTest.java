@@ -34,7 +34,7 @@ public class DAOComputerTest {
     @Test
     public void findTest() {
         System.out.println("find");
-        Computer comp = computerDAO.find(2);
+        Computer comp = computerDAO.find(2L);
         assertEquals(comp.getName(), "CM-2a");
     }
 

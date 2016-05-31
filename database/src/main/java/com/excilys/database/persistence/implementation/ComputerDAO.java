@@ -1,32 +1,36 @@
 package com.excilys.database.persistence.implementation;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page;
+import com.excilys.database.entities.Page.Order;
 import com.excilys.database.persistence.ComputerDaoInterface;
-import com.excilys.database.persistence.DAOException;
 
 /**
  * Computer DAO (Singleton) Provides CRUD computer database methods : Create, Retrieve, Update,
@@ -44,21 +48,23 @@ public class ComputerDAO implements ComputerDaoInterface {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    private static final String FIND_ID = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.id = ?;";
-    private static final String FIND_NAME = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name = ?;";
-    private static final String UPDATE = "UPDATE computer SET name= ?, introduced= ?, discontinued = ?, company_id = ? WHERE id = ?;";
-    private static final String DELETE = "DELETE FROM computer WHERE id = ?;";
-    private static final String LISTALL = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id;";
-    private static final String LISTALL_INDEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id ORDER BY %s LIMIT ?,?;";
-    private static final String LISTALL_INDEX_REGEX = "SELECT c.id, c.name, c.introduced, c.discontinued, o.id company_id, o.name company_name FROM computer c LEFT JOIN company o on c.company_id = o.id WHERE c.name LIKE ? OR o.name LIKE ? ORDER BY %s LIMIT ?,?;";
-    private static final String COUNT = "SELECT COUNT(*) FROM computer;";
-    private static final String COUNT_REGEX = "SELECT COUNT(*) FROM computer WHERE name LIKE ?;";
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    protected EntityManager entityManager;
+
+    protected CriteriaBuilder criteriaBuilder;
 
     private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
-
     public ComputerDAO() {
     }
 
+    @PostConstruct
+    public void postConstruct() {
+        criteriaBuilder = entityManager.getCriteriaBuilder();
+        // criteriaQuery = criteriaBuilder.createQuery(Company.class);
+        // companyRoot = criteriaQuery.from(Company.class);
+        // criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Company.class);
+        // companyRootUpdate = criteriaUpdate.from(Company.class);
+    }
     private static final class ComputerMapper implements RowMapper<Computer> {
 
         @Override
@@ -84,64 +90,39 @@ public class ComputerDAO implements ComputerDaoInterface {
     }
 
     @Override
-    public Computer find(long id) {
+    public Computer find(Long id) {
         logger.info("FIND_ID" + " << " + id);
-        Computer cmp;
-        System.out.println("### +i query called for : " + FIND_ID + " << " + id);
-        try {
 
-            cmp = this.jdbcTemplate.queryForObject(FIND_ID, new Object[] { id },
-                    new ComputerMapper());
-            System.out.println("Wazzaaaaaa" + cmp == null);
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.debug(e.getMessage());
-            throw new DAOException(e);
-        }
-        return cmp;
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Computer> criteriaQuery = criteriaBuilder.createQuery(Computer.class);
+        Root<Computer> companyRoot = criteriaQuery.from(Computer.class);
+        criteriaQuery.select(companyRoot).where(criteriaBuilder.equal(companyRoot.get("id"), id));
+
+        TypedQuery<Computer> query = entityManager.createQuery(criteriaQuery);
+        return query.getSingleResult();
     }
 
     @Override
     public Computer find(String name) {
         logger.info("FIND_NAME" + " << " + (name == null ? "NULL" : name));
-        Computer cmp;
-        try {
-            cmp = this.jdbcTemplate.queryForObject(FIND_NAME, new Object[] { name },
-                    new ComputerMapper());
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.debug(e.getMessage());
-            throw new DAOException(e);
-        }
-        return cmp;
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Computer> criteriaQuery = criteriaBuilder.createQuery(Computer.class);
+        Root<Computer> companyRoot = criteriaQuery.from(Computer.class);
+        criteriaQuery.select(companyRoot)
+        .where(criteriaBuilder.equal(companyRoot.get("name"), name));
+
+        TypedQuery<Computer> query = entityManager.createQuery(criteriaQuery);
+        return query.getSingleResult();
     }
 
     @Override
     public Computer create(Computer comp) {
         logger.info("CREATE" + " << " + comp.toString());
 
-        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate).withTableName("computer")
-                .usingGeneratedKeyColumns("id")
-                .usingColumns("name", "introduced", "discontinued", "company_id");
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", comp.getName());
-        parameters.put("introduced",
-                comp.getIntroduced() == null ? null : Date.valueOf(comp.getIntroduced()));
-        parameters.put("discontinued",
-                comp.getDiscontinued() == null ? null : Date.valueOf(comp.getDiscontinued()));
-        parameters.put("company_id",
-                (comp.getCompany() == null) ? null : comp.getCompany().getId());
-
-        try {
-            long row = insert.executeAndReturnKey(parameters).longValue();
-            comp.setId(row);
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
-        }
+        this.entityManager.persist(comp);
+        this.entityManager.flush();
+        this.entityManager.clear();
         return comp;
     }
 
@@ -149,102 +130,111 @@ public class ComputerDAO implements ComputerDaoInterface {
     public Computer update(Computer comp) {
         logger.info("UPDATE" + " << " + comp.toString());
 
-        Object[] args = new Object[5];
-        args[0] = comp.getName();
-        args[1] = (comp.getIntroduced() == null ? null : Date.valueOf(comp.getIntroduced()));
-        args[2] = (comp.getDiscontinued() == null ? null : Date.valueOf(comp.getDiscontinued()));
-        args[3] = (comp.getCompany() == null ? null : comp.getCompany().getId());
-        args[4] = comp.getId();
-
-        try {
-            this.jdbcTemplate.update(UPDATE, args);
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
+        CriteriaUpdate<Computer> criteriaUpdate = criteriaBuilder
+                .createCriteriaUpdate(Computer.class);
+        System.out.println(comp.toString());
+        criteriaUpdate.set("name", comp.getName());
+        criteriaUpdate.set("introduced", comp.getIntroduced());
+        criteriaUpdate.set("discontinued", comp.getDiscontinued());
+        criteriaUpdate.set("company",
+                (comp.getCompany() == null) ? null : comp.getCompany().getId());
+        System.out.println("it works");
+        int res = entityManager.createQuery(criteriaUpdate).executeUpdate();
+        if (res == 0) {
+            logger.error("Error update for: " + " << " + comp.toString());
+            return null;
+        } else {
+            return comp;
         }
-        return comp;
 
     }
 
     @Override
+    @Transactional
     public void delete(Computer comp) {
         logger.info("DELETE" + " << " + comp.toString());
-        try {
-            Object[] params = { comp.getId() };
-            int[] types = { Types.BIGINT };
-            this.jdbcTemplate.update(DELETE, params, types);
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
-        }
+
+        entityManager.remove(entityManager.merge(comp));
+        // entityManager.flush();
+        /*
+        // entityManager.joinTransaction();
+        CriteriaDelete<Computer> delete = criteriaBuilder
+                .createCriteriaDelete(Computer.class);
+        Root<Computer> e = delete.from(Computer.class);
+        delete.where(criteriaBuilder.equal(e.get("id"), comp.getId()));
+        //int res = this.entityManager.createQuery(delete).executeUpdate();
+        System.out.println("wazaaaaaaa");
+        //
+        //        if (res == 0) {
+        //            System.err.println("Computer not deleted :"+comp.toString());
+        //        }*/
     }
 
     @Override
     public void delete(Long idCompany) {
+        //entityManager.joinTransaction();
         logger.info("DELETE ID Company " + " << " + idCompany);
-        try {
-            Object[] params = { idCompany };
-            int[] types = { Types.BIGINT };
-            this.jdbcTemplate.update("DELETE FROM computer where company_id = ?", params, types);
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            throw new DAOException(e);
+
+        CriteriaDelete<Computer> delete = criteriaBuilder
+                .createCriteriaDelete(Computer.class);
+        Root<Computer> e = delete.from(Computer.class);
+        delete.where(criteriaBuilder.equal(e.get("company"), idCompany));
+        int res = this.entityManager.createQuery(delete).executeUpdate();
+
+        if (res == 0) {
+            System.err.println("Computer not deleted (company related id :"+idCompany);
         }
     }
 
     @Override
     public List<Computer> listAll() {
         logger.info("LISTALL");
-        List<Computer> computers;
-        try {
-            computers = this.jdbcTemplate.query(LISTALL, new ComputerMapper());
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.debug(e.getMessage());
-            throw new DAOException(e);
-        }
-        return computers;
+        CriteriaQuery<Computer> criteriaQuery = criteriaBuilder.createQuery(Computer.class);
+        Root<Computer> companyRoot = criteriaQuery.from(Computer.class);
+        criteriaQuery.select(companyRoot);
+        TypedQuery<Computer> typedQuery = entityManager.createQuery(criteriaQuery);
+        return typedQuery.getResultList();
     }
 
     @Override
     public List<Computer> listAll(String regex, long begin, long end, Page.CompanyTable field,
             Page.Order order) {
         logger.info("LISTALL_INDEX_REGEX" + " << " + regex + begin + ", " + end);
-        List<Computer> computers;
-        try {
-            if (regex != null && !regex.isEmpty()) {
-                computers = this.jdbcTemplate.query(
-                        String.format(LISTALL_INDEX_REGEX, field + " " + order.name()),
-                        new Object[] { regex + "%", regex + "%", begin, end },
-                        new ComputerMapper());
-                System.out.println("c---------->" + computers.size());
-            } else {
-                computers = this.jdbcTemplate.query(
-                        String.format(LISTALL_INDEX, field + " " + order.name()),
-                        new Object[] { begin, end }, new ComputerMapper());
-            }
 
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            logger.debug(e.getMessage());
-            throw new DAOException(e);
+        CriteriaQuery<Computer> criteriaQuery = criteriaBuilder.createQuery(Computer.class);
+        Root<Computer> computerRoot = criteriaQuery.from(Computer.class);
+
+        criteriaQuery.select(computerRoot);
+        if (!(regex == null && regex.isEmpty())) {
+            criteriaQuery.where(criteriaBuilder.like(computerRoot.get("name"), regex + "%"));
+        }
+        System.out.println("My name is what:"+field.name());
+        if (order == Order.ASC) {
+            criteriaQuery.orderBy(criteriaBuilder.asc(computerRoot.get(field.toString())));
+        } else {
+            criteriaQuery.orderBy(criteriaBuilder.desc(computerRoot.get(field.toString())));
         }
 
-        return computers;
+        TypedQuery<Computer> typedQuery = entityManager.createQuery(criteriaQuery)
+                .setFirstResult((int) begin).setMaxResults((int) end);
+
+        return typedQuery.getResultList();
     }
 
     @Override
     public long count() {
         logger.info("COUNT");
-        return this.jdbcTemplate.queryForObject(COUNT, Long.class);
+        CriteriaQuery<Long> cq = criteriaBuilder.createQuery(Long.class);
+        cq.select(criteriaBuilder.count(cq.from(Computer.class)));
+        return entityManager.createQuery(cq).getSingleResult();
     }
 
     @Override
     public long count(String regex) {
         logger.info("COUNT" + regex);
-        return jdbcTemplate.queryForObject(COUNT_REGEX, new String[] { regex + "%" }, Long.class);
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<Computer> computerRoot = criteriaQuery.from(Computer.class);
+        criteriaQuery.select(criteriaBuilder.count(computerRoot)).where(criteriaBuilder.like(computerRoot.get("name"), regex + "%"));
+        return entityManager.createQuery(criteriaQuery).getSingleResult();
     }
 }

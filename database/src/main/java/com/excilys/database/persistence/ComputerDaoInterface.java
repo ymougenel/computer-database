@@ -15,7 +15,7 @@ public interface ComputerDaoInterface {
      * @throws DAOException
      *             exception raised by connection or wrapper errors
      */
-    public Computer find(long id);
+    public Computer find(Long id);
 
     /**
      * Find a computer based on the name.
@@ -23,7 +23,6 @@ public interface ComputerDaoInterface {
      * @param name
      * @return the found Computer (NULL if not found)
      * @throws DAOException
-     *             exception raised by connection or wrapper errors
      */
     public Computer find(String name);
 

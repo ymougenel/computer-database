@@ -7,6 +7,10 @@ public class Page<T> {
 
     public enum CompanyTable {
         ID, NAME, INTRODUCED, DISCONTINUED, COMPANY_ID;
+        @Override
+        public String toString() {
+            return this.name().toLowerCase();
+        }
         public static CompanyTable getField(String field) {
             switch (field) {
                 case "id" :

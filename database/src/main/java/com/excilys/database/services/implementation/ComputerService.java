@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page.CompanyTable;
 import com.excilys.database.entities.Page.Order;
-import com.excilys.database.persistence.implementation.ComputerDAO;
+import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.services.ComputerServiceInterface;
 import com.excilys.database.validators.ComputerValidator;
 
@@ -18,7 +18,7 @@ import com.excilys.database.validators.ComputerValidator;
 public class ComputerService implements ComputerServiceInterface {
 
     @Autowired
-    private ComputerDAO computerDAO;
+    private ComputerDaoInterface computerDAO;
 
     public ComputerService() {
     }

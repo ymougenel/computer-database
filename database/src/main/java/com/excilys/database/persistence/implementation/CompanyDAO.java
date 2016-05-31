@@ -54,13 +54,6 @@ public class CompanyDAO implements CompanyDaoInterface {
     //    protected Root<Company> companyRoot;
     //    protected Root<Company> companyRootUpdate;
 
-
-    private static final String FIND_ID = "SELECT id, name from company WHERE id = ?;";
-    private static final String FIND_NAME = "SELECT id, name from company WHERE name = ?;";
-    private static final String UPDATE = "UPDATE company SET name= ? WHERE id = ?;";
-    private static final String DELETE = "DELETE FROM company WHERE id = ?;";
-    private static final String LISTALL = "SELECT id,name from company;";
-    private static final String COUNT = "SELECT COUNT(*) FROM company;";
     private static Logger logger = LoggerFactory.getLogger("CompanyDAO");
 
     public CompanyDAO() {
@@ -87,7 +80,7 @@ public class CompanyDAO implements CompanyDaoInterface {
     }
 
     @Override
-    public Company find(long id) {
+    public Company find(Long id) {
         logger.info("FIND_ID" + " << " + id);
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -136,7 +129,11 @@ public class CompanyDAO implements CompanyDaoInterface {
         logger.info("CREATE" + " << " + comp.toString());
         CriteriaUpdate<Company> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Company.class);
         System.out.println(comp.toString());
-        criteriaUpdate.set("name", "tt");
+        /*NOTE error here for tests due to JPA bug :
+         * http://stackoverflow.com/questions/3854687/jpa-hibernate-static-metamodel-attributes-not-populated-nullpointerexception
+         *
+         */
+        criteriaUpdate.set("name", comp.getName());
         System.out.println("it works");
         int res = entityManager.createQuery(criteriaUpdate).executeUpdate();
         if (res==0) {

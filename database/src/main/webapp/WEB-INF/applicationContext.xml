@@ -15,7 +15,6 @@
                            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 
-	<tx:annotation-driven transaction-manager="txManager" />
 	<mvc:annotation-driven />
 
 	<!-- entityManager -->

@@ -35,7 +35,7 @@ public class DAOCompanyTest {
 
     @Test
     public void findTest() {
-        Company comp = companyDAO.find(3);
+        Company comp = companyDAO.find(3L);
         assertEquals(comp.getName(), "RCA");
     }
 

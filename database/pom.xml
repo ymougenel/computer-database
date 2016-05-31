@@ -27,7 +27,7 @@
 		<jcl.slf4j.version>1.7.12</jcl.slf4j.version>
 		<junit.version>4.12</junit.version>
 		<logbackext.version>0.1.4</logbackext.version>
-		
+
 		<!-- Hibernate Version -->
 		<hibernateValidator.version>5.2.4.Final</hibernateValidator.version>
 	</properties>
@@ -197,7 +197,7 @@
 			<version>4.2.6.RELEASE</version>
 		</dependency>
 
-	<dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
@@ -229,7 +229,14 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>5.1.0.Final</version>
 		</dependency>
-
+		
+		<!-- For JPA testing -->
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<finalName>database</finalName>
