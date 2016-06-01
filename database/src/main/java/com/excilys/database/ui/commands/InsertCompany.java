@@ -5,13 +5,13 @@ import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.database.entities.Company;
+import com.excilys.database.persistence.CompanyDaoInterface;
 import com.excilys.database.persistence.DatabaseConnection;
-import com.excilys.database.persistence.implementation.CompanyDAO;
 
 public class InsertCompany extends CommandBD {
     private String companyName;
     @Autowired
-    private CompanyDAO companyDAO;
+    private CompanyDaoInterface companyDAO;
 
     public InsertCompany() {
         this.shortcut = "icy";

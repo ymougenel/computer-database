@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
+import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.persistence.DatabaseConnection;
-import com.excilys.database.persistence.implementation.ComputerDAO;
 
 public class UpdateComputer extends CommandBD {
     private Computer computer;
     @Autowired
-    ComputerDAO computerDAO;
+    ComputerDaoInterface computerDAO;
 
     public UpdateComputer() {
         this.name = "Update computer";

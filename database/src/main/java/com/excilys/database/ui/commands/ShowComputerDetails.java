@@ -5,14 +5,14 @@ import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.database.entities.Computer;
+import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.persistence.DatabaseConnection;
-import com.excilys.database.persistence.implementation.ComputerDAO;
 
 public class ShowComputerDetails extends CommandBD {
     private String field;
     private String value;
     @Autowired
-    ComputerDAO computerDAO;
+    ComputerDaoInterface computerDAO;
 
     public ShowComputerDetails() {
         super();

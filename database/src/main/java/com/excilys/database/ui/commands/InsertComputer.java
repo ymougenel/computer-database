@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
+import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.persistence.DatabaseConnection;
-import com.excilys.database.persistence.implementation.ComputerDAO;
 
 public class InsertComputer extends CommandBD {
     private Computer computer;
     @Autowired
-    private ComputerDAO computerDAO;
+    private ComputerDaoInterface computerDAO;
     public InsertComputer() {
         this.name = "Insert computer";
         this.shortcut = "ic";

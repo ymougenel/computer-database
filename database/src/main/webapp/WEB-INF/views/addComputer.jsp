@@ -43,6 +43,8 @@
 			<div class="col-xs-8 col-xs-offset-2 box">
 				<h1>Add Computer</h1>
 				<form id="computerForm" action="addComputer" method="POST">
+				<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" class="form-control" />
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label> <input

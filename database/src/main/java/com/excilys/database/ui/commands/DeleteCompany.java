@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.excilys.database.entities.Company;
+import com.excilys.database.persistence.CompanyDaoInterface;
 import com.excilys.database.persistence.DatabaseConnection;
-import com.excilys.database.persistence.implementation.CompanyDAO;
 
 @Component
 public class DeleteCompany extends CommandBD {
     private Long id;
 
     @Autowired
-    CompanyDAO companyDAO;
+    CompanyDaoInterface companyDAO;
 
     public DeleteCompany() {
         this.name = "Delete company";

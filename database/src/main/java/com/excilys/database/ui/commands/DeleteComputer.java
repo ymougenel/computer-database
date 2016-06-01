@@ -5,13 +5,13 @@ import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.database.entities.Computer;
+import com.excilys.database.persistence.ComputerDaoInterface;
 import com.excilys.database.persistence.DatabaseConnection;
-import com.excilys.database.persistence.implementation.ComputerDAO;
 
 public class DeleteComputer extends CommandBD {
     private Long id;
     @Autowired
-    ComputerDAO computerDAO;
+    ComputerDaoInterface computerDAO;
 
     public DeleteComputer() {
         this.name = "Delete computer";
