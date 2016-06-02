@@ -19,7 +19,7 @@ import com.excilys.database.validators.ComputerValidator;
  * Servlet implementation class DeleteComputerServlet
  */
 @Controller
-@RequestMapping("/deleteComputer")
+@RequestMapping("**/deleteComputer")
 public class DeleteComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

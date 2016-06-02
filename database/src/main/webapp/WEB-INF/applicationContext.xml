@@ -58,13 +58,16 @@
     <bean id="userDetailsService" class="com.excilys.cdb.service.UserServiceImpl"/> -->
     
 	<security:http auto-config="true">
-		<security:intercept-url pattern="/dashboard"
+		<security:intercept-url pattern="/addComputer"
 			access="hasRole('ROLE_ADMIN')"/>
-		<security:intercept-url pattern=".*Hello.jsp"
-			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/editComputer"
+			access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/dashboard"
+			access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
 <!-- 		<security:form-login login-page='/login.html'
 			authentication-failure-url="/login.html" default-target-url="/dashboard" /> -->
-
+	<!-- enable csrf protection -->
+		<security:csrf disabled="true"/>
 	</security:http>
 
 <bean

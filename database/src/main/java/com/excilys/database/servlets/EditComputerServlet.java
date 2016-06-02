@@ -25,7 +25,7 @@ import com.excilys.database.validators.ComputerValidator;
  * Servlet implementation class EditComputer
  */
 @Controller
-@RequestMapping("/editComputer")
+@RequestMapping("**/editComputer")
 public class EditComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

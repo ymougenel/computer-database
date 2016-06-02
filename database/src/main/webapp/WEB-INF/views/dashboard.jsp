@@ -69,6 +69,7 @@
 			action="${pageContext.request.contextPath}/deleteComputer"
 			method="POST">
 			<input type="hidden" name="selection" value="">
+			
 		</form>
 
 		<div class="container" style="margin-top: 10px;">

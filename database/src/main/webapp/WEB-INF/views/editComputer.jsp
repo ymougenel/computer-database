@@ -41,8 +41,6 @@
 				<h1>Edit Computer</h1>
 
 				<form id="computerForm" action="editComputer" method="POST">
-				<input type="hidden" name="${_csrf.parameterName}"
-							value="${_csrf.token}" class="form-control" />
 					<input type="hidden" name="computerId" id="id"
 						value="${computer.id}"> <input type="hidden" value="0" />
 					<fieldset>
