@@ -19,7 +19,7 @@
 
 	<mvc:annotation-driven />
 	<context:component-scan base-package="com.excilys.database.*" />
-	
+
 	<!-- entityManager -->
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -54,23 +54,23 @@
 
 
 
-<!-- <bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy"/>
-    <bean id="userDetailsService" class="com.excilys.cdb.service.UserServiceImpl"/> -->
-    
+	<!-- <bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy"/> 
+		<bean id="userDetailsService" class="com.excilys.cdb.service.UserServiceImpl"/> -->
+
 	<security:http auto-config="true">
 		<security:intercept-url pattern="/addComputer"
-			access="hasRole('ROLE_ADMIN')"/>
+			access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/editComputer"
-			access="hasRole('ROLE_USER')"/>
+			access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/dashboard"
 			access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
-<!-- 		<security:form-login login-page='/login.html'
-			authentication-failure-url="/login.html" default-target-url="/dashboard" /> -->
-	<!-- enable csrf protection -->
-		<security:csrf disabled="true"/>
+		<!-- <security:form-login login-page='/login.html' authentication-failure-url="/login.html" 
+			default-target-url="/dashboard" /> -->
+		<!-- enable csrf protection -->
+		<security:csrf disabled="true" />
 	</security:http>
 
-<bean
+	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
 			<value>/WEB-INF/views/</value>
@@ -80,18 +80,20 @@
 		</property>
 	</bean>
 
-	
+	<!-- <security:authentication-manager> <security:authentication-provider 
+		user-service-ref="UserService" > <security:password-encoder hash="sha-256" 
+		/> </security:authentication-provider> </security:authentication-manager> -->
+
+
 	<security:authentication-manager>
 		<security:authentication-provider>
-			<security:user-service>
-				<security:user name="admin" password="admin"
-					authorities="ROLE_ADMIN" />
-				<security:user name="yann" password="yann"
-					authorities="ROLE_USER" />
-			</security:user-service>
+			<security:jdbc-user-service
+				data-source-ref="dataSource"
+				users-by-username-query="select username,password, enabled from users where username=?"
+				authorities-by-username-query="select username, role from user_roles where username =?  " />
 		</security:authentication-provider>
 	</security:authentication-manager>
-	
+
 
 	<!-- i18n -->
 	<bean id="localeResolver"
@@ -109,16 +111,9 @@
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="messages" />
 	</bean>
-<!-- 	
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/views/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-	</bean> -->
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<property name="prefix"> <value>/WEB-INF/views/</value> </property> <property 
+		name="suffix"> <value>.jsp</value> </property> </bean> -->
 
 	<mvc:resources mapping="/css/**" location="/css/" />
 	<mvc:resources mapping="/js/**" location="/js/" />

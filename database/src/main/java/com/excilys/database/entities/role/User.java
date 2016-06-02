@@ -15,13 +15,10 @@ public class User {
     @Column(name = "login")
     private String login;
 
-    @Column(name = "role")
-    private UserRole role;
-
     @Column(name = "password")
-    private
-    String password;
+    private String password;
 
+    private UserRole role;
 
     public User() { }
 
