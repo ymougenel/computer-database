@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/database.iml" filepath="$PROJECT_DIR$/database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/database-binding/database-binding.iml" filepath="$PROJECT_DIR$/database-binding/database-binding.iml" />
+      <module fileurl="file://$PROJECT_DIR$/database-core/database-core.iml" filepath="$PROJECT_DIR$/database-core/database-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/database-persistence/database-persistence.iml" filepath="$PROJECT_DIR$/database-persistence/database-persistence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/database-service/database-service.iml" filepath="$PROJECT_DIR$/database-service/database-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/database-webapp/database-webapp.iml" filepath="$PROJECT_DIR$/database-webapp/database-webapp.iml" />
+    </modules>
+  </component>
+</project>

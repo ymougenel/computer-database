@@ -1,12 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.apache.maven.plugins</groupId>
+	<groupId>computer-database</groupId>
 	<artifactId>database</artifactId>
-	<packaging>war</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<version>1.1.0-SNAPSHOT</version>
 	<name>database</name>
 	<url>http://maven.apache.org</url>
+
+	<modules>
+					<module>database-binding</module>
+	        <module>database-core</module>
+					<module>database-persistence</module>
+					<module>database-service</module>
+					<module>database-webapp</module>
+	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,12 +35,24 @@
 		<jcl.slf4j.version>1.7.12</jcl.slf4j.version>
 		<junit.version>4.12</junit.version>
 		<logbackext.version>0.1.4</logbackext.version>
+		<el.version>3.0.0</el.version>
 
 		<!-- Spring security -->
 		<spring.security.version>4.1.0.RELEASE</spring.security.version>
 
 		<!-- Hibernate Version -->
 		<hibernateValidator.version>5.2.4.Final</hibernateValidator.version>
+
+
+		<!-- submodules properties -->
+		<release.type>SNAPSHOT</release.type>
+		<database.version>1.1.0-${release.type}</database.version>
+		<database.core.version>1.0.0-${release.type}</database.core.version>
+		<database.persistence.version>1.0.0-${release.type}</database.persistence.version>
+		<database.binding.version>1.0.0-${release.type}</database.binding.version>
+		<database.service.version>1.0.0-${release.type}</database.service.version>
+		<database.webapp.version>1.0.0-${release.type}</database.webapp.version>
+
 	</properties>
 
 
@@ -117,8 +137,8 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- <dependency> <groupId>javax</groupId> <artifactId>javaee-web-api</artifactId> 
-			<version>7.0</version> Put here the version of your Java EE app, in my case 
+		<!-- <dependency> <groupId>javax</groupId> <artifactId>javaee-web-api</artifactId>
+			<version>7.0</version> Put here the version of your Java EE app, in my case
 			7.0 <scope>provided</scope> </dependency> -->
 
 		<!-- Selenium -->
@@ -237,7 +257,7 @@
 		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>javax.el-api</artifactId>
-			<version>3.0.0</version>
+			<version>${el.version}</version>
 		</dependency>
 
 		<!-- Spring Security -->
@@ -280,12 +300,12 @@
 				</configuration>
 			</plugin>
 
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-war-plugin</artifactId> 
-				<version>2.6</version> <configuration> <failOnMissingWebXml>false</failOnMissingWebXml> 
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version> <configuration> <failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration> </plugin -->
 
 			<!-- Use for tomcat deployment (IDE independant) -->
-			<plugin>
+			<!--<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>${tomcatplugin.version}</version>
@@ -293,7 +313,7 @@
 					<url>http://localhost:8080/manager/text</url>
 					<server>tomcatserver</server>
 				</configuration>
-			</plugin>
+			</plugin>-->
 		</plugins>
 	</build>
 
@@ -309,4 +329,26 @@
 			</plugin>
 		</plugins>
 	</reporting>
+
+
+	<dependencyManagement>
+
+			 <dependencies>
+				 	<!-- Spring dependencies versions manager -->
+	 		 		<dependency>
+			 			<groupId>org.springframework</groupId>
+			 			<artifactId>spring-framework-bom</artifactId>
+			 			<version>${spring.version}</version>
+			 			<type>pom</type>
+			 			<scope>import</scope>
+	 				</dependency>
+
+				 <!-- project's core -->
+					 <dependency>
+							 <groupId>org.apache.maven.plugins.core</groupId>
+							 <artifactId>database-core</artifactId>
+							 <version>${database.core.version}</version>
+					 </dependency>
+			</dependencies>
+	</dependencyManagement>
 </project>

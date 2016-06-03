@@ -1,0 +1,4 @@
+com/excilys/database/mapper/PageWrapper.class
+com/excilys/database/validators/ComputerValidator.class
+com/excilys/database/validators/CompanyValidation.class
+com/excilys/database/mapper/ComputerWrapper.class

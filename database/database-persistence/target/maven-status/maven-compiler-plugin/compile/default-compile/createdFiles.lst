@@ -1,0 +1,8 @@
+com/excilys/database/persistence/implementation/CompanyDAO$CompanyMapper.class
+com/excilys/database/persistence/DAOException.class
+com/excilys/database/persistence/implementation/CompanyDAO.class
+com/excilys/database/persistence/UserDAO.class
+com/excilys/database/persistence/implementation/ComputerDAO.class
+com/excilys/database/persistence/ComputerDaoInterface.class
+com/excilys/database/persistence/DatabaseConnection.class
+com/excilys/database/persistence/CompanyDaoInterface.class

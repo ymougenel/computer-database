@@ -1,0 +1,6 @@
+com/excilys/database/services/InvalidInsertionException.class
+com/excilys/database/services/UserService.class
+com/excilys/database/services/implementation/CompanyService.class
+com/excilys/database/services/implementation/ComputerService.class
+com/excilys/database/services/CompanyServiceInterface.class
+com/excilys/database/services/ComputerServiceInterface.class

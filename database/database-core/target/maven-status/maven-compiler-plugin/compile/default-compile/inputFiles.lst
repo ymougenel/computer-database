@@ -1,0 +1,7 @@
+/home/yann/programmation/project/computer-database/database/database-core/src/main/java/com/excilys/database/entities/Computer.java
+/home/yann/programmation/project/computer-database/database/database-core/src/main/java/com/excilys/database/entities/Company.java
+/home/yann/programmation/project/computer-database/database/database-core/src/main/java/com/excilys/database/entities/CompanyDTO.java
+/home/yann/programmation/project/computer-database/database/database-core/src/main/java/com/excilys/database/entities/ComputerDTO.java
+/home/yann/programmation/project/computer-database/database/database-core/src/main/java/com/excilys/database/entities/role/User.java
+/home/yann/programmation/project/computer-database/database/database-core/src/main/java/com/excilys/database/entities/role/UserRole.java
+/home/yann/programmation/project/computer-database/database/database-core/src/main/java/com/excilys/database/entities/Page.java
