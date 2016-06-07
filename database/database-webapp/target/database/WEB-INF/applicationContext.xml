@@ -67,6 +67,9 @@
 		<!-- <security:form-login login-page='/login.html' authentication-failure-url="/login.html" 
 			default-target-url="/dashboard" /> -->
 		<!-- enable csrf protection -->
+<!--
+		<security:http-basic />
+-->
 		<security:csrf disabled="true" />
 	</security:http>
 
