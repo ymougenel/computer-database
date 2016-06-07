@@ -38,7 +38,7 @@ public class ComputerDAO implements ComputerDaoInterface {
     @Resource
     private DataSource dataSource;
 
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext
     protected EntityManager entityManager;
 
     protected CriteriaBuilder criteriaBuilder;
@@ -94,10 +94,11 @@ public class ComputerDAO implements ComputerDaoInterface {
     }
 
     @Override
-    @Transactional
     public Computer update(Computer comp) {
         logger.info("UPDATE" + " << " + comp.toString());
-
+        this.entityManager.persist(this.entityManager.merge(comp));
+        return comp;
+        /*
         CriteriaUpdate<Computer> criteriaUpdate = criteriaBuilder
                 .createCriteriaUpdate(Computer.class);
         System.out.println(comp.toString());
@@ -113,12 +114,11 @@ public class ComputerDAO implements ComputerDaoInterface {
             return null;
         } else {
             return comp;
-        }
+        }*/
 
     }
 
     @Override
-    @Transactional
     public void delete(Computer comp) {
         logger.info("DELETE" + " << " + comp.toString());
 
@@ -137,7 +137,6 @@ public class ComputerDAO implements ComputerDaoInterface {
     }
 
     @Override
-    @Transactional
     public void delete(Long idCompany) {
         logger.info("DELETE ID Company " + " << " + idCompany);
 
@@ -172,9 +171,9 @@ public class ComputerDAO implements ComputerDaoInterface {
 
         criteriaQuery.select(computerRoot);
         if (!(regex == null || regex.isEmpty())) {
+            //TODO add company name matching
             criteriaQuery.where(criteriaBuilder.like(computerRoot.get("name"), regex + "%"));
         }
-        System.out.println("My name is what:"+field.name());
         if (order == Order.ASC) {
             criteriaQuery.orderBy(criteriaBuilder.asc(computerRoot.get(field.toString())));
         } else {
@@ -190,10 +189,9 @@ public class ComputerDAO implements ComputerDaoInterface {
     @Override
     public long count() {
         logger.info("COUNT");
-        return 11;
-//        CriteriaQuery<Long> cq = criteriaBuilder.createQuery(Long.class);
-//        cq.select(criteriaBuilder.count(cq.from(Computer.class)));
-//        return entityManager.createQuery(cq).getSingleResult();
+        CriteriaQuery<Long> cq = criteriaBuilder.createQuery(Long.class);
+        cq.select(criteriaBuilder.count(cq.from(Computer.class)));
+       return entityManager.createQuery(cq).getSingleResult();
     }
 
     @Override

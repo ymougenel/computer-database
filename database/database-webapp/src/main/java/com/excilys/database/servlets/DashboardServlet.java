@@ -24,7 +24,7 @@ import com.excilys.database.services.ComputerServiceInterface;
  * Servlet implementation class MyServlet
  */
 @Controller
-@RequestMapping(value={"/database/dashboard","/dashboard"})
+@RequestMapping(value={"/dashboard"})
 public class DashboardServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     @Autowired

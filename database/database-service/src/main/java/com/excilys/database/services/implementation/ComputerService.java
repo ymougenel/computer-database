@@ -40,13 +40,13 @@ public class ComputerService implements ComputerServiceInterface {
         computerDAO.delete(comp);
     }
 
+
     @Override
     public Computer updateComputer(Computer comp) {
         return computerDAO.update(comp);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Computer> listComputers(String regex, long begin, long end, CompanyTable field,
             Order order) {
         return computerDAO.listAll(regex, begin, end, field, order);

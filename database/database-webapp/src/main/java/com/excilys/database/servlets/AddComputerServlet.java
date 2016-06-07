@@ -24,7 +24,7 @@ import com.excilys.database.validators.ComputerValidator;
  * Servlet implementation class addComputerServlet
  */
 @Controller
-@RequestMapping("**/addComputer")
+@RequestMapping("/addComputer")
 public class AddComputerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

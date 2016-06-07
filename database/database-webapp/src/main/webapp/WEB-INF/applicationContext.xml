@@ -23,53 +23,63 @@
 	<!-- entityManager -->
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="hikariDataSource" />
 		<property name="persistenceUnitName" value="JpaPersistenceUnit" />
 		<property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml" />
 	</bean>
 
-	<!-- JPA transaction manager -->
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>
-	<tx:annotation-driven transaction-manager="transactionManager" />
+
+    <!-- JPA transaction manager -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
 
 	<!-- properties file -->
 	<context:property-placeholder location="classpath:database.properties" />
 
-	<!-- Standard database configuration (not used-> Hikari) -->
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="${URL}" />
-		<property name="username" value="${USERBD}" />
-		<property name="password" value="${PASSWORDBD}" />
+
+	<!-- Hikari database configuration -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="dataSourceClassName"
+				  value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
+		<property name="maximumPoolSize" value="20" />
+
+		<property name="dataSourceProperties">
+			<props>
+				<prop key="url">jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull</prop>
+				<prop key="user">admincdb</prop>
+				<prop key="password">qwerty1234</prop>
+				<prop key="cachePrepStmts">true</prop>
+				<prop key="prepStmtCacheSize">250</prop>
+				<prop key="prepStmtCacheSqlLimit">2048</prop>
+			</props>
+		</property>
 	</bean>
 
-	<bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
+	<!-- HikariCP configuration -->
+	<bean id="hikariDataSource" class="com.zaxxer.hikari.HikariDataSource">
+		<constructor-arg ref="hikariConfig" />
 	</bean>
 
+    <tx:annotation-driven transaction-manager="transactionManager" />
 
 
-
-	<!-- <bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy"/> 
+	<!-- <bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy"/>
 		<bean id="userDetailsService" class="com.excilys.cdb.service.UserServiceImpl"/> -->
 
 	<security:http auto-config="true">
 		<security:intercept-url pattern="/addComputer"
 			access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/editComputer"
-			access="hasRole('ROLE_USER')" />
+			access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
 		<security:intercept-url pattern="/dashboard"
 			access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
 		<!-- <security:form-login login-page='/login.html' authentication-failure-url="/login.html" 
 			default-target-url="/dashboard" /> -->
 		<!-- enable csrf protection -->
-<!--
+
 		<security:http-basic />
--->
+
 		<security:csrf disabled="true" />
 	</security:http>
 
@@ -84,17 +94,18 @@
 	</bean>
 
 	<!-- <security:authentication-manager> <security:authentication-provider 
-		user-service-ref="UserService" > <security:password-encoder hash="sha-256" 
+		user-service-ref="UserService" > <security:password-encoder hash="sha-256"
 		/> </security:authentication-provider> </security:authentication-manager> -->
 
 
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:jdbc-user-service
-				data-source-ref="dataSource"
+				data-source-ref="hikariDataSource"
 				users-by-username-query="select username,password, enabled from users where username=?"
 				authorities-by-username-query="select username, role from user_roles where username =?  " />
 		</security:authentication-provider>
+		<!-- TODO Add encryption -->
 	</security:authentication-manager>
 
 
