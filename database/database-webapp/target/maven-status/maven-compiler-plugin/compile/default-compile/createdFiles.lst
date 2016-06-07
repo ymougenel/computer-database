@@ -1,6 +1,0 @@
-com/excilys/database/servlets/DashboardServlet.class
-com/excilys/database/servlets/security/HelloController.class
-com/excilys/database/servlets/DeleteComputerServlet.class
-com/excilys/database/servlets/utils/NavbarFlaghandler.class
-com/excilys/database/servlets/AddComputerServlet.class
-com/excilys/database/servlets/EditComputerServlet.class
