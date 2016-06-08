@@ -13,7 +13,7 @@
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <packaging>jar</packaging>
+  <!--<packaging>jar</packaging>-->
   <version>${database.core.version}</version>
   <name>database-core</name>
 

@@ -3,6 +3,11 @@
 
   <groupId>computer-database</groupId>
   <artifactId>database-binding</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>jar</packaging>
+  <version>${database.binding.version}</version>
+  <name>database-binding</name>
+
   <!-- Parent -->
   <parent>
     <groupId>computer-database</groupId>
@@ -10,11 +15,6 @@
     <version>1.1.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-
-  <modelVersion>4.0.0</modelVersion>
-  <packaging>jar</packaging>
-  <version>${database.binding.version}</version>
-  <name>database-binding</name>
 
   <properties>
     <parentBasedir>../</parentBasedir>
@@ -32,7 +32,6 @@
       <dependency>
           			<artifactId>database-core</artifactId>
           			<groupId>computer-database</groupId>
-          			<version>${database.core.version}</version>
         </dependency>
 
  </dependencies>

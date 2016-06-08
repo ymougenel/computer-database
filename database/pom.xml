@@ -1,341 +1,380 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>computer-database</groupId>
-	<artifactId>database</artifactId>
-	<packaging>pom</packaging>
-	<version>1.1.0-SHNAPSHOT</version>
-	<name>database</name>
-	<url>http://maven.apache.org</url>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>computer-database</groupId>
+    <artifactId>database</artifactId>
+    <packaging>pom</packaging>
+    <version>1.1.0-SNAPSHOT</version>
+    <name>database</name>
+    <url>http://maven.apache.org</url>
 
-	<modules>
-					<module>database-binding</module>
-	        <module>database-core</module>
-					<module>database-persistence</module>
-					<module>database-service</module>
-					<module>database-webapp</module>
-	</modules>
+    <modules>
+        <module>database-binding</module>
+        <module>database-core</module>
+        <module>database-persistence</module>
+        <module>database-service</module>
+        <module>database-webapp</module>
+        <module>database-console</module>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<mockito.version>1.9.5</mockito.version>
-		<logback.version>1.1.7</logback.version>
-		<mysql.version>5.1.6</mysql.version>
-		<javax.version>6.0</javax.version>
-		<javaxServlet.version>3.1.0</javaxServlet.version>
-		<selenium.version>2.53.0</selenium.version>
-		<java.version>1.8</java.version>
-		<checkstyle.version>2.17</checkstyle.version>
-		<compile.version>3.5.1</compile.version>
-		<hikari.version>2.4.6</hikari.version>
-		<tomcatplugin.version>2.2</tomcatplugin.version>
-		<jstl.version>1.2</jstl.version>
-		<slf4j.version>1.7.21</slf4j.version>
-		<spring.version>4.2.6.RELEASE</spring.version>
-		<jcl.slf4j.version>1.7.12</jcl.slf4j.version>
-		<junit.version>4.12</junit.version>
-		<logbackext.version>0.1.4</logbackext.version>
-		<el.version>3.0.0</el.version>
-		<dbcp.version>1.4</dbcp.version>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mockito.version>1.9.5</mockito.version>
+        <logback.version>1.1.7</logback.version>
+        <mysql.version>5.1.6</mysql.version>
+        <javax.version>6.0</javax.version>
+        <javaxServlet.version>3.1.0</javaxServlet.version>
+        <selenium.version>2.53.0</selenium.version>
+        <java.version>1.8</java.version>
+        <checkstyle.version>2.17</checkstyle.version>
+        <compile.version>3.5.1</compile.version>
+        <hikari.version>2.4.6</hikari.version>
+        <tomcatplugin.version>2.2</tomcatplugin.version>
+        <jstl.version>1.2</jstl.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <spring.version>4.2.6.RELEASE</spring.version>
+        <jcl.slf4j.version>1.7.12</jcl.slf4j.version>
+        <junit.version>4.12</junit.version>
+        <logbackext.version>0.1.4</logbackext.version>
+        <el.version>3.0.0</el.version>
+        <dbcp.version>1.4</dbcp.version>
         <jackson.version>2.7.4</jackson.version>
+        <javax.xml.version>2.1</javax.xml.version>
 
 
-		<!-- Spring security -->
-		<spring.security.version>4.1.0.RELEASE</spring.security.version>
+        <!-- Spring security -->
+        <spring.security.version>4.1.0.RELEASE</spring.security.version>
 
-		<!-- Hibernate Version -->
-		<hibernateValidator.version>5.2.4.Final</hibernateValidator.version>
-		<hibernate.version>5.1.0.Final</hibernate.version>
+        <!-- Hibernate Version -->
+        <hibernateValidator.version>5.2.4.Final</hibernateValidator.version>
+        <hibernate.version>5.1.0.Final</hibernate.version>
 
-		<!-- submodules properties -->
-		<release.type>SNAPSHOT</release.type>
-		<database.version>1.1.0-${release.type}</database.version>
-		<database.core.version>1.0.0-${release.type}</database.core.version>
-		<database.persistence.version>1.0.0-${release.type}</database.persistence.version>
-		<database.binding.version>1.0.0-${release.type}</database.binding.version>
-		<database.service.version>1.0.0-${release.type}</database.service.version>
-		<database.webapp.version>1.0.0-${release.type}</database.webapp.version>
+        <!-- submodules properties -->
+        <release.type>SNAPSHOT</release.type>
+        <database.version>1.1.0-${release.type}</database.version>
+        <database.core.version>1.1.0-${release.type}</database.core.version>
+        <database.persistence.version>1.1.0-${release.type}</database.persistence.version>
+        <database.binding.version>1.1.0-${release.type}</database.binding.version>
+        <database.service.version>1.1.0-${release.type}</database.service.version>
+        <database.webapp.version>1.1.0-${release.type}</database.webapp.version>
+        <database.console.version>1.1.0-${release.type}</database.console.version>
+    </properties>
 
-	</properties>
 
+    <dependencies>
 
-	<dependencies>
+        <!-- Tests -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- Tests -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
+        <!-- Logback -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>compile</scope>
+        </dependency>
 
-		<!-- Logback -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>compile</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>${logback.version}</version>
-			<scope>runtime</scope>
-		</dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
-			<scope>runtime</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.logback-extensions</groupId>
+            <artifactId>logback-ext-spring</artifactId>
+            <version>${logbackext.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.logback-extensions</groupId>
-			<artifactId>logback-ext-spring</artifactId>
-			<version>${logbackext.version}</version>
-		</dependency>
+        <!-- SQL -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 
-		<!-- SQL -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.version}</version>
-			<scope>runtime</scope>
-		</dependency>
+        <!-- SQL pool connection -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikari.version}</version>
+        </dependency>
 
-		<!-- SQL pool connection -->
-		<dependency>
-			<groupId>com.zaxxer</groupId>
-			<artifactId>HikariCP</artifactId>
-			<version>${hikari.version}</version>
-		</dependency>
+        <!-- Servlets -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+            <scope>compile</scope>
+        </dependency>
 
-		<!-- Servlets -->
-		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${jstl.version}</version>
-			<scope>compile</scope>
-		</dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javaxServlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${javaxServlet.version}</version>
-			<scope>provided</scope>
-		</dependency>
+        <!-- Selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- Selenium -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>${selenium.version}</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-server</artifactId>
-			<version>${selenium.version}</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-firefox-driver</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-firefox-driver</artifactId>
-			<version>${selenium.version}</version>
-			<scope>test</scope>
-		</dependency>
+        <!-- Spring -->
 
-		<!-- Spring -->
+        <!-- spring-context which provides core functionality -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-		<!-- spring-context which provides core functionality -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>${dbcp.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>${dbcp.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aspects</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernateValidator.version}</version>
+        </dependency>
 
-		<!-- Hibernate -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernateValidator.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.1-api</artifactId>
-			<version>1.0.0.Final</version>
-		</dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-java8</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
+        <!-- For JPA testing -->
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>${el.version}</version>
+        </dependency>
 
-		<!-- For JPA testing -->
-		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>javax.el-api</artifactId>
-			<version>${el.version}</version>
-		</dependency>
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
 
-		<!-- Spring Security -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.1</version>
+            <version>${javax.xml.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.7.4</version>
+            <version>${jackson.version}</version>
         </dependency>
 
-	</dependencies>
-	<build>
-		<finalName>database</finalName>
-		<testSourceDirectory>src/test/database</testSourceDirectory>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compile.version}</version>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    </dependencies>
+    <build>
+        <testSourceDirectory>src/test/database</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compile.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${checkstyle.version}</version>
-				<configuration>
-					<configLocation>checkstyle/checkstyle.xml</configLocation>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.version}</version>
+                <configuration>
+                    <configLocation>checkstyle/checkstyle.xml</configLocation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 
 
-	<dependencyManagement>
+    <dependencyManagement>
 
-			 <dependencies>
-				 	<!-- Spring dependencies versions manager -->
-	 		 		<dependency>
-			 			<groupId>org.springframework</groupId>
-			 			<artifactId>spring-framework-bom</artifactId>
-			 			<version>${spring.version}</version>
-			 			<type>pom</type>
-			 			<scope>import</scope>
-	 				</dependency>
+        <dependencies>
+            <!-- Spring dependencies versions manager -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
-				 <!-- project's core -->
-					 <dependency>
-							 <groupId>org.apache.maven.plugins.core</groupId>
-							 <artifactId>database-core</artifactId>
-							 <version>${database.core.version}</version>
-					 </dependency>
-			</dependencies>
-	</dependencyManagement>
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${javax.xml.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <artifactId>database-service</artifactId>
+                <groupId>computer-database</groupId>
+                <version>1.1.0-${release.type}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>database-persistence</artifactId>
+                <groupId>computer-database</groupId>
+                <version>1.1.0-${release.type}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>database-binding</artifactId>
+                <groupId>computer-database</groupId>
+                <version>1.1.0-${release.type}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>database-core</artifactId>
+                <groupId>computer-database</groupId>
+                <version>1.1.0-${release.type}</version>
+            </dependency>
+
+            <!-- project's core -->
+            <dependency>
+                <groupId>org.apache.maven.plugins.core</groupId>
+                <artifactId>database-core</artifactId>
+                <version>${database.core.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
