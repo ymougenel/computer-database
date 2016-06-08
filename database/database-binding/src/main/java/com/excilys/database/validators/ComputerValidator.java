@@ -1,10 +1,10 @@
 package com.excilys.database.validators;
 
+import com.excilys.database.entities.ComputerDTO;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.excilys.database.entities.ComputerDTO;
 
 public class ComputerValidator {
     public static LocalDate minLimit = LocalDate.parse("1970-01-01");
@@ -57,6 +57,7 @@ public class ComputerValidator {
 
         // Check for illegal parameters
         if (name == null || introduced == null || discontinued == null || company_id == null) {
+            System.err.println("name="+name +"|\tintroduced="+introduced+"|\tdiscontinued="+discontinued+"|\tcompani_id="+company_id);
             throw new IllegalArgumentException("Invalid parameters");
         }
 
@@ -71,6 +72,7 @@ public class ComputerValidator {
         if (!computerDateValidation(discontinued)) {
             errors.add("Discontinued date invalid");
         }
+        //TODO check that introduced is before discontinued
 
         return errors;
     }

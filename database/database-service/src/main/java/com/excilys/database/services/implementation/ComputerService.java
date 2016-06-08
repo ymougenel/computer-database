@@ -52,6 +52,7 @@ public class ComputerService implements ComputerServiceInterface {
         return computerDAO.listAll(regex, begin, end, field, order);
     }
 
+
     @Override
     @Transactional(readOnly = true)
     public Long countComputers() {

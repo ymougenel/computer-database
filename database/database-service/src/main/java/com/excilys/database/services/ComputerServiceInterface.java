@@ -1,10 +1,10 @@
 package com.excilys.database.services;
 
-import java.util.List;
-
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.Page.CompanyTable;
 import com.excilys.database.entities.Page.Order;
+
+import java.util.List;
 
 public interface ComputerServiceInterface {
     public Computer findComputer(Long id);

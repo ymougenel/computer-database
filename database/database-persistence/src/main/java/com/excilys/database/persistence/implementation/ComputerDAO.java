@@ -1,29 +1,24 @@
 package com.excilys.database.persistence.implementation;
 
-import java.util.List;
+import com.excilys.database.entities.Computer;
+import com.excilys.database.entities.Page;
+import com.excilys.database.entities.Page.Order;
+import com.excilys.database.persistence.ComputerDaoInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.excilys.database.entities.Computer;
-import com.excilys.database.entities.Page;
-import com.excilys.database.entities.Page.Order;
-import com.excilys.database.persistence.ComputerDaoInterface;
+import java.util.List;
 
 /**
  * Computer DAO (Singleton) Provides CRUD computer database methods : Create, Retrieve, Update,
@@ -87,7 +82,7 @@ public class ComputerDAO implements ComputerDaoInterface {
     public Computer create(Computer comp) {
         logger.info("CREATE" + " << " + comp.toString());
 
-        this.entityManager.persist(comp);
+        this.entityManager.persist(entityManager.merge(comp));
         this.entityManager.flush();
         this.entityManager.clear();
         return comp;
@@ -98,24 +93,6 @@ public class ComputerDAO implements ComputerDaoInterface {
         logger.info("UPDATE" + " << " + comp.toString());
         this.entityManager.persist(this.entityManager.merge(comp));
         return comp;
-        /*
-        CriteriaUpdate<Computer> criteriaUpdate = criteriaBuilder
-                .createCriteriaUpdate(Computer.class);
-        System.out.println(comp.toString());
-        criteriaUpdate.set("name", comp.getName());
-        criteriaUpdate.set("introduced", comp.getIntroduced());
-        criteriaUpdate.set("discontinued", comp.getDiscontinued());
-        criteriaUpdate.set("company",
-                (comp.getCompany() == null) ? null : comp.getCompany().getId());
-        System.out.println("it works");
-        int res = entityManager.createQuery(criteriaUpdate).executeUpdate();
-        if (res == 0) {
-            logger.error("Error update for: " + " << " + comp.toString());
-            return null;
-        } else {
-            return comp;
-        }*/
-
     }
 
     @Override
