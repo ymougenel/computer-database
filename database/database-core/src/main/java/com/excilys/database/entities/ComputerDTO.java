@@ -6,7 +6,7 @@ public class ComputerDTO {
     private String introduced;
     private String discontinued;
     private String companyName;
-    private String companyId;
+    private String company;
 
     public ComputerDTO() {
     }
@@ -19,7 +19,7 @@ public class ComputerDTO {
                 ? ""
                         : comp.getDiscontinued().toString());
         this.companyName = (comp.getCompany() == null) ? "" : comp.getCompany().getName();
-        this.companyId = (comp.getCompany() == null) ? null : comp.getCompany().getId().toString();
+        this.company = (comp.getCompany() == null) ? null : comp.getCompany().getId().toString();
     }
 
     public String getId() {
@@ -63,12 +63,28 @@ public class ComputerDTO {
         this.companyName = companyName;
     }
 
-    public String getCompanyId() {
-        return companyId;
+    public String getCompany() {
+        return company;
     }
 
-    public void setCompanyId(String companyID) {
-        this.companyId = companyID;
+    public void setCompany(String companyID) {
+        this.company = companyID;
+    }
+
+    @Override
+    public String toString() {
+        String split = "\t\t";
+        String splitName = "\t\t";
+        if (name != null) {
+            splitName = (name.length() > 17 ? "\t" : (name.length() < 10 ? "\t\t\t" : "\t\t"));
+        }
+
+        return "id: " + this.id + "\t" + "name: " + name + splitName
+                + "introduced: " + introduced + split
+                + "discontinued: " + discontinued
+                + split + "company_id: "
+                + company;
+
     }
 
 }

@@ -1,13 +1,12 @@
 package com.excilys.database.mapper;
 
-import java.time.LocalDate;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.excilys.database.entities.Company;
 import com.excilys.database.entities.Computer;
 import com.excilys.database.entities.ComputerDTO;
+
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.util.Map;
 
 public class ComputerWrapper {
 
@@ -18,7 +17,7 @@ public class ComputerWrapper {
         comp.setName(request.getParameter("computerName"));
         comp.setIntroduced(request.getParameter("introduced"));
         comp.setDiscontinued(request.getParameter("discontinued"));
-        comp.setCompanyId(request.getParameter("companyId"));
+        comp.setCompany(request.getParameter("companyId"));
 
         return comp;
     }
@@ -30,7 +29,7 @@ public class ComputerWrapper {
         comp.setName(params.get("computerName"));
         comp.setIntroduced(params.get("introduced"));
         comp.setDiscontinued(params.get("discontinued"));
-        comp.setCompanyId(params.get("companyId"));
+        comp.setCompany(params.get("companyId"));
 
         return comp;
     }
@@ -41,7 +40,7 @@ public class ComputerWrapper {
         String id = dto.getId();
         String introduced = dto.getIntroduced();
         String discontinued = dto.getDiscontinued();
-        String companyId = dto.getCompanyId();
+        String companyId = dto.getCompany();
         String companyName = dto.getCompanyName();
 
         Computer comp = new Computer.Builder(name).build();

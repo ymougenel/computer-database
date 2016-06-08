@@ -47,10 +47,6 @@ public class RestControllerDatabase {
 
     @RequestMapping(value = "/create/", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody ComputerDTO computer, UriComponentsBuilder ucBuilder) {
-        if (computer.getCompanyId()==null) {
-            computer.setCompanyId("");
-
-        }
         computer.setId("");
         List<String> errors = ComputerValidator.computerValidation(computer,false);
 
@@ -70,7 +66,7 @@ public class RestControllerDatabase {
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ComputerDTO> updateComputer(@Valid @RequestBody ComputerDTO computer) {
-        computer.setCompanyId("");
+        computer.setCompany("");
         List<String> errors = ComputerValidator.computerValidation(computer,false);
 
         if (errors.isEmpty()) {

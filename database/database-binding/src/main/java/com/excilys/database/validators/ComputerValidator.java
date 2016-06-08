@@ -53,7 +53,7 @@ public class ComputerValidator {
         String name = comp.getName();
         String introduced = comp.getIntroduced();
         String discontinued = comp.getDiscontinued();
-        String company_id = comp.getCompanyId();
+        String company_id = comp.getCompany();
 
         // Check for illegal parameters
         if (name == null || introduced == null || discontinued == null || company_id == null) {
