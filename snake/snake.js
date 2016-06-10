@@ -166,7 +166,7 @@ $(document).ready(function(){
 	})
 
 function generate_image(){
-	var faces=["duck.png","yann.png","antoine.png","nico.png","amandine.png","camille.png","fc.png","martin.png","nicolas.png", "simon.png","jean.png","max.png","vivien.png","duck.png"];
+	var faces=["duck.png","yann.png","antoine.png","nico.png","amandine.png","camille.png","fc.png","martin.png","nicolas.png", "simon.png","jean.png","max.png","vivien.png","mehdi.png","duck.png"];
 	var rand = Math.floor((Math.random() * faces.length)+1);
 	console.log(rand);
 	if (rand >= faces.length) {
